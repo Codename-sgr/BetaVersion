@@ -107,7 +107,6 @@ public class SignupActivity extends AppCompatActivity {
         databaseUsers= FirebaseDatabase.getInstance().getReference("Users");
         progressDialog=new ProgressDialog(this);
         progressDialog.setMessage("Signing Up User....");
-
         mAuth=FirebaseAuth.getInstance();
 
     }
