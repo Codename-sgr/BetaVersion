@@ -23,7 +23,7 @@ import com.google.firebase.database.FirebaseDatabase;
 
 public class SignupActivity extends AppCompatActivity {
 
-    EditText name,email,password,conpass;
+    EditText name,mobile,email,password,conpass;
     ProgressDialog progressDialog;
     DatabaseReference databaseUsers;
     private FirebaseAuth mAuth;
@@ -33,6 +33,7 @@ public class SignupActivity extends AppCompatActivity {
         String uname=name.getText().toString().trim();
         String uemail=email.getText().toString().trim();
         String upassword=password.getText().toString().trim();
+        Integer umobile=Integer.parseInt(mobile.getText().toString().trim());
 
         if (uname.matches(""))
         {
@@ -53,14 +54,12 @@ public class SignupActivity extends AppCompatActivity {
         else if (!upassword.matches(conpass.getText().toString()))
             conpass.setError("Password Doesn't Match");
         else
-            signupuser(uname,uemail,upassword);
-
-
-
+            signupuser(uname,umobile,uemail,upassword);
     }
 
-    private void signupuser(final String uname, final String uemail, final String upassword) {
-            progressDialog.show();
+    private void signupuser(final String uname,final Integer umobile, final String uemail, final String upassword) {
+        progressDialog.setMessage("Signing Up User....");
+        progressDialog.show();
             mAuth.createUserWithEmailAndPassword(uemail,upassword)
                     .addOnCompleteListener(this, new OnCompleteListener<AuthResult>() {
                         @Override
@@ -69,9 +68,9 @@ public class SignupActivity extends AppCompatActivity {
                                 progressDialog.dismiss();
                                 Log.i("info","user with email:success");
                                 FirebaseUser user=mAuth.getCurrentUser();
-                                //String user_id=databaseUsers.push().getKey();
-                                //User user1=new User(user_id,uname,uemail,upassword);
-                                //databaseUsers.child(user_id).setValue(user1);
+                                String user_id=databaseUsers.push().getKey();
+                                User user1=new User(user_id,uname,uemail,upassword,umobile);
+                                databaseUsers.child(user_id).setValue(user1);
                                 Toast.makeText(SignupActivity.this, "Registered: "+user.getEmail(), Toast.LENGTH_SHORT).show();
                                 startActivity(new Intent(SignupActivity.this,MainActivity.class));
                                 finish();
@@ -101,12 +100,15 @@ public class SignupActivity extends AppCompatActivity {
         setContentView(R.layout.activity_signup);
 
         name=findViewById(R.id.editTextName);
-        email=findViewById(R.id.email);
+        mobile=findViewById(R.id.editTextMobile);
+        email=findViewById(R.id.editTextEmail);
         password=findViewById(R.id.editTextPass);
         conpass=findViewById(R.id.editTextConPass);
+
         databaseUsers= FirebaseDatabase.getInstance().getReference("Users");
+
         progressDialog=new ProgressDialog(this);
-        progressDialog.setMessage("Signing Up User....");
+
         mAuth=FirebaseAuth.getInstance();
 
     }

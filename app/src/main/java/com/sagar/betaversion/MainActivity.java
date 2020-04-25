@@ -6,6 +6,7 @@ import androidx.appcompat.app.AppCompatActivity;
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
+import android.widget.ImageButton;
 
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
@@ -13,11 +14,8 @@ import com.google.firebase.auth.FirebaseUser;
 public class MainActivity extends AppCompatActivity {
     FirebaseAuth firebaseAuth;
 
-    public void logOutUser(View view){
-        firebaseAuth.signOut();
-        startActivity(new Intent(getApplicationContext(),LoginActivity.class));
-        finish();
-    }
+    ImageButton myAccount;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -26,6 +24,14 @@ public class MainActivity extends AppCompatActivity {
 
         firebaseAuth=FirebaseAuth.getInstance();
 
+        myAccount=findViewById(R.id.myAccountButton);
+
+        myAccount.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                startActivity(new Intent(getApplicationContext(),myAccount.class));
+            }
+        });
 
 
 
