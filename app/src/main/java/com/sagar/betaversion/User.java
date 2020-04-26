@@ -4,19 +4,17 @@ public class User {
     String user_id;
     String user_name;
     String email;
-    String password;
-    int contact;
+
     public User()
     {
 
     }
 
-    public User(String user_id, String user_name, String email, String password, int contact) {
+    public User(String user_id, String user_name, String email) {
         this.user_id = user_id;
         this.user_name = user_name;
         this.email = email;
-        this.password = password;
-        this.contact=contact;
+
     }
 
     public String getUser_id() {
@@ -31,11 +29,5 @@ public class User {
         return email;
     }
 
-    public String getPassword() {
-        return password;
-    }
 
-    public int getContact() {
-        return contact;
-    }
 }

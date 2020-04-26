@@ -14,7 +14,7 @@ import com.google.firebase.auth.FirebaseUser;
 public class MainActivity extends AppCompatActivity {
     FirebaseAuth firebaseAuth;
 
-    ImageButton myAccount;
+    ImageButton myAccount,newAd;
 
 
     @Override
@@ -25,11 +25,17 @@ public class MainActivity extends AppCompatActivity {
         firebaseAuth=FirebaseAuth.getInstance();
 
         myAccount=findViewById(R.id.myAccountButton);
-
+        newAd= findViewById(R.id.newAdButton);
         myAccount.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 startActivity(new Intent(getApplicationContext(),myAccount.class));
+            }
+        });
+       newAd.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                startActivity(new Intent(getApplicationContext(),newAdActivity.class));
             }
         });
 

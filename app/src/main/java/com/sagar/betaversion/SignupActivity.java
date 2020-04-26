@@ -33,7 +33,8 @@ public class SignupActivity extends AppCompatActivity {
         String uname=name.getText().toString().trim();
         String uemail=email.getText().toString().trim();
         String upassword=password.getText().toString().trim();
-        Integer umobile=Integer.parseInt(mobile.getText().toString().trim());
+
+
 
         if (uname.matches(""))
         {
@@ -54,10 +55,10 @@ public class SignupActivity extends AppCompatActivity {
         else if (!upassword.matches(conpass.getText().toString()))
             conpass.setError("Password Doesn't Match");
         else
-            signupuser(uname,umobile,uemail,upassword);
+            signupuser(uname,uemail,upassword);
     }
 
-    private void signupuser(final String uname,final Integer umobile, final String uemail, final String upassword) {
+    private void signupuser(final String uname, final String uemail, final String upassword) {
         progressDialog.setMessage("Signing Up User....");
         progressDialog.show();
             mAuth.createUserWithEmailAndPassword(uemail,upassword)
@@ -68,8 +69,8 @@ public class SignupActivity extends AppCompatActivity {
                                 progressDialog.dismiss();
                                 Log.i("info","user with email:success");
                                 FirebaseUser user=mAuth.getCurrentUser();
-                                String user_id=databaseUsers.push().getKey();
-                                User user1=new User(user_id,uname,uemail,upassword,umobile);
+                                String user_id=user.getUid();
+                                User user1=new User(user_id,uname,uemail);
                                 databaseUsers.child(user_id).setValue(user1);
                                 Toast.makeText(SignupActivity.this, "Registered: "+user.getEmail(), Toast.LENGTH_SHORT).show();
                                 startActivity(new Intent(SignupActivity.this,MainActivity.class));
@@ -100,7 +101,7 @@ public class SignupActivity extends AppCompatActivity {
         setContentView(R.layout.activity_signup);
 
         name=findViewById(R.id.editTextName);
-        mobile=findViewById(R.id.editTextMobile);
+
         email=findViewById(R.id.editTextEmail);
         password=findViewById(R.id.editTextPass);
         conpass=findViewById(R.id.editTextConPass);

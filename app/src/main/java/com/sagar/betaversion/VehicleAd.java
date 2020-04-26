@@ -6,8 +6,8 @@ public class VehicleAd {
     String id;
     String user_id;
     String model;
-    Date date_of_purchase;
-    Date insurance;
+    String date_of_purchase;
+    String insurance;
     int milege;
     String description;
     boolean status;//true for unsold, false for sold
@@ -16,7 +16,7 @@ public class VehicleAd {
 
      }
 
-    public VehicleAd(String id, String user_id, String model, Date date_of_purchase, Date insurance, int milege, String description) {
+    public VehicleAd(String id, String user_id, String model, String date_of_purchase, String insurance, int milege, String description) {
         this.id = id;
         this.user_id = user_id;
         this.model = model;
@@ -39,11 +39,11 @@ public class VehicleAd {
         return model;
     }
 
-    public Date getDate_of_purchase() {
+    public String getDate_of_purchase() {
         return date_of_purchase;
     }
 
-    public Date getInsurance() {
+    public String getInsurance() {
         return insurance;
     }
 

@@ -1,10 +1,6 @@
 package com.sagar.betaversion;
 
-import androidx.annotation.NonNull;
-import androidx.appcompat.app.AppCompatActivity;
-
 import android.app.AlertDialog;
-import android.app.Dialog;
 import android.app.ProgressDialog;
 import android.content.DialogInterface;
 import android.content.Intent;
@@ -18,6 +14,9 @@ import android.widget.EditText;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
+
+import androidx.annotation.NonNull;
+import androidx.appcompat.app.AppCompatActivity;
 
 import com.google.android.gms.auth.api.signin.GoogleSignIn;
 import com.google.android.gms.auth.api.signin.GoogleSignInAccount;
@@ -33,9 +32,10 @@ import com.google.firebase.auth.AuthResult;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.auth.GoogleAuthProvider;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
 
 public class LoginActivity extends AppCompatActivity {
-
 
 
     private FirebaseAuth mAuth;
@@ -49,6 +49,7 @@ public class LoginActivity extends AppCompatActivity {
     Button LogIn;
     TextView signUp,forgetPwd;
     private int RC_SIGN_IN=100;
+    DatabaseReference databaseUsers;//shivam
     GoogleSignInClient mGoogleSignInClient;
 
     public void logIn(View view){
@@ -175,7 +176,7 @@ public class LoginActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_login);
 
-
+        databaseUsers= FirebaseDatabase.getInstance().getReference("Users");//shivam
         // Configure Google Sign In
         GoogleSignInOptions gso = new GoogleSignInOptions.Builder(GoogleSignInOptions.DEFAULT_SIGN_IN)
                 .requestIdToken(getString(R.string.default_web_client_id))
@@ -264,7 +265,9 @@ public class LoginActivity extends AppCompatActivity {
                         if (task.isSuccessful()) {
                             // Sign in success, update UI with the signed-in user's information
                             Toast.makeText(LoginActivity.this, ""+acct, Toast.LENGTH_SHORT).show();
-                            FirebaseUser user = mAuth.getCurrentUser();
+                            FirebaseUser user = mAuth.getCurrentUser();//shivam
+                            User user1=new User(user.getUid(),user.getDisplayName(),user.getEmail()); //shivam
+                            databaseUsers.child(user.getUid()).setValue(user1); //shivam
                             startActivity(new Intent(getApplicationContext(),MainActivity.class));
                             finish();
                             //updateUI(user);

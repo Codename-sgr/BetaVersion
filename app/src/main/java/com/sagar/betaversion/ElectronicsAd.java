@@ -9,6 +9,7 @@ public class ElectronicsAd {
     Date date_of_purchase;
     Date insurance;
     String description;
+
     boolean status;//true for unsold, false for sold
     public ElectronicsAd()
     {
