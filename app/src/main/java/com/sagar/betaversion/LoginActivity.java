@@ -6,6 +6,7 @@ import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
 import android.text.InputType;
+import android.util.Log;
 import android.util.Patterns;
 import android.view.KeyEvent;
 import android.view.View;
@@ -266,8 +267,12 @@ public class LoginActivity extends AppCompatActivity {
                             // Sign in success, update UI with the signed-in user's information
                             Toast.makeText(LoginActivity.this, ""+acct, Toast.LENGTH_SHORT).show();
                             FirebaseUser user = mAuth.getCurrentUser();//shivam
+
+                            Log.i("Info",user.getDisplayName()+" "+user.getUid()+" "+user.getEmail());
+
                             User user1=new User(user.getUid(),user.getDisplayName(),user.getEmail()); //shivam
                             databaseUsers.child(user.getUid()).setValue(user1); //shivam
+
                             startActivity(new Intent(getApplicationContext(),MainActivity.class));
                             finish();
                             //updateUI(user);

@@ -26,12 +26,14 @@ public class MainActivity extends AppCompatActivity {
 
         myAccount=findViewById(R.id.myAccountButton);
         newAd= findViewById(R.id.newAdButton);
+
         myAccount.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 startActivity(new Intent(getApplicationContext(),myAccount.class));
             }
         });
+
        newAd.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {

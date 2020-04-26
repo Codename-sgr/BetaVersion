@@ -11,7 +11,8 @@ public class VehicleAd {
     int milege;
     String description;
     boolean status;//true for unsold, false for sold
-     public VehicleAd()
+
+    public VehicleAd()
      {
 
      }

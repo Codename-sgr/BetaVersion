@@ -65,21 +65,22 @@ public class SignupActivity extends AppCompatActivity {
                     .addOnCompleteListener(this, new OnCompleteListener<AuthResult>() {
                         @Override
                         public void onComplete(@NonNull Task<AuthResult> task) {
+                            progressDialog.dismiss();
                             if(task.isSuccessful()){
-                                progressDialog.dismiss();
-                                Log.i("info","user with email:success");
                                 FirebaseUser user=mAuth.getCurrentUser();
+
                                 String user_id=user.getUid();
                                 User user1=new User(user_id,uname,uemail);
                                 databaseUsers.child(user_id).setValue(user1);
+
                                 Toast.makeText(SignupActivity.this, "Registered: "+user.getEmail(), Toast.LENGTH_SHORT).show();
+
                                 startActivity(new Intent(SignupActivity.this,MainActivity.class));
                                 finish();
 
                             }
                             else
                             {
-                                progressDialog.dismiss();
                                 Log.w("info", "User With Email:failure", task.getException());
                                 Toast.makeText(SignupActivity.this, "Authentication failed.",
                                         Toast.LENGTH_SHORT).show();

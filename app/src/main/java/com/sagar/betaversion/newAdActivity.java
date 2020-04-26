@@ -18,13 +18,14 @@ public class newAdActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_new_ad);
+
         categories.add("Vehicle");
         categories.add("Electronic");
         categories.add("Books");
         categories.add("Furniture");
         categories.add("Sports");
         categories.add("Misc");
-        ListView listView=(ListView)findViewById(R.id.Category);
+        ListView listView=findViewById(R.id.Category);
         ArrayAdapter arrayAdapter= new ArrayAdapter(this,android.R.layout.simple_list_item_1,categories);
         listView.setAdapter(arrayAdapter);
         listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
