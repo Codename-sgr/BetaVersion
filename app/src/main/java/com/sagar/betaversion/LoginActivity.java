@@ -49,6 +49,8 @@ public class LoginActivity extends AppCompatActivity {
     EditText password;
     Button LogIn;
     TextView signUp,forgetPwd;
+    Boolean isValid=false;
+
     private int RC_SIGN_IN=100;
     DatabaseReference databaseUsers;//shivam
     GoogleSignInClient mGoogleSignInClient;
@@ -79,6 +81,7 @@ public class LoginActivity extends AppCompatActivity {
                     @Override
                     public void onComplete(@NonNull Task<AuthResult> task) {
                         if(task.isSuccessful()){
+                            isValid=true;
                             progressDialog.dismiss();
                             FirebaseUser user=mAuth.getCurrentUser();
                             startActivity(new Intent(getApplicationContext(),MainActivity.class));
@@ -213,7 +216,7 @@ public class LoginActivity extends AppCompatActivity {
         password.setOnKeyListener(new View.OnKeyListener() {
             @Override
             public boolean onKey(View v, int keyCode, KeyEvent event) {
-                if(keyCode==KeyEvent.KEYCODE_ENTER)
+                if(keyCode==KeyEvent.KEYCODE_ENTER && isValid)
                     startActivity(new Intent(getApplicationContext(),MainActivity.class));
                 return false;
             }
@@ -265,10 +268,9 @@ public class LoginActivity extends AppCompatActivity {
                         progressDialog.dismiss();
                         if (task.isSuccessful()) {
                             // Sign in success, update UI with the signed-in user's information
-                            Toast.makeText(LoginActivity.this, ""+acct, Toast.LENGTH_SHORT).show();
+                            isValid=true;
                             FirebaseUser user = mAuth.getCurrentUser();//shivam
-
-                            Log.i("Info",user.getDisplayName()+" "+user.getUid()+" "+user.getEmail());
+                            Toast.makeText(LoginActivity.this, ""+user.getDisplayName()+"\n"+user.getEmail() , Toast.LENGTH_SHORT).show();
 
                             User user1=new User(user.getUid(),user.getDisplayName(),user.getEmail()); //shivam
                             databaseUsers.child(user.getUid()).setValue(user1); //shivam
