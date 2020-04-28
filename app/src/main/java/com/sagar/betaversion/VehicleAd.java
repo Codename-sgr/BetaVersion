@@ -10,6 +10,9 @@ public class VehicleAd {
     String insurance;
     int milege;
     String description;
+    String url1;
+    String url2;
+    String url3;
     boolean status;//true for unsold, false for sold
 
     public VehicleAd()
@@ -25,8 +28,13 @@ public class VehicleAd {
         this.insurance = insurance;
         this.milege = milege;
         this.description = description;
+        this.url1 = null;
+        this.url2 = null;
+        this.url3 = null;
         this.status=true;
     }
+
+
 
     public String getId() {
         return id;
@@ -52,11 +60,35 @@ public class VehicleAd {
         return milege;
     }
 
+    public String getUrl1() {
+        return url1;
+    }
+
+    public String getUrl2() {
+        return url2;
+    }
+
+    public String getUrl3() {
+        return url3;
+    }
+
     public String getDescription() {
         return description;
     }
 
     public boolean isStatus() {
         return status;
+    }
+
+    public void setUrl1(String url1) {
+        this.url1 = url1;
+    }
+
+    public void setUrl2(String url2) {
+        this.url2 = url2;
+    }
+
+    public void setUrl3(String url3) {
+        this.url3 = url3;
     }
 }
