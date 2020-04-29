@@ -51,8 +51,8 @@ public class vehicle extends AppCompatActivity {
     StorageReference imageStorageRef;
     public void post(View view)
     {
-        progressDialog.setMessage("Uploading Ad, Please wait!");
-        progressDialog.show();
+       // progressDialog.setMessage("Uploading Ad, Please wait!");
+        //progressDialog.show();
         FirebaseUser user =mAuth.getCurrentUser();
         user_id=user.getUid();
         ad_id=databaseAd.push().getKey();
@@ -132,29 +132,48 @@ public class vehicle extends AppCompatActivity {
         {
             Toast.makeText(vehicle.this,"Successful",Toast.LENGTH_SHORT).show();
         }*/
-        final StorageReference ref=imageStorageRef.child(user_id+"/"+ad_id+"/1"+'.'+getFileExtension(uri));
-        UploadTask uploadTask = ref.putFile(uri);
 
-        Task<Uri> urlTask = uploadTask.continueWithTask(new Continuation<UploadTask.TaskSnapshot, Task<Uri>>() {
-            @Override
-            public Task<Uri> then(@NonNull Task<UploadTask.TaskSnapshot> task) throws Exception {
-                if (!task.isSuccessful()) {
-                    throw task.getException();
-                }
+        int count=ImageUri.size();
+        vehicleAd.setImg_count(count);
+        final int[] flag = {0};
+        for(int i=0;i<count;i++)
+        {
+            final StorageReference ref=imageStorageRef.child(user_id+"/"+ad_id+"/"+ Integer.toString(i) +'.'+getFileExtension(uri));
+            UploadTask uploadTask = ref.putFile(ImageUri.get(i));
 
-                // Continue with the task to get the download URL
-                return ref.getDownloadUrl();
-            }
-        }).addOnCompleteListener(new OnCompleteListener<Uri>() {
-            @Override
-            public void onComplete(@NonNull Task<Uri> task) {
-                if (task.isSuccessful()) {
-                    Uri downloadUri = task.getResult();
-                } else {
-                    Toast.makeText(vehicle.this,"Failed",Toast.LENGTH_SHORT).show();
+            Task<Uri> urlTask = uploadTask.continueWithTask(new Continuation<UploadTask.TaskSnapshot, Task<Uri>>() {
+                @Override
+                public Task<Uri> then(@NonNull Task<UploadTask.TaskSnapshot> task) throws Exception {
+                    if (!task.isSuccessful()) {
+                        throw task.getException();
+                    }
+
+                    // Continue with the task to get the download URL
+                    return ref.getDownloadUrl();
                 }
-            }
-        });
+            }).addOnCompleteListener(new OnCompleteListener<Uri>() {
+                @Override
+                public void onComplete(@NonNull Task<Uri> task) {
+                    if (task.isSuccessful()) {
+                        Uri downloadUri = task.getResult();
+                    } else {
+                        Toast.makeText(vehicle.this,"Failed",Toast.LENGTH_SHORT).show();
+                        flag[0] =1;
+                    }
+                }
+            }).addOnFailureListener(new OnFailureListener() {
+                @Override
+                public void onFailure(@NonNull Exception e) {
+                    Toast.makeText(vehicle.this,e.getMessage(),Toast.LENGTH_SHORT).show();
+                    flag[0]=1;
+                }
+            });
+        }
+        if(flag[0]==0)
+        {
+            Toast.makeText(vehicle.this,"Ad Posted Successfully",Toast.LENGTH_SHORT).show();
+        }
+
         //String url=urlTask.toString();
 
 
@@ -163,7 +182,7 @@ public class vehicle extends AppCompatActivity {
    {
        Intent intent= new Intent();
        intent.setType("image/*");
-       //intent.putExtra(Intent.EXTRA_ALLOW_MULTIPLE,true);
+       intent.putExtra(Intent.EXTRA_ALLOW_MULTIPLE,true);
        intent.setAction(intent.ACTION_GET_CONTENT);
        startActivityForResult(intent,IMAGE_REQUEST);
    }
@@ -173,7 +192,7 @@ public class vehicle extends AppCompatActivity {
        super.onActivityResult(requestCode, resultCode, data);
        if(requestCode==IMAGE_REQUEST && resultCode==RESULT_OK )
        {
-           /*if(data.getClipData()!=null)
+           if(data.getClipData()!=null)
            {
                int count=data.getClipData().getItemCount();
                if(count>3)
@@ -209,13 +228,13 @@ public class vehicle extends AppCompatActivity {
                        }
                    }
                }
-           }*/
-           if(data!=null && data.getData()!=null)
+           }
+           /*if(data!=null && data.getData()!=null)
            {
                uri=data.getData();
                Picasso.get().load(uri).into(img1);
                img1.setVisibility(View.VISIBLE);
-           }
+           }*/
        }
 
    }

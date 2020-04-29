@@ -9,10 +9,9 @@ public class VehicleAd {
     String date_of_purchase;
     String insurance;
     int milege;
+    int img_count;
     String description;
-    String url1;
-    String url2;
-    String url3;
+
     boolean status;//true for unsold, false for sold
 
     public VehicleAd()
@@ -28,9 +27,7 @@ public class VehicleAd {
         this.insurance = insurance;
         this.milege = milege;
         this.description = description;
-        this.url1 = null;
-        this.url2 = null;
-        this.url3 = null;
+        this.img_count=0;
         this.status=true;
     }
 
@@ -40,12 +37,20 @@ public class VehicleAd {
         return id;
     }
 
+    public int getImg_count() {
+        return img_count;
+    }
+
     public String getUser_id() {
         return user_id;
     }
 
     public String getModel() {
         return model;
+    }
+
+    public void setImg_count(int img_count) {
+        this.img_count = img_count;
     }
 
     public String getDate_of_purchase() {
@@ -60,17 +65,6 @@ public class VehicleAd {
         return milege;
     }
 
-    public String getUrl1() {
-        return url1;
-    }
-
-    public String getUrl2() {
-        return url2;
-    }
-
-    public String getUrl3() {
-        return url3;
-    }
 
     public String getDescription() {
         return description;
@@ -80,15 +74,5 @@ public class VehicleAd {
         return status;
     }
 
-    public void setUrl1(String url1) {
-        this.url1 = url1;
-    }
 
-    public void setUrl2(String url2) {
-        this.url2 = url2;
-    }
-
-    public void setUrl3(String url3) {
-        this.url3 = url3;
-    }
 }
