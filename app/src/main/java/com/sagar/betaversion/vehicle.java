@@ -23,6 +23,7 @@ import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.storage.FirebaseStorage;
+import com.google.firebase.storage.OnProgressListener;
 import com.google.firebase.storage.StorageReference;
 import com.google.firebase.storage.UploadTask;
 import com.squareup.picasso.Picasso;
@@ -42,6 +43,7 @@ public class vehicle extends AppCompatActivity {
     DatabaseReference databaseAd;
     ProgressDialog progressDialog;
     String user_id, ad_id;
+    Uri uri;
     private static final int IMAGE_REQUEST=1;
     StorageReference imageStorageRef;
     public void post(View view)
@@ -54,7 +56,7 @@ public class vehicle extends AppCompatActivity {
         final VehicleAd vehicleAd= new VehicleAd(ad_id,user_id,model.getText().toString(),purchaseDate.getText().toString(),insuranceDate.getText().toString(),Integer.parseInt(milege.getText().toString()),description.getText().toString());
         databaseAd.child(ad_id).setValue(vehicleAd);
 
-        int c=ImageUri.size();
+        /*int c=ImageUri.size();
         final Boolean[] status= new Boolean[3];
         for(int i=0;i<3;i++)
             status[i]=true;
@@ -70,6 +72,8 @@ public class vehicle extends AppCompatActivity {
                     @Override
                     public void onSuccess(UploadTask.TaskSnapshot taskSnapshot)
                     {
+
+                        Toast.makeText(vehicle.this,"Image Uploaded!",Toast.LENGTH_SHORT).show();
                          status[0]=true;
                     }
                 }).addOnFailureListener(new OnFailureListener() {
@@ -124,14 +128,33 @@ public class vehicle extends AppCompatActivity {
         if(status[0] && status[1] && status[3])
         {
             Toast.makeText(vehicle.this,"Successful",Toast.LENGTH_SHORT).show();
-        }
+        }*/
+        StorageReference fileRef=imageStorageRef.child(System.currentTimeMillis()+'.'+getFileExtension(uri));
+        fileRef.putFile(uri).addOnSuccessListener(new OnSuccessListener<UploadTask.TaskSnapshot>() {
+            @Override
+            public void onSuccess(UploadTask.TaskSnapshot taskSnapshot) {
+                Toast.makeText(vehicle.this,"sucessful",Toast.LENGTH_SHORT).show();
+            }
+        }).addOnFailureListener(new OnFailureListener() {
+            @Override
+            public void onFailure(@NonNull Exception e) {
+                Toast.makeText(vehicle.this,"failed",Toast.LENGTH_SHORT).show();
+            }
+        }).addOnProgressListener(new OnProgressListener<UploadTask.TaskSnapshot>() {
+            @Override
+            public void onProgress(@NonNull UploadTask.TaskSnapshot taskSnapshot) {
+                double progress= (100.0* taskSnapshot.getBytesTransferred()/ taskSnapshot.getTotalByteCount());
+                progressDialog.setMessage("Uploaded "+ (int)progress + "%");
+            }
+        });
+
 
     }
     public void ChooseImage(View view)
    {
        Intent intent= new Intent();
        intent.setType("image/*");
-       intent.putExtra(Intent.EXTRA_ALLOW_MULTIPLE,true);
+       //intent.putExtra(Intent.EXTRA_ALLOW_MULTIPLE,true);
        intent.setAction(intent.ACTION_GET_CONTENT);
        startActivityForResult(intent,IMAGE_REQUEST);
    }
@@ -141,7 +164,7 @@ public class vehicle extends AppCompatActivity {
        super.onActivityResult(requestCode, resultCode, data);
        if(requestCode==IMAGE_REQUEST && resultCode==RESULT_OK )
        {
-           if(data.getClipData()!=null)
+           /*if(data.getClipData()!=null)
            {
                int count=data.getClipData().getItemCount();
                if(count>3)
@@ -150,7 +173,7 @@ public class vehicle extends AppCompatActivity {
                }
                else if(count<2)
                {
-                   Toast.makeText(vehicle.this,"You can select minimum photos, Try Again!",Toast.LENGTH_SHORT).show();
+                   Toast.makeText(vehicle.this,"You have to select minimum 2 photos, Try Again!",Toast.LENGTH_SHORT).show();
                }
                else
                {
@@ -177,9 +200,13 @@ public class vehicle extends AppCompatActivity {
                        }
                    }
                }
+           }*/
+           if(data!=null && data.getData()!=null)
+           {
+               uri=data.getData();
+               Picasso.get().load(uri).into(img1);
+               img1.setVisibility(View.VISIBLE);
            }
-
-
        }
 
    }
