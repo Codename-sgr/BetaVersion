@@ -68,7 +68,6 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_weight="1"
-            android:editable="false"
             android:ems="10"
             android:inputType="none"
             android:text="UserName" />
@@ -78,7 +77,6 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_weight="1"
-            android:editable="false"
             android:ems="10"
             android:inputType="none"
             android:text="Mobile No" />
@@ -88,7 +86,6 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_weight="1"
-            android:editable="false"
             android:ems="10"
             android:inputType="none|textEmailAddress"
             android:text="Email" />

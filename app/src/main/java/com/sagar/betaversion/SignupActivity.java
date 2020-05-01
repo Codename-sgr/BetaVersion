@@ -23,7 +23,7 @@ import com.google.firebase.database.FirebaseDatabase;
 
 public class SignupActivity extends AppCompatActivity {
 
-    EditText name,mobile,email,password,conpass;
+    EditText name,email,password,conpass;
     ProgressDialog progressDialog;
     DatabaseReference databaseUsers;
     private FirebaseAuth mAuth;
@@ -104,7 +104,7 @@ public class SignupActivity extends AppCompatActivity {
         name=findViewById(R.id.editTextName);
 
         email=findViewById(R.id.editTextEmail);
-        password=findViewById(R.id.editTextPass);
+        password=findViewById(R.id.password);
         conpass=findViewById(R.id.editTextConPass);
 
         databaseUsers= FirebaseDatabase.getInstance().getReference("Users");

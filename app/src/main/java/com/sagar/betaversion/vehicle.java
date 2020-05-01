@@ -38,7 +38,7 @@ import java.util.ArrayList;
 import java.util.Date;
 
 public class vehicle extends AppCompatActivity {
-    EditText  model,purchaseDate,insuranceDate,milege,description;
+    EditText  model,purchaseDate,insuranceDate,milege,sellinPrice,description;
     FirebaseAuth mAuth;
     ImageView img1,img2,img3;
     ArrayList<Uri> ImageUri= new ArrayList<>();
@@ -56,7 +56,7 @@ public class vehicle extends AppCompatActivity {
         FirebaseUser user =mAuth.getCurrentUser();
         user_id=user.getUid();
         ad_id=databaseAd.push().getKey();
-        final VehicleAd vehicleAd= new VehicleAd(ad_id,user_id,model.getText().toString(),purchaseDate.getText().toString(),insuranceDate.getText().toString(),Integer.parseInt(milege.getText().toString()),description.getText().toString());
+        final VehicleAd vehicleAd= new VehicleAd(ad_id,user_id,model.getText().toString(),purchaseDate.getText().toString(),insuranceDate.getText().toString(),Integer.parseInt(milege.getText().toString()),sellinPrice.getText().toString(),description.getText().toString());
         databaseAd.child(ad_id).setValue(vehicleAd);
 
         /*int c=ImageUri.size();
@@ -138,7 +138,7 @@ public class vehicle extends AppCompatActivity {
         final int[] flag = {0};
         for(int i=0;i<count;i++)
         {
-            final StorageReference ref=imageStorageRef.child(user_id+"/"+ad_id+"/"+ Integer.toString(i) +'.'+getFileExtension(uri));
+            final StorageReference ref=imageStorageRef.child(user_id+"/"+ad_id+"/"+ Integer.toString(i) +'.'+getFileExtension(ImageUri.get(i)));
             UploadTask uploadTask = ref.putFile(ImageUri.get(i));
 
             Task<Uri> urlTask = uploadTask.continueWithTask(new Continuation<UploadTask.TaskSnapshot, Task<Uri>>() {
@@ -249,6 +249,7 @@ public class vehicle extends AppCompatActivity {
         purchaseDate=findViewById(R.id.purchaseDate);
         insuranceDate=findViewById(R.id.insuranceDate);
         milege=findViewById(R.id.milege);
+        sellinPrice=findViewById(R.id.sellingPrice);
         description=findViewById(R.id.description);
         img1=findViewById(R.id.img1);
         img2=findViewById(R.id.img2);

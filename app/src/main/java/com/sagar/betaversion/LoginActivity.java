@@ -28,6 +28,8 @@ import com.google.android.gms.common.api.ApiException;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.Task;
+import com.google.android.material.textfield.TextInputEditText;
+import com.google.android.material.textfield.TextInputLayout;
 import com.google.firebase.auth.AuthCredential;
 import com.google.firebase.auth.AuthResult;
 import com.google.firebase.auth.FirebaseAuth;
@@ -45,8 +47,8 @@ public class LoginActivity extends AppCompatActivity {
 
     SignInButton googleLoginBtn;
 
-    EditText email;
-    EditText password;
+    TextInputEditText email;
+    TextInputEditText password;
     Button LogIn;
     TextView signUp,forgetPwd;
     Boolean isValid=false;
@@ -191,7 +193,7 @@ public class LoginActivity extends AppCompatActivity {
         mAuth=FirebaseAuth.getInstance();
 
 
-        email= findViewById(R.id.editTextEmail);
+        email=findViewById(R.id.editTextEmail);
         password=findViewById(R.id.password);
         LogIn=findViewById(R.id.LogIn);
         signUp=findViewById(R.id.signUp);
@@ -239,10 +241,13 @@ public class LoginActivity extends AppCompatActivity {
 
     @Override
     public void onActivityResult(int requestCode, int resultCode, Intent data) {
+
+        progressDialog.setMessage("Please wait...");
         super.onActivityResult(requestCode, resultCode, data);
 
         // Result returned from launching the Intent from GoogleSignInApi.getSignInIntent(...);
         if (requestCode == RC_SIGN_IN) {
+            progressDialog.dismiss();
             Task<GoogleSignInAccount> task = GoogleSignIn.getSignedInAccountFromIntent(data);
             try {
                 // Google Sign In was successful, authenticate with Firebase
