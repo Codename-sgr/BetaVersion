@@ -24,7 +24,7 @@ public class newAdActivity extends AppCompatActivity {
         categories.add("Books");
         categories.add("Furniture");
         categories.add("Sports");
-        categories.add("Misc");
+        //categories.add("Misc");
         ListView listView=findViewById(R.id.Category);
         ArrayAdapter arrayAdapter= new ArrayAdapter(this,android.R.layout.simple_list_item_1,categories);
         listView.setAdapter(arrayAdapter);
@@ -41,7 +41,9 @@ public class newAdActivity extends AppCompatActivity {
                 }
                 else
                 {
-                    startActivity(new Intent(getApplicationContext(),others.class));
+                    Intent intent=new Intent(getApplicationContext(),others.class);
+                    intent.putExtra("type",categories.get(i));
+                    startActivity(intent);
                 }
 
             }

@@ -7,14 +7,24 @@ public class VehicleAd {
     String user_id;
     String model;
     String date_of_purchase;
+
+
+
     String insurance;
     int milege;
     String sellingPrice;
     int img_count;
     String description;
+    String fileExtension;
 
     boolean status;//true for unsold, false for sold
+    public String getFileExtension() {
+        return fileExtension;
+    }
 
+    public void setFileExtension(String fileExtension) {
+        this.fileExtension = fileExtension;
+    }
     public VehicleAd()
      {
 

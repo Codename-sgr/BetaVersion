@@ -57,84 +57,10 @@ public class vehicle extends AppCompatActivity {
         user_id=user.getUid();
         ad_id=databaseAd.push().getKey();
         final VehicleAd vehicleAd= new VehicleAd(ad_id,user_id,model.getText().toString(),purchaseDate.getText().toString(),insuranceDate.getText().toString(),Integer.parseInt(milege.getText().toString()),sellinPrice.getText().toString(),description.getText().toString());
-        databaseAd.child(ad_id).setValue(vehicleAd);
-
-        /*int c=ImageUri.size();
-        final Boolean[] status= new Boolean[3];
-        for(int i=0;i<3;i++)
-            status[i]=true;
-
-        for(int i=0;i<c;i++)
-        {
-            if(i==0)
-            {
-                status[0]=false;
-                final StorageReference fileRef= imageStorageRef.child(System.currentTimeMillis()+"1."+getFileExtension(ImageUri.get(i)));
-                vehicleAd.setUrl1(System.currentTimeMillis()+"1."+getFileExtension(ImageUri.get(i)));
-                fileRef.putFile(ImageUri.get(i)).addOnSuccessListener(new OnSuccessListener<UploadTask.TaskSnapshot>() {
-                    @Override
-                    public void onSuccess(UploadTask.TaskSnapshot taskSnapshot)
-                    {
-
-                        Toast.makeText(vehicle.this,"Image Uploaded!",Toast.LENGTH_SHORT).show();
-                         status[0]=true;
-                    }
-                }).addOnFailureListener(new OnFailureListener() {
-                    @Override
-                    public void onFailure(@NonNull Exception e) {
-                        Toast.makeText(vehicle.this,e.getMessage(),Toast.LENGTH_SHORT).show();
-                    }
-                });
-
-
-            }
-            else if(i==1)
-
-            {
-                status[1]=false;
-                final StorageReference fileRef= imageStorageRef.child(System.currentTimeMillis()+"2."+getFileExtension(ImageUri.get(i)));
-                vehicleAd.setUrl2(System.currentTimeMillis()+"2."+getFileExtension(ImageUri.get(i)));
-                fileRef.putFile(ImageUri.get(i)).addOnSuccessListener(new OnSuccessListener<UploadTask.TaskSnapshot>() {
-                    @Override
-                    public void onSuccess(UploadTask.TaskSnapshot taskSnapshot)
-                    {
-                        status[1]=true;
-                    }
-                }).addOnFailureListener(new OnFailureListener() {
-                    @Override
-                    public void onFailure(@NonNull Exception e) {
-                        Toast.makeText(vehicle.this,e.getMessage(),Toast.LENGTH_SHORT).show();
-                    }
-                });
-
-            }
-            else{
-                status[1]=false;
-                final StorageReference fileRef= imageStorageRef.child(System.currentTimeMillis()+"3."+getFileExtension(ImageUri.get(i)));
-                vehicleAd.setUrl3(System.currentTimeMillis()+"3."+getFileExtension(ImageUri.get(i)));
-                fileRef.putFile(ImageUri.get(i)).addOnSuccessListener(new OnSuccessListener<UploadTask.TaskSnapshot>() {
-                    @Override
-                    public void onSuccess(UploadTask.TaskSnapshot taskSnapshot)
-                    {
-                        status[1]=true;
-                    }
-                }).addOnFailureListener(new OnFailureListener() {
-                    @Override
-                    public void onFailure(@NonNull Exception e) {
-                        Toast.makeText(vehicle.this,e.getMessage(),Toast.LENGTH_SHORT).show();
-                    }
-                });
-            }
-
-        }
-        progressDialog.dismiss();
-        if(status[0] && status[1] && status[3])
-        {
-            Toast.makeText(vehicle.this,"Successful",Toast.LENGTH_SHORT).show();
-        }*/
 
         int count=ImageUri.size();
         vehicleAd.setImg_count(count);
+        databaseAd.child(ad_id).setValue(vehicleAd);
         final int[] flag = {0};
         for(int i=0;i<count;i++)
         {

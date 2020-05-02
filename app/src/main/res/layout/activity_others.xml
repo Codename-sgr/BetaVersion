@@ -6,4 +6,133 @@
     android:layout_height="match_parent"
     tools:context=".others">
 
+
+        <LinearLayout
+            android:id="@+id/linearLayout2"
+            android:layout_width="221dp"
+            android:layout_height="300dp"
+            android:layout_marginTop="20dp"
+            android:orientation="vertical"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent">
+
+            <EditText
+                android:id="@+id/model"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:ems="10"
+                android:hint="Model"
+                android:inputType="textPersonName" />
+
+            <EditText
+                android:id="@+id/purchaseDate"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:ems="10"
+
+                android:hint="Date of Purchase" />
+
+
+
+
+            <EditText
+                android:id="@+id/sellingPrice"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:ems="10"
+                android:hint="Selling Price"
+                android:inputType="number" />
+
+
+            <EditText
+                android:id="@+id/description"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:ems="10"
+
+                android:hint="Description"
+                android:inputType="textPersonName" />
+
+        </LinearLayout>
+
+
+        <ImageView
+            android:id="@+id/img2"
+            android:layout_width="86dp"
+            android:layout_height="81dp"
+
+            android:layout_marginTop="12dp"
+            android:visibility="invisible"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="0.504"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/UploadImageButton"
+            app:srcCompat="@drawable/ic_launcher_foreground" />
+
+        <ImageView
+            android:id="@+id/img1"
+            android:layout_width="86dp"
+            android:layout_height="81dp"
+
+            android:layout_marginStart="30dp"
+            android:contentDescription="TODO"
+            android:visibility="invisible"
+            app:layout_constraintBottom_toBottomOf="@+id/img2"
+            app:layout_constraintEnd_toStartOf="@+id/img2"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="@+id/img2"
+            app:srcCompat="@drawable/ic_launcher_foreground" />
+
+        <ImageView
+            android:id="@+id/img3"
+            android:layout_width="86dp"
+            android:layout_height="81dp"
+
+            android:layout_marginEnd="34dp"
+            android:visibility="invisible"
+            app:layout_constraintBottom_toBottomOf="@+id/img2"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toEndOf="@+id/img2"
+            app:layout_constraintTop_toTopOf="@+id/img2"
+            app:layout_constraintVertical_bias="0.0"
+            app:srcCompat="@drawable/ic_launcher_foreground" />
+
+        <Button
+            android:id="@+id/postButton"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="12dp"
+            android:onClick="post"
+            android:text="Post"
+            app:layout_constraintEnd_toEndOf="@+id/img2"
+            app:layout_constraintStart_toStartOf="@+id/img2"
+            app:layout_constraintTop_toBottomOf="@+id/img2" />
+
+        <Button
+            android:id="@+id/UploadImageButton"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="15dp"
+            android:onClick="ChooseImage"
+            android:text="Upload Image"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/linearLayout2" />
+
+        <TextView
+            android:id="@+id/textView8"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="16dp"
+            android:text="(2-3 Images)"
+            app:layout_constraintBottom_toBottomOf="@+id/UploadImageButton"
+            app:layout_constraintStart_toEndOf="@+id/UploadImageButton" />
+
+
+
 </androidx.constraintlayout.widget.ConstraintLayout>
