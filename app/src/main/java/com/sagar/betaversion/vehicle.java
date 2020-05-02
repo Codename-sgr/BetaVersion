@@ -173,7 +173,8 @@ public class vehicle extends AppCompatActivity {
         {
             Toast.makeText(vehicle.this,"Ad Posted Successfully",Toast.LENGTH_SHORT).show();
         }
-
+        Intent intent=new Intent(getApplicationContext(),MainActivity.class);
+        startActivity(intent);
         //String url=urlTask.toString();
 
 
