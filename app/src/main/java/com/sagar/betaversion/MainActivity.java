@@ -14,7 +14,7 @@ import com.google.firebase.auth.FirebaseUser;
 public class MainActivity extends AppCompatActivity {
     FirebaseAuth firebaseAuth;
 
-    ImageButton myAccount,newAd,vehicleAds;
+    ImageButton myAccount,newAd,vehicleAds,electronicAds,bookAds,sportAds,furnitureAds;
 
 
     @Override
@@ -27,14 +27,46 @@ public class MainActivity extends AppCompatActivity {
         myAccount=findViewById(R.id.myAccountButton);
         newAd= findViewById(R.id.newAdButton);
         vehicleAds=findViewById(R.id.vehicleButton);
-
+        electronicAds=findViewById(R.id.electronicsButton);
+        bookAds=findViewById(R.id.booksButton);
+        sportAds=findViewById(R.id.sportsButton);
+        furnitureAds=findViewById(R.id.furnitureButton);
+        final Intent intent=new Intent(getApplicationContext(),ListAd.class);
         vehicleAds.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                startActivity(new Intent(getApplicationContext(),ListAd.class));
+                intent.putExtra("type","Vehicle");
+                startActivity(intent);
             }
         });
-
+        electronicAds.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                intent.putExtra("type","Electronic");
+                startActivity(intent);
+            }
+        });
+        bookAds.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                intent.putExtra("type","Books");
+                startActivity(intent);
+            }
+        });
+        sportAds.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                intent.putExtra("type","Sports");
+                startActivity(intent);
+            }
+        });
+        furnitureAds.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                intent.putExtra("type","Furniture");
+                startActivity(intent);
+            }
+        });
         myAccount.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
