@@ -44,7 +44,7 @@ public class vehicle extends AppCompatActivity {
     ArrayList<Uri> ImageUri= new ArrayList<>();
     //boolean image1=false,image2=false,image3=false;
     DatabaseReference databaseAd;
-    ProgressDialog progressDialog;
+    //ProgressDialog progressDialog;
     String user_id, ad_id;
     Uri uri;
     private static final int IMAGE_REQUEST=1;
@@ -65,6 +65,7 @@ public class vehicle extends AppCompatActivity {
         for(int i=0;i<count;i++)
         {
             final StorageReference ref=imageStorageRef.child(user_id+"/"+ad_id+"/"+ Integer.toString(i) +'.'+getFileExtension(ImageUri.get(i)));
+
             UploadTask uploadTask = ref.putFile(ImageUri.get(i));
 
             Task<Uri> urlTask = uploadTask.continueWithTask(new Continuation<UploadTask.TaskSnapshot, Task<Uri>>() {
@@ -74,6 +75,7 @@ public class vehicle extends AppCompatActivity {
                         throw task.getException();
                     }
 
+
                     // Continue with the task to get the download URL
                     return ref.getDownloadUrl();
                 }
@@ -82,6 +84,7 @@ public class vehicle extends AppCompatActivity {
                 public void onComplete(@NonNull Task<Uri> task) {
                     if (task.isSuccessful()) {
                         Uri downloadUri = task.getResult();
+
                     } else {
                         Toast.makeText(vehicle.this,"Failed",Toast.LENGTH_SHORT).show();
                         flag[0] =1;

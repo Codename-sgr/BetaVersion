@@ -3,8 +3,6 @@ package com.sagar.betaversion;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
-
-import android.app.ProgressDialog;
 import android.content.ContentResolver;
 import android.content.Intent;
 import android.net.Uri;
@@ -37,31 +35,32 @@ public class electronics extends AppCompatActivity {
     ArrayList<Uri> ImageUri= new ArrayList<>();
     //boolean image1=false,image2=false,image3=false;
     DatabaseReference databaseAd;
-    ProgressDialog progressDialog;
+    //ProgressDialog progressDialog=new ProgressDialog(electronics.this);
     String user_id, ad_id;
     Uri uri;
     private static final int IMAGE_REQUEST=1;
     StorageReference imageStorageRef;
     public void post(View view)
     {
-        // progressDialog.setMessage("Uploading Ad, Please wait!");
+        //progressDialog.setMessage("Uploading Ad, Please wait!");
         //progressDialog.show();
         FirebaseUser user =mAuth.getCurrentUser();
         user_id=user.getUid();
         ad_id=databaseAd.push().getKey();
         final ElectronicsAd electronicsAd= new ElectronicsAd(ad_id,user_id,model.getText().toString(),purchaseDate.getText().toString(),insuranceDate.getText().toString(),description.getText().toString(),sellinPrice.getText().toString());
-
-        int count=ImageUri.size();
+        final int count=ImageUri.size();
         electronicsAd.setImg_count(count);
         final int[] flag = {0};
+        final int[] c = {0};
         electronicsAd.setFileExtension(getFileExtension(ImageUri.get(0)));
-        databaseAd.child(ad_id).setValue(electronicsAd);
+
         for(int i=0;i<count;i++)
         {
             final StorageReference ref=imageStorageRef.child(user_id+"/"+ad_id+"/"+ Integer.toString(i) +'.'+getFileExtension(ImageUri.get(i)));
 
             UploadTask uploadTask = ref.putFile(ImageUri.get(i));
 
+            final int finalI = i;
             Task<Uri> urlTask = uploadTask.continueWithTask(new Continuation<UploadTask.TaskSnapshot, Task<Uri>>() {
                 @Override
                 public Task<Uri> then(@NonNull Task<UploadTask.TaskSnapshot> task) throws Exception {
@@ -77,25 +76,39 @@ public class electronics extends AppCompatActivity {
                 public void onComplete(@NonNull Task<Uri> task) {
                     if (task.isSuccessful()) {
                         Uri downloadUri = task.getResult();
+                        c[0]++;
+                        if(finalI ==count-1)
+                        {
+                            databaseAd.child(ad_id).setValue(electronicsAd);
+                            Toast.makeText(electronics.this,"Ad Posted Successfully",Toast.LENGTH_SHORT).show();
+                            Intent intent=new Intent(getApplicationContext(),MainActivity.class);
+                            startActivity(intent);
+                        }
+
                     } else {
-                        Toast.makeText(electronics.this,"Failed",Toast.LENGTH_SHORT).show();
+                        //Toast.makeText(electronics.this,"Failed",Toast.LENGTH_SHORT).show();
                         flag[0] =1;
                     }
                 }
             }).addOnFailureListener(new OnFailureListener() {
                 @Override
                 public void onFailure(@NonNull Exception e) {
-                    Toast.makeText(electronics.this,e.getMessage(),Toast.LENGTH_SHORT).show();
+                    //Toast.makeText(electronics.this,e.getMessage(),Toast.LENGTH_SHORT).show();
                     flag[0]=1;
                 }
             });
         }
-        if(flag[0]==0)
+
+
+        if(flag[0]==1)
         {
+            //progressDialog.dismiss();
+            Toast.makeText(electronics.this,"Retry!",Toast.LENGTH_SHORT).show();
             Toast.makeText(electronics.this,"Ad Posted Successfully",Toast.LENGTH_SHORT).show();
+            Intent intent=new Intent(getApplicationContext(),MainActivity.class);
         }
-        Intent intent=new Intent(getApplicationContext(),MainActivity.class);
-        startActivity(intent);
+
+
         //String url=urlTask.toString();
 
 
@@ -121,7 +134,7 @@ public class electronics extends AppCompatActivity {
                 {
                     Toast.makeText(electronics.this,"You can select maximum 3 photos, Try Again!",Toast.LENGTH_SHORT).show();
                 }
-                else if(count<2)
+                else if(count==1)
                 {
                     Toast.makeText(electronics.this,"You have to select minimum 2 photos, Try Again!",Toast.LENGTH_SHORT).show();
                 }
@@ -171,6 +184,7 @@ public class electronics extends AppCompatActivity {
         imageStorageRef= FirebaseStorage.getInstance().getReference("ElectronicImage");
         mAuth=FirebaseAuth.getInstance();
         databaseAd= FirebaseDatabase.getInstance().getReference("ElectronicAd");
+
     }
     public String getFileExtension(Uri uri)
     {
