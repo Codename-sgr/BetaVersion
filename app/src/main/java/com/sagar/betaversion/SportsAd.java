@@ -5,22 +5,19 @@ public class SportsAd
     String id;
     String user_id;
     String item;
-    String  year_of_purchase;
     String description;
     String sellingPrice;
     int img_count;
-    String fileExtension;
     boolean status;//true for unsold, false for sold
     public SportsAd()
     {
 
     }
 
-    public SportsAd(String id, String user_id, String item, String  year_of_purchase, String description, String sellingPrice) {
+    public SportsAd(String id, String user_id, String item, String description, String sellingPrice) {
         this.id = id;
         this.user_id = user_id;
         this.item = item;
-        this.year_of_purchase = year_of_purchase;
         this.description = description;
         this.sellingPrice = sellingPrice;
     }
@@ -49,13 +46,6 @@ public class SportsAd
         this.item = item;
     }
 
-    public String getYear_of_purchase() {
-        return year_of_purchase;
-    }
-
-    public void setYear_of_purchase(String year_of_purchase) {
-        this.year_of_purchase = year_of_purchase;
-    }
 
     public String getDescription() {
         return description;
@@ -81,13 +71,6 @@ public class SportsAd
         this.img_count = img_count;
     }
 
-    public String getFileExtension() {
-        return fileExtension;
-    }
-
-    public void setFileExtension(String fileExtension) {
-        this.fileExtension = fileExtension;
-    }
 
     public boolean isStatus() {
         return status;

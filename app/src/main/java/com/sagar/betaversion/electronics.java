@@ -3,10 +3,14 @@ package com.sagar.betaversion;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
+
+import android.app.ProgressDialog;
 import android.content.ContentResolver;
 import android.content.Intent;
+import android.graphics.Bitmap;
 import android.net.Uri;
 import android.os.Bundle;
+import android.provider.MediaStore;
 import android.view.View;
 import android.webkit.MimeTypeMap;
 import android.widget.EditText;
@@ -16,6 +20,7 @@ import android.widget.Toast;
 import com.google.android.gms.tasks.Continuation;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.OnFailureListener;
+import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
@@ -26,6 +31,8 @@ import com.google.firebase.storage.StorageReference;
 import com.google.firebase.storage.UploadTask;
 import com.squareup.picasso.Picasso;
 
+import java.io.ByteArrayOutputStream;
+import java.io.IOException;
 import java.util.ArrayList;
 
 public class electronics extends AppCompatActivity {
@@ -33,17 +40,17 @@ public class electronics extends AppCompatActivity {
     FirebaseAuth mAuth;
     ImageView img1,img2,img3;
     ArrayList<Uri> ImageUri= new ArrayList<>();
-    //boolean image1=false,image2=false,image3=false;
+    ArrayList<byte[]> ImageArray= new ArrayList<>();
     DatabaseReference databaseAd;
-    //ProgressDialog progressDialog=new ProgressDialog(electronics.this);
+    ProgressDialog progressDialog;
     String user_id, ad_id;
     Uri uri;
     private static final int IMAGE_REQUEST=1;
     StorageReference imageStorageRef;
     public void post(View view)
     {
-        //progressDialog.setMessage("Uploading Ad, Please wait!");
-        //progressDialog.show();
+        progressDialog.setMessage("Uploading Ad, Please wait!");
+        progressDialog.show();
         FirebaseUser user =mAuth.getCurrentUser();
         user_id=user.getUid();
         ad_id=databaseAd.push().getKey();
@@ -52,64 +59,48 @@ public class electronics extends AppCompatActivity {
         electronicsAd.setImg_count(count);
         final int[] flag = {0};
         final int[] c = {0};
-        electronicsAd.setFileExtension(getFileExtension(ImageUri.get(0)));
+
 
         for(int i=0;i<count;i++)
         {
-            final StorageReference ref=imageStorageRef.child(user_id+"/"+ad_id+"/"+ Integer.toString(i) +'.'+getFileExtension(ImageUri.get(i)));
+            final StorageReference ref=imageStorageRef.child(user_id+"/"+ad_id+"/"+ Integer.toString(i) +".jpg");
 
-            UploadTask uploadTask = ref.putFile(ImageUri.get(i));
-
+            UploadTask uploadTask = ref.putBytes(ImageArray.get(i));
             final int finalI = i;
-            Task<Uri> urlTask = uploadTask.continueWithTask(new Continuation<UploadTask.TaskSnapshot, Task<Uri>>() {
+            uploadTask.addOnSuccessListener(new OnSuccessListener<UploadTask.TaskSnapshot>() {
                 @Override
-                public Task<Uri> then(@NonNull Task<UploadTask.TaskSnapshot> task) throws Exception {
-                    if (!task.isSuccessful()) {
-                        throw task.getException();
-                    }
-
-                    // Continue with the task to get the download URL
-                    return ref.getDownloadUrl();
-                }
-            }).addOnCompleteListener(new OnCompleteListener<Uri>() {
-                @Override
-                public void onComplete(@NonNull Task<Uri> task) {
-                    if (task.isSuccessful()) {
-                        Uri downloadUri = task.getResult();
-                        c[0]++;
-                        if(finalI ==count-1)
-                        {
-                            databaseAd.child(ad_id).setValue(electronicsAd);
-                            Toast.makeText(electronics.this,"Ad Posted Successfully",Toast.LENGTH_SHORT).show();
-                            Intent intent=new Intent(getApplicationContext(),MainActivity.class);
-                            startActivity(intent);
-                        }
-
-                    } else {
-                        //Toast.makeText(electronics.this,"Failed",Toast.LENGTH_SHORT).show();
-                        flag[0] =1;
+                public void onSuccess(UploadTask.TaskSnapshot taskSnapshot) {
+                    c[0]++;
+                    if(finalI ==count-1)
+                    {
+                        progressDialog.dismiss();
+                        databaseAd.child(ad_id).setValue(electronicsAd);
+                        Toast.makeText(electronics.this,"Ad Posted Successfully",Toast.LENGTH_SHORT).show();
+                        Intent intent=new Intent(getApplicationContext(),MainActivity.class);
+                        startActivity(intent);
+                        finish();
                     }
                 }
             }).addOnFailureListener(new OnFailureListener() {
                 @Override
                 public void onFailure(@NonNull Exception e) {
-                    //Toast.makeText(electronics.this,e.getMessage(),Toast.LENGTH_SHORT).show();
-                    flag[0]=1;
+                    flag[0] =1;
                 }
             });
+
+
         }
 
 
-        if(flag[0]==1)
-        {
-            //progressDialog.dismiss();
+        if(flag[0]==1) {
+
             Toast.makeText(electronics.this,"Retry!",Toast.LENGTH_SHORT).show();
-            Toast.makeText(electronics.this,"Ad Posted Successfully",Toast.LENGTH_SHORT).show();
             Intent intent=new Intent(getApplicationContext(),MainActivity.class);
+            startActivity(intent);
+            finish();
         }
 
 
-        //String url=urlTask.toString();
 
 
     }
@@ -142,25 +133,38 @@ public class electronics extends AppCompatActivity {
                 {
                     for (int i=0; i<count; i++){
 
-                        Uri imageUri = data.getClipData().getItemAt(i).getUri();
-                        if(i==0)
-                        {
-                            Picasso.get().load(imageUri).into(img1);
-                            ImageUri.add(imageUri);
-                            img1.setVisibility(View.VISIBLE);
+
+                        try {
+                            Uri imageUri = data.getClipData().getItemAt(i).getUri();
+                            Bitmap bitmap = MediaStore.Images.Media.getBitmap(this.getContentResolver(), imageUri);
+                            ByteArrayOutputStream stream = new ByteArrayOutputStream();
+                            bitmap.compress(Bitmap.CompressFormat.WEBP, 40, stream);
+                            byte[] byteArray = stream.toByteArray();
+                            if(i==0)
+                            {
+                                Picasso.get().load(imageUri).into(img1);
+                                ImageUri.add(imageUri);
+                                ImageArray.add(byteArray);
+                                img1.setVisibility(View.VISIBLE);
+                            }
+                            else if(i==1)
+                            {
+                                Picasso.get().load(imageUri).into(img2);
+                                ImageUri.add(imageUri);
+                                ImageArray.add(byteArray);
+                                img2.setVisibility(View.VISIBLE);
+                            }
+                            else
+                            {
+                                Picasso.get().load(imageUri).into(img3);
+                                ImageUri.add(imageUri);
+                                ImageArray.add(byteArray);
+                                img3.setVisibility(View.VISIBLE);
+                            }
+                        } catch (IOException e) {
+                            e.printStackTrace();
                         }
-                        else if(i==1)
-                        {
-                            Picasso.get().load(imageUri).into(img2);
-                            ImageUri.add(imageUri);
-                            img2.setVisibility(View.VISIBLE);
-                        }
-                        else
-                        {
-                            Picasso.get().load(imageUri).into(img3);
-                            ImageUri.add(imageUri);
-                            img3.setVisibility(View.VISIBLE);
-                        }
+
                     }
                 }
             }
@@ -181,6 +185,7 @@ public class electronics extends AppCompatActivity {
         img1=findViewById(R.id.img1);
         img2=findViewById(R.id.img2);
         img3=findViewById(R.id.img3);
+        progressDialog=new ProgressDialog(this);
         imageStorageRef= FirebaseStorage.getInstance().getReference("ElectronicImage");
         mAuth=FirebaseAuth.getInstance();
         databaseAd= FirebaseDatabase.getInstance().getReference("ElectronicAd");

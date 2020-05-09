@@ -7,11 +7,8 @@ public class VehicleAd {
     String user_id;
     String model;
     String date_of_purchase;
-
-
-
     String insurance;
-    int milege;
+    String milege;
     String sellingPrice;
     int img_count;
     String description;
@@ -30,7 +27,7 @@ public class VehicleAd {
 
      }
 
-    public VehicleAd(String id, String user_id, String model, String date_of_purchase, String insurance, int milege,String sellingPrice, String description) {
+    public VehicleAd(String id, String user_id, String model, String date_of_purchase, String insurance, String milege,String sellingPrice, String description) {
         this.id = id;
         this.user_id = user_id;
         this.model = model;
@@ -73,7 +70,7 @@ public class VehicleAd {
         return insurance;
     }
 
-    public int getMilege() {
+    public String getMilege() {
         return milege;
     }
 

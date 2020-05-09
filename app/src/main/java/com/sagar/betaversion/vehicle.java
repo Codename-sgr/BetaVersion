@@ -7,8 +7,10 @@ import androidx.appcompat.app.AppCompatActivity;
 import android.app.ProgressDialog;
 import android.content.ContentResolver;
 import android.content.Intent;
+import android.graphics.Bitmap;
 import android.net.Uri;
 import android.os.Bundle;
+import android.provider.MediaStore;
 import android.util.Log;
 import android.view.View;
 import android.webkit.MimeTypeMap;
@@ -31,6 +33,8 @@ import com.google.firebase.storage.StorageReference;
 import com.google.firebase.storage.UploadTask;
 import com.squareup.picasso.Picasso;
 
+import java.io.ByteArrayOutputStream;
+import java.io.IOException;
 import java.net.URI;
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
@@ -42,68 +46,61 @@ public class vehicle extends AppCompatActivity {
     FirebaseAuth mAuth;
     ImageView img1,img2,img3;
     ArrayList<Uri> ImageUri= new ArrayList<>();
-    //boolean image1=false,image2=false,image3=false;
     DatabaseReference databaseAd;
-    //ProgressDialog progressDialog;
+    ProgressDialog progressDialog;
     String user_id, ad_id;
-    Uri uri;
+    ArrayList<byte[]> ImageArray=new ArrayList<>();
     private static final int IMAGE_REQUEST=1;
     StorageReference imageStorageRef;
     public void post(View view)
     {
-       // progressDialog.setMessage("Uploading Ad, Please wait!");
-        //progressDialog.show();
+        progressDialog.setMessage("Uploading Ad, Please wait!");
+        progressDialog.show();
         FirebaseUser user =mAuth.getCurrentUser();
         user_id=user.getUid();
         ad_id=databaseAd.push().getKey();
-        final VehicleAd vehicleAd= new VehicleAd(ad_id,user_id,model.getText().toString(),purchaseDate.getText().toString(),insuranceDate.getText().toString(),Integer.parseInt(milege.getText().toString()),sellinPrice.getText().toString(),description.getText().toString());
+        final VehicleAd vehicleAd= new VehicleAd(ad_id,user_id,model.getText().toString(),purchaseDate.getText().toString(),insuranceDate.getText().toString(),milege.getText().toString(),sellinPrice.getText().toString(),description.getText().toString());
 
-        int count=ImageUri.size();
+        final int count=ImageUri.size();
         vehicleAd.setImg_count(count);
-        databaseAd.child(ad_id).setValue(vehicleAd);
+
         final int[] flag = {0};
         for(int i=0;i<count;i++)
         {
-            final StorageReference ref=imageStorageRef.child(user_id+"/"+ad_id+"/"+ Integer.toString(i) +'.'+getFileExtension(ImageUri.get(i)));
-
-            UploadTask uploadTask = ref.putFile(ImageUri.get(i));
-
-            Task<Uri> urlTask = uploadTask.continueWithTask(new Continuation<UploadTask.TaskSnapshot, Task<Uri>>() {
+            final StorageReference ref=imageStorageRef.child(user_id+"/"+ad_id+"/"+ Integer.toString(i) +".jpg");
+            UploadTask uploadTask = ref.putBytes(ImageArray.get(i));
+            final int finalI = i;
+            uploadTask.addOnSuccessListener(new OnSuccessListener<UploadTask.TaskSnapshot>() {
                 @Override
-                public Task<Uri> then(@NonNull Task<UploadTask.TaskSnapshot> task) throws Exception {
-                    if (!task.isSuccessful()) {
-                        throw task.getException();
-                    }
+                public void onSuccess(UploadTask.TaskSnapshot taskSnapshot) {
 
-
-                    // Continue with the task to get the download URL
-                    return ref.getDownloadUrl();
-                }
-            }).addOnCompleteListener(new OnCompleteListener<Uri>() {
-                @Override
-                public void onComplete(@NonNull Task<Uri> task) {
-                    if (task.isSuccessful()) {
-                        Uri downloadUri = task.getResult();
-
-                    } else {
-                        Toast.makeText(vehicle.this,"Failed",Toast.LENGTH_SHORT).show();
-                        flag[0] =1;
+                    if(finalI ==count-1)
+                    {
+                        progressDialog.dismiss();
+                        databaseAd.child(ad_id).setValue(vehicleAd);
+                        Toast.makeText(vehicle.this,"Ad Posted Successfully",Toast.LENGTH_SHORT).show();
+                        Intent intent=new Intent(getApplicationContext(),MainActivity.class);
+                        startActivity(intent);
+                        finish();
                     }
                 }
             }).addOnFailureListener(new OnFailureListener() {
                 @Override
                 public void onFailure(@NonNull Exception e) {
-                    Toast.makeText(vehicle.this,e.getMessage(),Toast.LENGTH_SHORT).show();
-                    flag[0]=1;
+                    flag[0] =1;
                 }
             });
+
+
         }
-        if(flag[0]==0)
-        {
-            Toast.makeText(vehicle.this,"Ad Posted Successfully",Toast.LENGTH_SHORT).show();
+        if(flag[0]==1) {
+
+            Toast.makeText(vehicle.this,"Retry!",Toast.LENGTH_SHORT).show();
+            Intent intent=new Intent(getApplicationContext(),MainActivity.class);
+            startActivity(intent);
+            finish();
         }
-        Intent intent=new Intent(getApplicationContext(),MainActivity.class);
-        startActivity(intent);
+
         //String url=urlTask.toString();
 
 
@@ -136,35 +133,41 @@ public class vehicle extends AppCompatActivity {
                else
                {
                    for (int i=0; i<count; i++){
+                       try {
+                           Uri imageUri = data.getClipData().getItemAt(i).getUri();
+                           Bitmap bitmap = MediaStore.Images.Media.getBitmap(this.getContentResolver(), imageUri);
+                           ByteArrayOutputStream stream = new ByteArrayOutputStream();
+                           bitmap.compress(Bitmap.CompressFormat.WEBP, 40, stream);
+                           byte[] byteArray = stream.toByteArray();
+                           if(i==0)
+                           {
+                               Picasso.get().load(imageUri).into(img1);
+                               ImageUri.add(imageUri);
+                               ImageArray.add(byteArray);
+                               img1.setVisibility(View.VISIBLE);
+                           }
+                           else if(i==1)
+                           {
+                               Picasso.get().load(imageUri).into(img2);
+                               ImageUri.add(imageUri);
+                               ImageArray.add(byteArray);
+                               img2.setVisibility(View.VISIBLE);
+                           }
+                           else
+                           {
+                               Picasso.get().load(imageUri).into(img3);
+                               ImageUri.add(imageUri);
+                               ImageArray.add(byteArray);
+                               img3.setVisibility(View.VISIBLE);
+                           }
+                       } catch (IOException e) {
+                           e.printStackTrace();
+                       }
 
-                       Uri imageUri = data.getClipData().getItemAt(i).getUri();
-                       if(i==0)
-                       {
-                           Picasso.get().load(imageUri).into(img1);
-                           ImageUri.add(imageUri);
-                           img1.setVisibility(View.VISIBLE);
-                       }
-                       else if(i==1)
-                       {
-                           Picasso.get().load(imageUri).into(img2);
-                           ImageUri.add(imageUri);
-                           img2.setVisibility(View.VISIBLE);
-                       }
-                       else
-                       {
-                           Picasso.get().load(imageUri).into(img3);
-                           ImageUri.add(imageUri);
-                           img3.setVisibility(View.VISIBLE);
-                       }
                    }
                }
            }
-           /*if(data!=null && data.getData()!=null)
-           {
-               uri=data.getData();
-               Picasso.get().load(uri).into(img1);
-               img1.setVisibility(View.VISIBLE);
-           }*/
+
        }
 
    }
@@ -176,6 +179,7 @@ public class vehicle extends AppCompatActivity {
         setContentView(R.layout.activity_vehicle);
 
         model=findViewById(R.id.model);
+        progressDialog=new ProgressDialog(this);
         purchaseDate=findViewById(R.id.purchaseDate);
         insuranceDate=findViewById(R.id.insuranceDate);
         milege=findViewById(R.id.milege);
@@ -190,10 +194,5 @@ public class vehicle extends AppCompatActivity {
 
 
     }
-    public String getFileExtension(Uri uri)
-    {
-        ContentResolver CR=getContentResolver();
-        MimeTypeMap mime=MimeTypeMap.getSingleton();
-        return mime.getExtensionFromMimeType(CR.getType(uri));
-    }
+
 }

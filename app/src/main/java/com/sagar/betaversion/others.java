@@ -7,8 +7,10 @@ import androidx.appcompat.app.AppCompatActivity;
 import android.app.ProgressDialog;
 import android.content.ContentResolver;
 import android.content.Intent;
+import android.graphics.Bitmap;
 import android.net.Uri;
 import android.os.Bundle;
+import android.provider.MediaStore;
 import android.view.View;
 import android.webkit.MimeTypeMap;
 import android.widget.EditText;
@@ -18,6 +20,7 @@ import android.widget.Toast;
 import com.google.android.gms.tasks.Continuation;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.OnFailureListener;
+import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
@@ -28,6 +31,8 @@ import com.google.firebase.storage.StorageReference;
 import com.google.firebase.storage.UploadTask;
 import com.squareup.picasso.Picasso;
 
+import java.io.ByteArrayOutputStream;
+import java.io.IOException;
 import java.util.ArrayList;
 
 public class others extends AppCompatActivity {
@@ -35,144 +40,151 @@ public class others extends AppCompatActivity {
     EditText model,purchaseDate,sellinPrice,description;
     FirebaseAuth mAuth;
     ImageView img1,img2,img3;
+    ProgressDialog progressDialog;
     ArrayList<Uri> ImageUri= new ArrayList<>();
     DatabaseReference databaseAd;
     String user_id, ad_id;
-    Uri uri;
+    ArrayList<byte[]> ImageArray=new ArrayList<>();
     private static final int IMAGE_REQUEST=1;
     StorageReference imageStorageRef;
     public void post(View view)
     {
-        // progressDialog.setMessage("Uploading Ad, Please wait!");
-        //progressDialog.show();
+        progressDialog.setMessage("Uploading Ad, Please wait!");
+        progressDialog.show();
         FirebaseUser user =mAuth.getCurrentUser();
         user_id=user.getUid();
         ad_id=databaseAd.push().getKey();
         final int[] flag = {0};
         if(type.matches("Books"))
         {
-            final BooksAd booksAd= new BooksAd(ad_id,user_id,model.getText().toString(),purchaseDate.getText().toString(),description.getText().toString(),sellinPrice.getText().toString());
-            int count=ImageUri.size();
+            final BooksAd booksAd= new BooksAd(ad_id,user_id,model.getText().toString(),description.getText().toString(),sellinPrice.getText().toString());
+            final int count=ImageUri.size();
             booksAd.setImg_count(count);
-            booksAd.setFileExtension(getFileExtension(ImageUri.get(0)));
-            databaseAd.child(ad_id).setValue(booksAd);
+
             for(int i=0;i<count;i++) {
-                final StorageReference ref = imageStorageRef.child(user_id + "/" + ad_id + "/" + Integer.toString(i) + '.' + getFileExtension(ImageUri.get(i)));
-
-                UploadTask uploadTask = ref.putFile(ImageUri.get(i));
-
-                Task<Uri> urlTask = uploadTask.continueWithTask(new Continuation<UploadTask.TaskSnapshot, Task<Uri>>() {
+                final StorageReference ref = imageStorageRef.child(user_id + "/" + ad_id + "/" + Integer.toString(i) + ".jpg");
+                UploadTask uploadTask = ref.putBytes(ImageArray.get(i));
+                final int finalI = i;
+                uploadTask.addOnSuccessListener(new OnSuccessListener<UploadTask.TaskSnapshot>() {
                     @Override
-                    public Task<Uri> then(@NonNull Task<UploadTask.TaskSnapshot> task) throws Exception {
-                        if (!task.isSuccessful()) {
-                            throw task.getException();
-                        }
+                    public void onSuccess(UploadTask.TaskSnapshot taskSnapshot) {
 
-                        // Continue with the task to get the download URL
-                        return ref.getDownloadUrl();
-                    }
-                }).addOnCompleteListener(new OnCompleteListener<Uri>() {
-                    @Override
-                    public void onComplete(@NonNull Task<Uri> task) {
-                        if (task.isSuccessful()) {
-                            Uri downloadUri = task.getResult();
-                        } else {
-                            Toast.makeText(others.this, "Failed", Toast.LENGTH_SHORT).show();
-                            flag[0] = 1;
+                        if(finalI ==count-1)
+                        {
+                            progressDialog.dismiss();
+                            databaseAd.child(ad_id).setValue(booksAd);
+                            Toast.makeText(others.this,"Ad Posted Successfully",Toast.LENGTH_SHORT).show();
+                            Intent intent=new Intent(getApplicationContext(),MainActivity.class);
+                            startActivity(intent);
+                            finish();
                         }
                     }
                 }).addOnFailureListener(new OnFailureListener() {
                     @Override
                     public void onFailure(@NonNull Exception e) {
-                        Toast.makeText(others.this, e.getMessage(), Toast.LENGTH_SHORT).show();
-                        flag[0] = 1;
+                        flag[0] =1;
                     }
                 });
             }
+
+
+            if(flag[0]==1) {
+
+                Toast.makeText(others.this,"Retry!",Toast.LENGTH_SHORT).show();
+                Intent intent=new Intent(getApplicationContext(),MainActivity.class);
+                startActivity(intent);
+                finish();
+            }
+
         }
         else if(type.matches("Furniture"))
         {
-            final FurnitureAd furnitureAd= new FurnitureAd(ad_id,user_id,model.getText().toString(),purchaseDate.getText().toString(),description.getText().toString(),sellinPrice.getText().toString());
-            int count=ImageUri.size();
+            final FurnitureAd furnitureAd= new FurnitureAd(ad_id,user_id,model.getText().toString(),description.getText().toString(),sellinPrice.getText().toString());
+            final int count=ImageUri.size();
             furnitureAd.setImg_count(count);
-            furnitureAd.setFileExtension(getFileExtension(ImageUri.get(0)));
             databaseAd.child(ad_id).setValue(furnitureAd);
             for(int i=0;i<count;i++)
             {
-                final StorageReference ref=imageStorageRef.child(user_id+"/"+ad_id+"/"+ Integer.toString(i) +'.'+getFileExtension(ImageUri.get(i)));
+                final StorageReference ref=imageStorageRef.child(user_id+"/"+ad_id+"/"+ Integer.toString(i) +".jpg");
 
-                UploadTask uploadTask = ref.putFile(ImageUri.get(i));
-
-                Task<Uri> urlTask = uploadTask.continueWithTask(new Continuation<UploadTask.TaskSnapshot, Task<Uri>>() {
+                UploadTask uploadTask = ref.putBytes(ImageArray.get(i));
+                final int finalI = i;
+                uploadTask.addOnSuccessListener(new OnSuccessListener<UploadTask.TaskSnapshot>() {
                     @Override
-                    public Task<Uri> then(@NonNull Task<UploadTask.TaskSnapshot> task) throws Exception {
-                        if (!task.isSuccessful()) {
-                            throw task.getException();
-                        }
+                    public void onSuccess(UploadTask.TaskSnapshot taskSnapshot) {
 
-                        // Continue with the task to get the download URL
-                        return ref.getDownloadUrl();
-                    }
-                }).addOnCompleteListener(new OnCompleteListener<Uri>() {
-                    @Override
-                    public void onComplete(@NonNull Task<Uri> task) {
-                        if (task.isSuccessful()) {
-                            Uri downloadUri = task.getResult();
-                        } else {
-                            Toast.makeText(others.this,"Failed",Toast.LENGTH_SHORT).show();
-                            flag[0] =1;
+                        if(finalI ==count-1)
+                        {
+                            progressDialog.dismiss();
+                            databaseAd.child(ad_id).setValue(furnitureAd);
+                            Toast.makeText(others.this,"Ad Posted Successfully",Toast.LENGTH_SHORT).show();
+                            Intent intent=new Intent(getApplicationContext(),MainActivity.class);
+                            startActivity(intent);
+                            finish();
                         }
                     }
                 }).addOnFailureListener(new OnFailureListener() {
                     @Override
                     public void onFailure(@NonNull Exception e) {
-                        Toast.makeText(others.this,e.getMessage(),Toast.LENGTH_SHORT).show();
-                        flag[0]=1;
+                        flag[0] =1;
                     }
                 });
+
+
+            }
+
+            if(flag[0]==1) {
+
+                Toast.makeText(this,"Retry!",Toast.LENGTH_SHORT).show();
+                Intent intent=new Intent(getApplicationContext(),MainActivity.class);
+                startActivity(intent);
+                finish();
             }
 
         }
         else if(type.matches("Sports"))
         {
-            final SportsAd sportsAd= new SportsAd(ad_id,user_id,model.getText().toString(),purchaseDate.getText().toString(),description.getText().toString(),sellinPrice.getText().toString());
-            int count=ImageUri.size();
+            final SportsAd sportsAd= new SportsAd(ad_id,user_id,model.getText().toString(),description.getText().toString(),sellinPrice.getText().toString());
+            final int count=ImageUri.size();
             sportsAd.setImg_count(count);
-            sportsAd.setFileExtension(getFileExtension(ImageUri.get(0)));
-            databaseAd.child(ad_id).setValue(sportsAd);
+
             for(int i=0;i<count;i++)
             {
-                final StorageReference ref=imageStorageRef.child(user_id+"/"+ad_id+"/"+ Integer.toString(i) +'.'+getFileExtension(ImageUri.get(i)));
+                final StorageReference ref=imageStorageRef.child(user_id+"/"+ad_id+"/"+ Integer.toString(i) +".jpg");
 
-                UploadTask uploadTask = ref.putFile(ImageUri.get(i));
-
-                Task<Uri> urlTask = uploadTask.continueWithTask(new Continuation<UploadTask.TaskSnapshot, Task<Uri>>() {
+                UploadTask uploadTask = ref.putBytes(ImageArray.get(i));
+                final int finalI = i;
+                uploadTask.addOnSuccessListener(new OnSuccessListener<UploadTask.TaskSnapshot>() {
                     @Override
-                    public Task<Uri> then(@NonNull Task<UploadTask.TaskSnapshot> task) throws Exception {
-                        if (!task.isSuccessful()) {
-                            throw task.getException();
-                        }
+                    public void onSuccess(UploadTask.TaskSnapshot taskSnapshot) {
 
-                        // Continue with the task to get the download URL
-                        return ref.getDownloadUrl();
-                    }
-                }).addOnCompleteListener(new OnCompleteListener<Uri>() {
-                    @Override
-                    public void onComplete(@NonNull Task<Uri> task) {
-                        if (task.isSuccessful()) {
-                            Uri downloadUri = task.getResult();
-                        } else {
-                            Toast.makeText(others.this,"Failed",Toast.LENGTH_SHORT).show();
-                            flag[0] =1;
+                        if(finalI ==count-1)
+                        {
+                            progressDialog.dismiss();
+                            databaseAd.child(ad_id).setValue(sportsAd);
+                            Toast.makeText(others.this,"Ad Posted Successfully",Toast.LENGTH_SHORT).show();
+                            Intent intent=new Intent(getApplicationContext(),MainActivity.class);
+                            startActivity(intent);
+                            finish();
                         }
                     }
                 }).addOnFailureListener(new OnFailureListener() {
                     @Override
                     public void onFailure(@NonNull Exception e) {
-                        Toast.makeText(others.this,e.getMessage(),Toast.LENGTH_SHORT).show();
-                        flag[0]=1;
+                        flag[0] =1;
                     }
                 });
+
+
+            }
+
+
+            if(flag[0]==1) {
+
+                Toast.makeText(this,"Retry!",Toast.LENGTH_SHORT).show();
+                Intent intent=new Intent(getApplicationContext(),MainActivity.class);
+                startActivity(intent);
+                finish();
             }
 
         }
@@ -214,26 +226,37 @@ public class others extends AppCompatActivity {
                 else
                 {
                     for (int i=0; i<count; i++){
+                        try {
+                            Uri imageUri = data.getClipData().getItemAt(i).getUri();
+                            Bitmap bitmap = MediaStore.Images.Media.getBitmap(this.getContentResolver(), imageUri);
+                            ByteArrayOutputStream stream = new ByteArrayOutputStream();
+                            bitmap.compress(Bitmap.CompressFormat.WEBP, 40, stream);
+                            byte[] byteArray = stream.toByteArray();
+                            if(i==0)
+                            {
+                                Picasso.get().load(imageUri).into(img1);
+                                ImageUri.add(imageUri);
+                                ImageArray.add(byteArray);
+                                img1.setVisibility(View.VISIBLE);
+                            }
+                            else if(i==1)
+                            {
+                                Picasso.get().load(imageUri).into(img2);
+                                ImageUri.add(imageUri);
+                                ImageArray.add(byteArray);
+                                img2.setVisibility(View.VISIBLE);
+                            }
+                            else
+                            {
+                                Picasso.get().load(imageUri).into(img3);
+                                ImageUri.add(imageUri);
+                                ImageArray.add(byteArray);
+                                img3.setVisibility(View.VISIBLE);
+                            }
+                        } catch (IOException e) {
+                            e.printStackTrace();
+                        }
 
-                        Uri imageUri = data.getClipData().getItemAt(i).getUri();
-                        if(i==0)
-                        {
-                            Picasso.get().load(imageUri).into(img1);
-                            ImageUri.add(imageUri);
-                            img1.setVisibility(View.VISIBLE);
-                        }
-                        else if(i==1)
-                        {
-                            Picasso.get().load(imageUri).into(img2);
-                            ImageUri.add(imageUri);
-                            img2.setVisibility(View.VISIBLE);
-                        }
-                        else
-                        {
-                            Picasso.get().load(imageUri).into(img3);
-                            ImageUri.add(imageUri);
-                            img3.setVisibility(View.VISIBLE);
-                        }
                     }
                 }
             }
@@ -248,7 +271,7 @@ public class others extends AppCompatActivity {
         Intent intent=getIntent();
         type=intent.getStringExtra("type");
         model=findViewById(R.id.model);
-        purchaseDate=findViewById(R.id.purchaseDate);
+        progressDialog= new ProgressDialog(this);
         sellinPrice=findViewById(R.id.sellingPrice);
         description=findViewById(R.id.description);
         img1=findViewById(R.id.img1);
@@ -258,10 +281,5 @@ public class others extends AppCompatActivity {
         mAuth=FirebaseAuth.getInstance();
         databaseAd= FirebaseDatabase.getInstance().getReference(type+"Ad");
     }
-    public String getFileExtension(Uri uri)
-    {
-        ContentResolver CR=getContentResolver();
-        MimeTypeMap mime=MimeTypeMap.getSingleton();
-        return mime.getExtensionFromMimeType(CR.getType(uri));
-    }
+
 }
