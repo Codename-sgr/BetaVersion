@@ -1,7 +1,6 @@
-package com.sagar.betaversion;
+package com.sagar.betaversion.AdCategory;
 
-public class SportsAd
-{
+public class BooksAd {
     String id;
     String user_id;
     String item;
@@ -9,17 +8,18 @@ public class SportsAd
     String sellingPrice;
     int img_count;
     boolean status;//true for unsold, false for sold
-    public SportsAd()
+    public BooksAd()
     {
 
     }
-
-    public SportsAd(String id, String user_id, String item, String description, String sellingPrice) {
+    public BooksAd(String id, String user_id, String item, String description, String sellingPrice) {
         this.id = id;
         this.user_id = user_id;
         this.item = item;
         this.description = description;
         this.sellingPrice = sellingPrice;
+        this.status=true;
+
     }
 
     public String getId() {
@@ -70,7 +70,6 @@ public class SportsAd
     public void setImg_count(int img_count) {
         this.img_count = img_count;
     }
-
 
     public boolean isStatus() {
         return status;

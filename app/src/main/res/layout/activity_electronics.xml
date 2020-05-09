@@ -4,7 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".electronics">
+    tools:context=".AdCategory.electronics">
 
         <LinearLayout
             android:id="@+id/linearLayout2"
@@ -35,7 +35,7 @@
                 android:hint="Date of Purchase" />
 
             <EditText
-                android:id="@+id/insuranceDate"
+                android:id="@+id/kmsDriven"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"

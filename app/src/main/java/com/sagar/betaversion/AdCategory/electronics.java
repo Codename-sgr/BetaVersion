@@ -1,4 +1,4 @@
-package com.sagar.betaversion;
+package com.sagar.betaversion.AdCategory;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
@@ -17,11 +17,8 @@ import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.Toast;
 
-import com.google.android.gms.tasks.Continuation;
-import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
-import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.database.DatabaseReference;
@@ -29,6 +26,8 @@ import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.storage.FirebaseStorage;
 import com.google.firebase.storage.StorageReference;
 import com.google.firebase.storage.UploadTask;
+import com.sagar.betaversion.MainActivity;
+import com.sagar.betaversion.R;
 import com.squareup.picasso.Picasso;
 
 import java.io.ByteArrayOutputStream;
@@ -36,7 +35,7 @@ import java.io.IOException;
 import java.util.ArrayList;
 
 public class electronics extends AppCompatActivity {
-    EditText model,purchaseDate,insuranceDate,sellinPrice,description;
+    EditText model,purchaseDate,insuranceDate,sellingPrice,description;
     FirebaseAuth mAuth;
     ImageView img1,img2,img3;
     ArrayList<Uri> ImageUri= new ArrayList<>();
@@ -54,7 +53,13 @@ public class electronics extends AppCompatActivity {
         FirebaseUser user =mAuth.getCurrentUser();
         user_id=user.getUid();
         ad_id=databaseAd.push().getKey();
-        final ElectronicsAd electronicsAd= new ElectronicsAd(ad_id,user_id,model.getText().toString(),purchaseDate.getText().toString(),insuranceDate.getText().toString(),description.getText().toString(),sellinPrice.getText().toString());
+        final ElectronicsAd electronicsAd= new ElectronicsAd(ad_id
+                                                            ,user_id
+                                                            ,model.getText().toString()
+                                                            ,purchaseDate.getText().toString()
+                                                            ,insuranceDate.getText().toString()
+                                                            ,description.getText().toString()
+                                                            ,sellingPrice.getText().toString());
         final int count=ImageUri.size();
         electronicsAd.setImg_count(count);
         final int[] flag = {0};
@@ -63,7 +68,7 @@ public class electronics extends AppCompatActivity {
 
         for(int i=0;i<count;i++)
         {
-            final StorageReference ref=imageStorageRef.child(user_id+"/"+ad_id+"/"+ Integer.toString(i) +".jpg");
+            final StorageReference ref=imageStorageRef.child(user_id+"/"+ad_id+"/"+ i +".jpg");
 
             UploadTask uploadTask = ref.putBytes(ImageArray.get(i));
             final int finalI = i;
@@ -76,7 +81,7 @@ public class electronics extends AppCompatActivity {
                         progressDialog.dismiss();
                         databaseAd.child(ad_id).setValue(electronicsAd);
                         Toast.makeText(electronics.this,"Ad Posted Successfully",Toast.LENGTH_SHORT).show();
-                        Intent intent=new Intent(getApplicationContext(),MainActivity.class);
+                        Intent intent=new Intent(getApplicationContext(), MainActivity.class);
                         startActivity(intent);
                         finish();
                     }
@@ -138,7 +143,7 @@ public class electronics extends AppCompatActivity {
                             Uri imageUri = data.getClipData().getItemAt(i).getUri();
                             Bitmap bitmap = MediaStore.Images.Media.getBitmap(this.getContentResolver(), imageUri);
                             ByteArrayOutputStream stream = new ByteArrayOutputStream();
-                            bitmap.compress(Bitmap.CompressFormat.WEBP, 40, stream);
+                            bitmap.compress(Bitmap.CompressFormat.JPEG, 40, stream);
                             byte[] byteArray = stream.toByteArray();
                             if(i==0)
                             {
@@ -179,8 +184,8 @@ public class electronics extends AppCompatActivity {
         setContentView(R.layout.activity_electronics);
         model=findViewById(R.id.model);
         purchaseDate=findViewById(R.id.purchaseDate);
-        insuranceDate=findViewById(R.id.insuranceDate);
-        sellinPrice=findViewById(R.id.sellingPrice);
+        insuranceDate=findViewById(R.id.kmsDriven);
+        sellingPrice=findViewById(R.id.sellingPrice);
         description=findViewById(R.id.description);
         img1=findViewById(R.id.img1);
         img2=findViewById(R.id.img2);

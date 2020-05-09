@@ -4,7 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".vehicle">
+    tools:context=".AdCategory.vehicle">
 
 
     <LinearLayout
@@ -36,13 +36,13 @@
             android:hint="Date of Purchase" />
 
         <EditText
-            android:id="@+id/insuranceDate"
+            android:id="@+id/kmsDriven"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_weight="1"
             android:ems="10"
 
-            android:hint="Insurance Date" />
+            android:hint="KMs Driven" />
 
         <EditText
             android:id="@+id/milege"
@@ -83,6 +83,7 @@
         android:layout_height="81dp"
 
         android:layout_marginTop="12dp"
+        android:contentDescription="Prod Image 1"
         android:visibility="invisible"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.504"
@@ -96,7 +97,7 @@
         android:layout_height="81dp"
 
         android:layout_marginStart="30dp"
-        android:contentDescription="TODO"
+        android:contentDescription="Prod Image 2"
         android:visibility="invisible"
         app:layout_constraintBottom_toBottomOf="@+id/img2"
         app:layout_constraintEnd_toStartOf="@+id/img2"
@@ -108,7 +109,7 @@
         android:id="@+id/img3"
         android:layout_width="86dp"
         android:layout_height="81dp"
-
+        android:contentDescription="Prod Image 3"
         android:layout_marginEnd="34dp"
         android:visibility="invisible"
         app:layout_constraintBottom_toBottomOf="@+id/img2"
@@ -145,7 +146,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginBottom="16dp"
-        android:text="(2-3 Images)"
+        android:text="*(2-3 Images)"
         app:layout_constraintBottom_toBottomOf="@+id/UploadImageButton"
         app:layout_constraintStart_toEndOf="@+id/UploadImageButton" />
 

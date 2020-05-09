@@ -5,6 +5,7 @@ import androidx.appcompat.app.AppCompatActivity;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 import android.widget.ImageButton;
 
@@ -23,6 +24,8 @@ public class MainActivity extends AppCompatActivity {
         setContentView(R.layout.activity_main);
 
         firebaseAuth=FirebaseAuth.getInstance();
+
+        getSupportActionBar().setTitle("Welcome User");
 
         myAccount=findViewById(R.id.myAccountButton);
         newAd= findViewById(R.id.newAdButton);
@@ -80,11 +83,6 @@ public class MainActivity extends AppCompatActivity {
                 startActivity(new Intent(getApplicationContext(),newAdActivity.class));
             }
         });
-
-
-
-
-
 
 
     }

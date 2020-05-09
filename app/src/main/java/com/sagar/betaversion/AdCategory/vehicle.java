@@ -1,4 +1,4 @@
-package com.sagar.betaversion;
+package com.sagar.betaversion.AdCategory;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
@@ -31,6 +31,8 @@ import com.google.firebase.storage.FirebaseStorage;
 import com.google.firebase.storage.OnProgressListener;
 import com.google.firebase.storage.StorageReference;
 import com.google.firebase.storage.UploadTask;
+import com.sagar.betaversion.MainActivity;
+import com.sagar.betaversion.R;
 import com.squareup.picasso.Picasso;
 
 import java.io.ByteArrayOutputStream;
@@ -42,7 +44,7 @@ import java.util.ArrayList;
 import java.util.Date;
 
 public class vehicle extends AppCompatActivity {
-    EditText  model,purchaseDate,insuranceDate,milege,sellinPrice,description;
+    EditText  model,purchaseDate,kmsDriven,milege,sellinPrice,description;
     FirebaseAuth mAuth;
     ImageView img1,img2,img3;
     ArrayList<Uri> ImageUri= new ArrayList<>();
@@ -52,6 +54,9 @@ public class vehicle extends AppCompatActivity {
     ArrayList<byte[]> ImageArray=new ArrayList<>();
     private static final int IMAGE_REQUEST=1;
     StorageReference imageStorageRef;
+
+
+
     public void post(View view)
     {
         progressDialog.setMessage("Uploading Ad, Please wait!");
@@ -59,7 +64,7 @@ public class vehicle extends AppCompatActivity {
         FirebaseUser user =mAuth.getCurrentUser();
         user_id=user.getUid();
         ad_id=databaseAd.push().getKey();
-        final VehicleAd vehicleAd= new VehicleAd(ad_id,user_id,model.getText().toString(),purchaseDate.getText().toString(),insuranceDate.getText().toString(),milege.getText().toString(),sellinPrice.getText().toString(),description.getText().toString());
+        final VehicleAd vehicleAd= new VehicleAd(ad_id,user_id,model.getText().toString(),purchaseDate.getText().toString(),kmsDriven.getText().toString(),milege.getText().toString(),sellinPrice.getText().toString(),description.getText().toString());
 
         final int count=ImageUri.size();
         vehicleAd.setImg_count(count);
@@ -79,7 +84,7 @@ public class vehicle extends AppCompatActivity {
                         progressDialog.dismiss();
                         databaseAd.child(ad_id).setValue(vehicleAd);
                         Toast.makeText(vehicle.this,"Ad Posted Successfully",Toast.LENGTH_SHORT).show();
-                        Intent intent=new Intent(getApplicationContext(),MainActivity.class);
+                        Intent intent=new Intent(getApplicationContext(), MainActivity.class);
                         startActivity(intent);
                         finish();
                     }
@@ -181,7 +186,7 @@ public class vehicle extends AppCompatActivity {
         model=findViewById(R.id.model);
         progressDialog=new ProgressDialog(this);
         purchaseDate=findViewById(R.id.purchaseDate);
-        insuranceDate=findViewById(R.id.insuranceDate);
+        kmsDriven=findViewById(R.id.kmsDriven);
         milege=findViewById(R.id.milege);
         sellinPrice=findViewById(R.id.sellingPrice);
         description=findViewById(R.id.description);

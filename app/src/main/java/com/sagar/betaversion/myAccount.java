@@ -1,16 +1,20 @@
 package com.sagar.betaversion;
 
+import androidx.appcompat.app.ActionBar;
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
+import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
 
 import com.google.firebase.auth.FirebaseAuth;
+
+import java.util.Objects;
 
 public class myAccount extends AppCompatActivity {
     FirebaseAuth firebaseAuth;
@@ -33,6 +37,11 @@ public class myAccount extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_my_account);
 
+        if (getSupportActionBar()!=null){
+            getSupportActionBar().setTitle("My Account");
+            getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+        }
+
         firebaseAuth=FirebaseAuth.getInstance();
 
         userName=findViewById(R.id.accUserName);
@@ -42,4 +51,13 @@ public class myAccount extends AppCompatActivity {
 
     }
 
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        if (item.getItemId() == android.R.id.home) {
+            onBackPressed();
+            return true;
+        }
+        return super.onOptionsItemSelected(item);}
 }
+
+

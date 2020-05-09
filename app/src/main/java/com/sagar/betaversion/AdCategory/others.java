@@ -1,4 +1,4 @@
-package com.sagar.betaversion;
+package com.sagar.betaversion.AdCategory;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
@@ -29,11 +29,14 @@ import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.storage.FirebaseStorage;
 import com.google.firebase.storage.StorageReference;
 import com.google.firebase.storage.UploadTask;
+import com.sagar.betaversion.MainActivity;
 import com.squareup.picasso.Picasso;
 
 import java.io.ByteArrayOutputStream;
 import java.io.IOException;
 import java.util.ArrayList;
+
+import com.sagar.betaversion.R;
 
 public class others extends AppCompatActivity {
     String type;
@@ -195,7 +198,7 @@ public class others extends AppCompatActivity {
         {
             Toast.makeText(others.this,"Ad Posted Successfully",Toast.LENGTH_SHORT).show();
         }
-        Intent intent=new Intent(getApplicationContext(),MainActivity.class);
+        Intent intent=new Intent(getApplicationContext(), MainActivity.class);
         startActivity(intent);
     }
     public void ChooseImage(View view)

@@ -1,4 +1,4 @@
-package com.sagar.betaversion;
+package com.sagar.betaversion.AdCategory;
 
 import java.util.Date;
 
@@ -7,7 +7,7 @@ public class VehicleAd {
     String user_id;
     String model;
     String date_of_purchase;
-    String insurance;
+    String kmsDriven;
     String milege;
     String sellingPrice;
     int img_count;
@@ -27,12 +27,12 @@ public class VehicleAd {
 
      }
 
-    public VehicleAd(String id, String user_id, String model, String date_of_purchase, String insurance, String milege,String sellingPrice, String description) {
+    public VehicleAd(String id, String user_id, String model, String date_of_purchase, String kmsDriven, String milege,String sellingPrice, String description) {
         this.id = id;
         this.user_id = user_id;
         this.model = model;
         this.date_of_purchase = date_of_purchase;
-        this.insurance = insurance;
+        this.kmsDriven = kmsDriven;
         this.milege = milege;
         this.sellingPrice=sellingPrice;
         this.description = description;
@@ -66,8 +66,8 @@ public class VehicleAd {
         return date_of_purchase;
     }
 
-    public String getInsurance() {
-        return insurance;
+    public String getkmsDriven() {
+        return kmsDriven;
     }
 
     public String getMilege() {

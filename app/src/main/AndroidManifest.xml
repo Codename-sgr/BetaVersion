@@ -10,11 +10,13 @@
         android:label="@string/app_name"
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
-        android:theme="@style/Theme.MaterialComponents.DayNight.NoActionBar">
-        <activity android:name=".ListAd"></activity>
-        <activity android:name=".others" />
-        <activity android:name=".electronics" />
-        <activity android:name=".vehicle" />
+        android:theme="@style/Theme.MaterialComponents.DayNight.DarkActionBar">
+        <activity android:name=".FinalProductView"></activity>
+        <activity android:name=".ListAd" />
+        <activity android:name=".BetaVersion"/>
+        <activity android:name=".AdCategory.others" />
+        <activity android:name=".AdCategory.electronics" />
+        <activity android:name=".AdCategory.vehicle" />
         <activity android:name=".newAdActivity" />
         <activity android:name=".LoginActivity">
             <intent-filter>

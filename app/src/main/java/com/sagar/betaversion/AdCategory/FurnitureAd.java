@@ -1,25 +1,26 @@
-package com.sagar.betaversion;
+package com.sagar.betaversion.AdCategory;
 
-public class BooksAd {
+public class FurnitureAd
+{
     String id;
     String user_id;
     String item;
     String description;
     String sellingPrice;
     int img_count;
-    boolean status;//true for unsold, false for sold
-    public BooksAd()
+    boolean status;
+    public FurnitureAd()
     {
 
     }
-    public BooksAd(String id, String user_id, String item, String description, String sellingPrice) {
+
+    public FurnitureAd(String id, String user_id, String item, String description, String sellingPrice) {
         this.id = id;
         this.user_id = user_id;
         this.item = item;
         this.description = description;
         this.sellingPrice = sellingPrice;
         this.status=true;
-
     }
 
     public String getId() {
@@ -79,3 +80,4 @@ public class BooksAd {
         this.status = status;
     }
 }
+

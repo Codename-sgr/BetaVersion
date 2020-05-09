@@ -182,6 +182,9 @@ public class LoginActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_login);
 
+        if (getSupportActionBar()!=null)
+        getSupportActionBar().hide();
+
         databaseUsers= FirebaseDatabase.getInstance().getReference("Users");//shivam
         // Configure Google Sign In
         GoogleSignInOptions gso = new GoogleSignInOptions.Builder(GoogleSignInOptions.DEFAULT_SIGN_IN)
@@ -273,6 +276,7 @@ public class LoginActivity extends AppCompatActivity {
                         progressDialog.dismiss();
                         if (task.isSuccessful()) {
                             // Sign in success, update UI with the signed-in user's information
+
                             isValid=true;
                             FirebaseUser user = mAuth.getCurrentUser();//shivam
                             Toast.makeText(LoginActivity.this, ""+user.getDisplayName()+"\n"+user.getEmail() , Toast.LENGTH_SHORT).show();
@@ -280,8 +284,9 @@ public class LoginActivity extends AppCompatActivity {
                             User user1=new User(user.getUid(),user.getDisplayName(),user.getEmail()); //shivam
                             databaseUsers.child(user.getUid()).setValue(user1); //shivam
 
-                            startActivity(new Intent(getApplicationContext(),MainActivity.class));
-                            finish();
+                            Intent i=new Intent(getApplicationContext(),MainActivity.class);
+                            startActivity(i);
+
                             //updateUI(user);
                         } else {
                             // If sign in fails, display a message to the user.
