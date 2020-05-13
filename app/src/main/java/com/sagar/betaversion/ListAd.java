@@ -208,13 +208,11 @@ public class ListAd extends AppCompatActivity {
                         @Override
                         public void onSuccess(Uri uri) {
                             Picasso.get().load(uri).into(myAdapter.adProductImage);
-                            // Got the download URL for 'users/me/profile.png'
                             intent.setData(uri);
                         }
                     }).addOnFailureListener(new OnFailureListener() {
                         @Override
                         public void onFailure(@NonNull Exception exception) {
-                            // Handle any errors
                             myAdapter.adProductImage.setImageResource(R.drawable.androidlogo);
                         }
                     });

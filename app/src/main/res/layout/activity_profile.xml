@@ -4,56 +4,20 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".myAccount">
-
-    <ImageView
-        android:id="@+id/imageView"
-        android:layout_width="162dp"
-        android:layout_height="169dp"
-        android:layout_marginTop="20dp"
-        android:background="#FFFFFF"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        tools:srcCompat="@tools:sample/avatars" />
-
-    <LinearLayout
-        android:id="@+id/linearLayout"
-        android:layout_width="fill_parent"
-        android:layout_height="48dp"
-        android:layout_marginTop="20dp"
-        android:orientation="horizontal"
-        android:paddingStart="20dp"
-        android:paddingEnd="20dp"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/imageView">
-
-        <Button
-            android:id="@+id/wishlist"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_weight="1"
-            android:text="Wishlist" />
-
-        <Button
-            android:id="@+id/logOutUser"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_weight="1"
-            android:onClick="logoutUser"
-            android:text="Logout" />
-
-        <Button
-            android:id="@+id/Update"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_weight="1"
-            android:text="Update "
-            android:onClick="UpdateProfile"/>
-    </LinearLayout>
+    tools:context=".profile">
+        <ImageView
+            android:id="@+id/imageView"
+            android:layout_width="162dp"
+            android:layout_height="169dp"
+            android:layout_marginTop="40dp"
+            android:background="#FFFFFF"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            tools:srcCompat="@tools:sample/avatars" />
 
     <LinearLayout
+        android:id="@+id/linearLayout3"
         android:layout_width="323dp"
         android:layout_height="325dp"
         android:layout_marginStart="1dp"
@@ -62,9 +26,9 @@
         android:orientation="vertical"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/linearLayout">
+        app:layout_constraintTop_toBottomOf="@+id/imageView">
 
-        <TextView
+        <EditText
             android:id="@+id/accUserName"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
@@ -73,7 +37,7 @@
             android:inputType="none"
             android:text="UserName" />
 
-        <TextView
+        <EditText
             android:id="@+id/accMobile"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
@@ -88,10 +52,9 @@
             android:layout_height="wrap_content"
             android:layout_weight="1"
             android:ems="10"
-            android:inputType="none|textEmailAddress"
             android:text="Email" />
 
-        <TextView
+        <EditText
             android:id="@+id/accAddress"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
@@ -101,5 +64,17 @@
             android:text="Address" />
 
     </LinearLayout>
+
+    <Button
+        android:id="@+id/Update"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="163dp"
+        android:layout_marginTop="5dp"
+        android:text="Update"
+        android:onClick="update"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/linearLayout3" />
+
 
 </androidx.constraintlayout.widget.ConstraintLayout>
