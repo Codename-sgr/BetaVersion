@@ -47,6 +47,7 @@ public class myAccount extends AppCompatActivity {
     {
         Intent intent= new Intent(getApplicationContext(),profile.class);
         startActivity(intent);
+        finish();
     }
 
 
@@ -55,6 +56,7 @@ public class myAccount extends AppCompatActivity {
     public void logoutUser(View view){
         firebaseAuth.signOut();
         preferences.edit().clear();
+        preferences.edit().apply();
         Intent intent=new Intent(this, LoginActivity.class);
         intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
         startActivity(intent);
@@ -78,7 +80,6 @@ public class myAccount extends AppCompatActivity {
         mobile=preferences.getString("mobile","Enter your contact number.");
         email=preferences.getString("email","Enter your email");
         address=preferences.getString("address","Enter your address");
-
         userNameView=findViewById(R.id.accUserName);
         mobileNoView=findViewById(R.id.accMobile);
         emailView=findViewById(R.id.accEmail);

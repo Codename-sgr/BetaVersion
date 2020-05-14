@@ -6,6 +6,7 @@ public class User {
     String email;
     String mobile;
     boolean dp;
+    String image;
     String address;
     public User()
     {
@@ -17,6 +18,14 @@ public class User {
         this.user_name = user_name;
         this.email = email;
 
+    }
+
+    public String getImage() {
+        return image;
+    }
+
+    public void setImage(String image) {
+        this.image = image;
     }
 
     public User(String user_id, String user_name, String email, String mobile, String address) {

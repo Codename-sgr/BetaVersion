@@ -29,9 +29,14 @@ public class MainActivity extends AppCompatActivity {
     ProgressDialog progressDialog;
     String username;
     @Override
-    protected void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_main);
+    protected void onResume()
+    {
+        loadUserData();
+
+        super.onResume();
+    }
+    public void loadUserData()
+    {
         progressDialog=new ProgressDialog(this);
         progressDialog.setMessage("Wait!");
 
@@ -55,10 +60,12 @@ public class MainActivity extends AppCompatActivity {
                     String email=String.valueOf(dataSnapshot.child("email").getValue());
                     String mobile=String.valueOf(dataSnapshot.child("mobile").getValue());
                     String address=String.valueOf(dataSnapshot.child("address").getValue());
+                    String image=String.valueOf(dataSnapshot.child("image").getValue());
                     editor.putString("user_name",username);
                     editor.putString("email",email);
                     editor.putString("mobile",mobile);
                     editor.putString("address",address);
+                    editor.putString("image",image);
                     editor.apply();
                     progressDialog.dismiss();
 
@@ -72,8 +79,12 @@ public class MainActivity extends AppCompatActivity {
         }
         else
             getSupportActionBar().setTitle("Welcome "+username);
-
-
+    }
+    @Override
+    protected void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        setContentView(R.layout.activity_main);
+        loadUserData();
         myAccount=findViewById(R.id.myAccountButton);
         newAd= findViewById(R.id.newAdButton);
         vehicleAds=findViewById(R.id.vehicleButton);
