@@ -55,8 +55,10 @@ public class myAccount extends AppCompatActivity {
 
     public void logoutUser(View view){
         firebaseAuth.signOut();
-        preferences.edit().clear();
-        preferences.edit().apply();
+        SharedPreferences pref=getSharedPreferences("UserData",MODE_PRIVATE);
+        SharedPreferences.Editor editor=pref.edit();
+        editor.clear();
+        editor.apply();
         Intent intent=new Intent(this, LoginActivity.class);
         intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
         startActivity(intent);

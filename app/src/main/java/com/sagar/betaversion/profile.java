@@ -68,7 +68,7 @@ public class profile extends AppCompatActivity {
         mp.put("mobile",mobile);
         mp.put("address",address);
         databaseRef.child(Uid).updateChildren(mp);
-        editor.putString("image",base);
+        //editor.putString("image",base);
         editor.putString("user_name",username);
         editor.putString("email",email);
         editor.putString("mobile",mobile);
