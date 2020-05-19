@@ -6,11 +6,12 @@
     android:layout_height="match_parent"
     tools:context=".profile">
         <ImageView
-            android:id="@+id/imageView"
+            android:id="@+id/userImage"
             android:layout_width="162dp"
             android:layout_height="169dp"
-            android:layout_marginTop="40dp"
             android:background="#FFFFFF"
+            android:layout_marginTop="40dp"
+
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent"
@@ -27,16 +28,18 @@
         android:orientation="vertical"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/imageView">
+        app:layout_constraintTop_toBottomOf="@+id/userImage">
 
         <EditText
             android:id="@+id/accUserName"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_weight="1"
+
             android:ems="10"
             android:inputType="none"
-            android:text="UserName" />
+            android:text="UserName"
+             />
 
         <EditText
             android:id="@+id/accMobile"

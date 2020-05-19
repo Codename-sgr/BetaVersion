@@ -4,6 +4,7 @@ import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 
+import android.app.ProgressDialog;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.graphics.Bitmap;
@@ -16,6 +17,7 @@ import android.view.View;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
@@ -27,8 +29,10 @@ import com.google.firebase.storage.StorageReference;
 import com.google.firebase.storage.UploadTask;
 import com.squareup.picasso.Picasso;
 
+import java.io.ByteArrayInputStream;
 import java.io.ByteArrayOutputStream;
 import java.io.IOException;
+import java.io.InputStream;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -41,91 +45,129 @@ public class profile extends AppCompatActivity {
     FirebaseAuth firebaseAuth;
     SharedPreferences preferences;
     ImageView userImage;
-    String savedImage;
-    EditText userNameView,mobileNoView,addressView;
+    EditText userNameView, mobileNoView, addressView;
     TextView emailView;
     String Uid;
-    String username,mobile,email,address;
+    String username, mobile, email, address,retrievedImage,uploadedImage;
     SharedPreferences.Editor editor;
     Bitmap bitmap = null;
-    String base;
-    Map<String,Object> mp= new HashMap<>();
-    private static final int IMAGE_REQUEST=1;
-    public void UploadImage(View view)
-    {
+    Map<String, Object> mp = new HashMap<>();
+    ProgressDialog progressDialog;
+    private static final int IMAGE_REQUEST = 1;
+
+    public void UploadImage(View view) {
         ChooseImage();
-
     }
 
-    public void update(View view)
-    {
-        username=userNameView.getText().toString();
-        mobile=mobileNoView.getText().toString();
-        email=emailView.getText().toString();
-        address=addressView.getText().toString();
-        mp.put("user_name",username);
-        mp.put("email",email);
-        mp.put("mobile",mobile);
-        mp.put("address",address);
+    public void update(View view) {
+        progressDialog.setMessage("Updating Profile!!");
+        progressDialog.show();
+        username = userNameView.getText().toString();
+        mobile = mobileNoView.getText().toString();
+        email = emailView.getText().toString();
+        address = addressView.getText().toString();
+        mp.put("user_name", username);
+        mp.put("email", email);
+        mp.put("mobile", mobile);
+        mp.put("address", address);
         databaseRef.child(Uid).updateChildren(mp);
-        //editor.putString("image",base);
-        editor.putString("user_name",username);
-        editor.putString("email",email);
-        editor.putString("mobile",mobile);
-        editor.putString("address",address);
-        editor.apply();
-        Intent intent=new Intent(getApplicationContext(),myAccount.class);
-        startActivity(intent);
-        finish();
+
+        editor.putString("user_name", username);
+        editor.putString("email", email);
+        editor.putString("mobile", mobile);
+        editor.putString("address", address);
+
+        if(uploadedImage!=null)
+        {
+            editor.putString("image",uploadedImage);
+            editor.apply();
+            StorageReference ref=imageRef.child(Uid+".jpg");
+            UploadTask uploadTask=ref.putBytes(image);
+            uploadTask.addOnSuccessListener(new OnSuccessListener<UploadTask.TaskSnapshot>() {
+                @Override
+                public void onSuccess(UploadTask.TaskSnapshot taskSnapshot) {
+                    Toast.makeText(profile.this,"Profile Updated!",Toast.LENGTH_SHORT).show();
+                    progressDialog.dismiss();
+                    Intent intent = new Intent(getApplicationContext(), myAccount.class);
+                    startActivity(intent);
+                    finish();
+
+                }
+            }).addOnFailureListener(new OnFailureListener() {
+                @Override
+                public void onFailure(@NonNull Exception e) {
+                    Toast.makeText(profile.this,"Try Again!!",Toast.LENGTH_SHORT).show();
+                }
+            });
+
+        }
+        else
+        {
+            editor.putString("image",retrievedImage);
+            editor.apply();
+            progressDialog.dismiss();
+            Intent intent = new Intent(getApplicationContext(), myAccount.class);
+            startActivity(intent);
+            finish();
+        }
+
 
 
     }
 
-    public void ChooseImage()
-    {
-        Intent intent= new Intent();
+    public void ChooseImage() {
+        Intent intent = new Intent();
         intent.setType("image/*");
         intent.setAction(intent.ACTION_GET_CONTENT);
-        startActivityForResult(intent,IMAGE_REQUEST);
+        startActivityForResult(intent, IMAGE_REQUEST);
     }
+
     @Override
     protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
-        if(requestCode==IMAGE_REQUEST && requestCode==RESULT_OK && data!=null)
-        {
-            uri=data.getData();
+        if (requestCode == IMAGE_REQUEST && resultCode == RESULT_OK && data != null) {
+            uri = data.getData();
             try {
                 bitmap = MediaStore.Images.Media.getBitmap(this.getContentResolver(), uri);
             } catch (IOException e) {
                 e.printStackTrace();
             }
             ByteArrayOutputStream stream = new ByteArrayOutputStream();
-            bitmap.compress(Bitmap.CompressFormat.WEBP, 40, stream);
+            bitmap.compress(Bitmap.CompressFormat.JPEG, 40, stream);
             image = stream.toByteArray();
             String img_str = Base64.encodeToString(image, 0);
-            base=img_str;
+            uploadedImage = img_str;
             Picasso.get().load(uri).into(userImage);
         }
     }
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_profile);
-        databaseRef= FirebaseDatabase.getInstance().getReference("Users");
-        imageRef= FirebaseStorage.getInstance().getReference("UserImage");
-        userNameView=findViewById(R.id.accUserName);
-        mobileNoView=findViewById(R.id.accMobile);
-        emailView=findViewById(R.id.accEmail);
-        addressView=findViewById(R.id.accAddress);
-        userImage=findViewById(R.id.imageView);
-        firebaseAuth=FirebaseAuth.getInstance();
-        Uid=firebaseAuth.getUid();
-        preferences=getSharedPreferences("UserData",MODE_PRIVATE);
-        editor=preferences.edit();
-        username=preferences.getString("user_name","");
-        mobile=preferences.getString("mobile","");
-        email=preferences.getString("email","");
-        address=preferences.getString("address","");
+        progressDialog=new ProgressDialog(this);
+        databaseRef = FirebaseDatabase.getInstance().getReference("Users");
+        imageRef = FirebaseStorage.getInstance().getReference("UserImage");
+        userNameView = findViewById(R.id.accUserName);
+        mobileNoView = findViewById(R.id.accMobile);
+        emailView = findViewById(R.id.accEmail);
+        addressView = findViewById(R.id.accAddress);
+        userImage = findViewById(R.id.userImage);
+        firebaseAuth = FirebaseAuth.getInstance();
+        Uid = firebaseAuth.getUid();
+        preferences = getSharedPreferences("UserData", MODE_PRIVATE);
+        editor = preferences.edit();
+        username = preferences.getString("user_name", "");
+        mobile = preferences.getString("mobile", "");
+        email = preferences.getString("email", "");
+        address = preferences.getString("address", "");
+        retrievedImage = preferences.getString("image", "");
+        if(!retrievedImage.matches(""))
+        {
+            bitmap = StringToBitMap(retrievedImage);
+            userImage.setImageBitmap(bitmap);
+        }
+
         userNameView.setHint("Enter Username");
         mobileNoView.setHint("Enter mobile number");
         addressView.setHint("Enter address");
@@ -133,5 +175,19 @@ public class profile extends AppCompatActivity {
         mobileNoView.setText(mobile);
         emailView.setText(email);
         addressView.setText(address);
+    }
+
+    public Bitmap StringToBitMap(String image) {
+        try {
+            byte[] encodeByte = Base64.decode(image, Base64.DEFAULT);
+
+            InputStream inputStream = new ByteArrayInputStream(encodeByte);
+            Bitmap bitmap = BitmapFactory.decodeStream(inputStream);
+            return bitmap;
+        } catch (Exception e) {
+            e.getMessage();
+            return null;
+
+        }
     }
 }

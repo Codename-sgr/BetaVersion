@@ -8,9 +8,11 @@ import androidx.appcompat.app.AppCompatActivity;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 import android.net.Uri;
 import android.os.Bundle;
 import android.provider.MediaStore;
+import android.util.Base64;
 import android.util.Log;
 import android.view.MenuItem;
 import android.view.View;
@@ -30,8 +32,10 @@ import com.google.firebase.storage.StorageReference;
 import com.google.firebase.storage.UploadTask;
 import com.squareup.picasso.Picasso;
 
+import java.io.ByteArrayInputStream;
 import java.io.ByteArrayOutputStream;
 import java.io.IOException;
+import java.io.InputStream;
 import java.util.Objects;
 
 public class myAccount extends AppCompatActivity {
@@ -39,7 +43,7 @@ public class myAccount extends AppCompatActivity {
 
     ImageView userImage;
     TextView userNameView,mobileNoView,emailView,addressView;
-    String username,mobile,email,address;
+    String username,mobile,email,address,retrievedImage;
     SharedPreferences preferences;
 
 
@@ -82,7 +86,14 @@ public class myAccount extends AppCompatActivity {
         mobile=preferences.getString("mobile","Enter your contact number.");
         email=preferences.getString("email","Enter your email");
         address=preferences.getString("address","Enter your address");
+        retrievedImage=preferences.getString("image","");
+        userImage=findViewById(R.id.userImage);
+        if(!retrievedImage.matches("")){
+            Bitmap bitmap = StringToBitMap(retrievedImage);
+            userImage.setImageBitmap(bitmap);
+        }
         userNameView=findViewById(R.id.accUserName);
+
         mobileNoView=findViewById(R.id.accMobile);
         emailView=findViewById(R.id.accEmail);
         addressView=findViewById(R.id.accAddress);
@@ -99,6 +110,19 @@ public class myAccount extends AppCompatActivity {
             return true;
         }
         return super.onOptionsItemSelected(item);}
+    public Bitmap StringToBitMap(String image) {
+        try {
+            byte[] encodeByte = Base64.decode(image, Base64.DEFAULT);
+
+            InputStream inputStream = new ByteArrayInputStream(encodeByte);
+            Bitmap bitmap = BitmapFactory.decodeStream(inputStream);
+            return bitmap;
+        } catch (Exception e) {
+            e.getMessage();
+            return null;
+
+        }
+    }
 }
 
 
