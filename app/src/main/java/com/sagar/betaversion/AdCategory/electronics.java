@@ -40,7 +40,7 @@ public class electronics extends AppCompatActivity {
     ImageView img1,img2,img3;
     ArrayList<Uri> ImageUri= new ArrayList<>();
     ArrayList<byte[]> ImageArray= new ArrayList<>();
-    DatabaseReference databaseAd;
+    DatabaseReference databaseAd,userAd;
     ProgressDialog progressDialog;
     String user_id, ad_id;
     Uri uri;
@@ -50,8 +50,7 @@ public class electronics extends AppCompatActivity {
     {
         progressDialog.setMessage("Uploading Ad, Please wait!");
         progressDialog.show();
-        FirebaseUser user =mAuth.getCurrentUser();
-        user_id=user.getUid();
+
         ad_id=databaseAd.push().getKey();
         final ElectronicsAd electronicsAd= new ElectronicsAd(ad_id
                                                             ,user_id
@@ -79,6 +78,7 @@ public class electronics extends AppCompatActivity {
                     if(finalI ==count-1)
                     {
                         progressDialog.dismiss();
+                        userAd.child(ad_id).setValue(true);
                         databaseAd.child(ad_id).setValue(electronicsAd);
                         Toast.makeText(electronics.this,"Ad Posted Successfully",Toast.LENGTH_SHORT).show();
                         Intent intent=new Intent(getApplicationContext(), MainActivity.class);
@@ -194,6 +194,9 @@ public class electronics extends AppCompatActivity {
         imageStorageRef= FirebaseStorage.getInstance().getReference("ElectronicImage");
         mAuth=FirebaseAuth.getInstance();
         databaseAd= FirebaseDatabase.getInstance().getReference("ElectronicAd");
+        FirebaseUser user =mAuth.getCurrentUser();
+        user_id=user.getUid();
+        userAd=FirebaseDatabase.getInstance().getReference("UserAd").child(user_id).child("ElectronicId");
 
     }
     public String getFileExtension(Uri uri)

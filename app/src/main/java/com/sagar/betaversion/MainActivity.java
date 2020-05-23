@@ -20,12 +20,13 @@ import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
 import com.google.firebase.storage.FirebaseStorage;
 import com.google.firebase.storage.StorageReference;
+import com.sagar.betaversion.AdCategory.myAdActivity;
 
 
 public class MainActivity extends AppCompatActivity {
 
 
-    ImageButton myAccount, newAd, vehicleAds, electronicAds, bookAds, sportAds, furnitureAds;
+    ImageButton myAccount, newAd, vehicleAds, electronicAds, bookAds, sportAds, furnitureAds,MyAds;
     ProgressDialog progressDialog;
     String username;
     Boolean dp;
@@ -109,6 +110,7 @@ public class MainActivity extends AppCompatActivity {
         storageReference = FirebaseStorage.getInstance().getReference().child("UserImage");
         myAccount = findViewById(R.id.myAccountButton);
         newAd = findViewById(R.id.newAdButton);
+        MyAds=findViewById(R.id.myAdButton);
         vehicleAds = findViewById(R.id.vehicleButton);
         electronicAds = findViewById(R.id.electronicsButton);
         bookAds = findViewById(R.id.booksButton);
@@ -161,6 +163,12 @@ public class MainActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 startActivity(new Intent(getApplicationContext(), newAdActivity.class));
+            }
+        });
+        MyAds.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                startActivity(new Intent(getApplicationContext(), myAdActivity.class));
             }
         });
 

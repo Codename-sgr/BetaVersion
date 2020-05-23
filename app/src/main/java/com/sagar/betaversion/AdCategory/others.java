@@ -45,7 +45,7 @@ public class others extends AppCompatActivity {
     ImageView img1,img2,img3;
     ProgressDialog progressDialog;
     ArrayList<Uri> ImageUri= new ArrayList<>();
-    DatabaseReference databaseAd;
+    DatabaseReference databaseAd,userAd;
     String user_id, ad_id;
     ArrayList<byte[]> ImageArray=new ArrayList<>();
     private static final int IMAGE_REQUEST=1;
@@ -54,8 +54,7 @@ public class others extends AppCompatActivity {
     {
         progressDialog.setMessage("Uploading Ad, Please wait!");
         progressDialog.show();
-        FirebaseUser user =mAuth.getCurrentUser();
-        user_id=user.getUid();
+
         ad_id=databaseAd.push().getKey();
         final int[] flag = {0};
         if(type.matches("Books"))
@@ -76,6 +75,7 @@ public class others extends AppCompatActivity {
                         {
                             progressDialog.dismiss();
                             databaseAd.child(ad_id).setValue(booksAd);
+                            userAd.child(ad_id).setValue(true);
                             Toast.makeText(others.this,"Ad Posted Successfully",Toast.LENGTH_SHORT).show();
                             Intent intent=new Intent(getApplicationContext(),MainActivity.class);
                             startActivity(intent);
@@ -119,6 +119,7 @@ public class others extends AppCompatActivity {
                         if(finalI ==count-1)
                         {
                             progressDialog.dismiss();
+                            userAd.child(ad_id).setValue(true);
                             databaseAd.child(ad_id).setValue(furnitureAd);
                             Toast.makeText(others.this,"Ad Posted Successfully",Toast.LENGTH_SHORT).show();
                             Intent intent=new Intent(getApplicationContext(),MainActivity.class);
@@ -164,6 +165,7 @@ public class others extends AppCompatActivity {
                         if(finalI ==count-1)
                         {
                             progressDialog.dismiss();
+                            userAd.child(ad_id).setValue(true);
                             databaseAd.child(ad_id).setValue(sportsAd);
                             Toast.makeText(others.this,"Ad Posted Successfully",Toast.LENGTH_SHORT).show();
                             Intent intent=new Intent(getApplicationContext(),MainActivity.class);
@@ -193,13 +195,14 @@ public class others extends AppCompatActivity {
         }
         else{
             Toast.makeText(others.this,type,Toast.LENGTH_SHORT).show();
+            Intent intent=new Intent(getApplicationContext(), MainActivity.class);
+            startActivity(intent);
         }
-        if(flag[0]==0)
+        /*if(flag[0]==0)
         {
             Toast.makeText(others.this,"Ad Posted Successfully",Toast.LENGTH_SHORT).show();
-        }
-        Intent intent=new Intent(getApplicationContext(), MainActivity.class);
-        startActivity(intent);
+        }*/
+
     }
     public void ChooseImage(View view)
     {
@@ -283,6 +286,10 @@ public class others extends AppCompatActivity {
         imageStorageRef= FirebaseStorage.getInstance().getReference(type+"Image");
         mAuth=FirebaseAuth.getInstance();
         databaseAd= FirebaseDatabase.getInstance().getReference(type+"Ad");
+        FirebaseUser user =mAuth.getCurrentUser();
+        user_id=user.getUid();
+        userAd=FirebaseDatabase.getInstance().getReference("UserAd").child(user_id).child(type+"Id");
+
     }
 
 }

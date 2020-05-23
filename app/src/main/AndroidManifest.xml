@@ -3,8 +3,8 @@
     package="com.sagar.betaversion">
 
     <uses-permission android:name="android.permission.INTERNET" />
-    <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE"></uses-permission>
-    <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE"></uses-permission>
+    <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
+    <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" />
 
     <application
         android:allowBackup="true"
@@ -13,8 +13,8 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/Theme.MaterialComponents.DayNight.DarkActionBar">
-
-        <activity android:name=".FinalProductView"></activity>
+        <activity android:name=".AdCategory.myAdActivity"></activity>
+        <activity android:name=".FinalProductView" />
         <activity android:name=".ListAd" />
         <activity android:name=".BetaVersion" />
         <activity android:name=".AdCategory.others" />
@@ -31,7 +31,7 @@
         <activity android:name=".SignupActivity" />
         <activity android:name=".MainActivity" />
         <activity android:name=".myAccount" />
-        <activity android:name=".profile"/>
+        <activity android:name=".profile" />
     </application>
 
 </manifest>

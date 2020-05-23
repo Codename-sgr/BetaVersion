@@ -48,7 +48,7 @@ public class vehicle extends AppCompatActivity {
     FirebaseAuth mAuth;
     ImageView img1,img2,img3;
     ArrayList<Uri> ImageUri= new ArrayList<>();
-    DatabaseReference databaseAd;
+    DatabaseReference databaseAd,userAd;
     ProgressDialog progressDialog;
     String user_id, ad_id;
     ArrayList<byte[]> ImageArray=new ArrayList<>();
@@ -61,8 +61,7 @@ public class vehicle extends AppCompatActivity {
     {
         progressDialog.setMessage("Uploading Ad, Please wait!");
         progressDialog.show();
-        FirebaseUser user =mAuth.getCurrentUser();
-        user_id=user.getUid();
+
         ad_id=databaseAd.push().getKey();
         final VehicleAd vehicleAd= new VehicleAd(ad_id,user_id,model.getText().toString(),purchaseDate.getText().toString(),kmsDriven.getText().toString(),milege.getText().toString(),sellinPrice.getText().toString(),description.getText().toString());
 
@@ -83,6 +82,7 @@ public class vehicle extends AppCompatActivity {
                     {
                         progressDialog.dismiss();
                         databaseAd.child(ad_id).setValue(vehicleAd);
+                        userAd.child(ad_id).setValue(true);
                         Toast.makeText(vehicle.this,"Ad Posted Successfully",Toast.LENGTH_SHORT).show();
                         Intent intent=new Intent(getApplicationContext(), MainActivity.class);
                         startActivity(intent);
@@ -196,6 +196,9 @@ public class vehicle extends AppCompatActivity {
         imageStorageRef= FirebaseStorage.getInstance().getReference("VehicleImage");
         mAuth=FirebaseAuth.getInstance();
         databaseAd= FirebaseDatabase.getInstance().getReference("VehicleAd");
+        FirebaseUser user =mAuth.getCurrentUser();
+        user_id=user.getUid();
+        userAd=FirebaseDatabase.getInstance().getReference("UserAd").child(user_id).child("VehicleId");
 
 
     }
