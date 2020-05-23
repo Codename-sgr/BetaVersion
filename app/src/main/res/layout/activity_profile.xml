@@ -5,67 +5,97 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     tools:context=".profile">
-        <ImageView
-            android:id="@+id/userImage"
-            android:layout_width="162dp"
-            android:layout_height="169dp"
-            android:background="#FFFFFF"
-            android:layout_marginTop="40dp"
 
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent"
-            android:onClick="UploadImage"
-            tools:srcCompat="@tools:sample/avatars" />
+
+    <ImageView
+        android:id="@+id/userImage"
+        android:layout_width="162dp"
+        android:layout_height="169dp"
+        android:layout_marginTop="40dp"
+        android:background="#FFFFFF"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        android:onClick="UploadImage"
+        tools:srcCompat="@tools:sample/avatars" />
 
     <LinearLayout
         android:id="@+id/linearLayout3"
-        android:layout_width="323dp"
-        android:layout_height="325dp"
+        android:layout_width="318dp"
+        android:layout_height="285dp"
         android:layout_marginStart="1dp"
         android:layout_marginTop="20dp"
         android:layout_marginEnd="1dp"
         android:orientation="vertical"
+        app:layout_constraintBottom_toTopOf="@id/Update"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/userImage">
 
-        <EditText
-            android:id="@+id/accUserName"
+        <com.google.android.material.textfield.TextInputLayout
+            android:id="@+id/accUserNameTL"
+            style="@style/Widget.MaterialComponents.TextInputLayout.FilledBox"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_weight="1"
+            android:focusable="false"
+            android:hint="@string/username">
 
-            android:ems="10"
-            android:inputType="none"
-            android:text="UserName"
-             />
+            <com.google.android.material.textfield.TextInputEditText
+                android:id="@+id/accUserName"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:inputType="textEmailAddress" />
 
-        <EditText
-            android:id="@+id/accMobile"
+        </com.google.android.material.textfield.TextInputLayout>
+
+        <com.google.android.material.textfield.TextInputLayout
+            android:id="@+id/accMobileTL"
+            style="@style/Widget.MaterialComponents.TextInputLayout.FilledBox"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_weight="1"
-            android:ems="10"
-            android:inputType="none"
-            android:text="Mobile No" />
+            android:hint="@string/mobile_number">
 
-        <TextView
-            android:id="@+id/accEmail"
+            <com.google.android.material.textfield.TextInputEditText
+                android:id="@+id/accMobile"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:inputType="number" />
+
+        </com.google.android.material.textfield.TextInputLayout>
+
+        <com.google.android.material.textfield.TextInputLayout
+            android:id="@+id/accEmailTL"
+            style="@style/Widget.MaterialComponents.TextInputLayout.FilledBox"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_weight="1"
-            android:ems="10"
-            android:text="Email" />
+            android:hint="@string/Email">
 
-        <EditText
-            android:id="@+id/accAddress"
+            <com.google.android.material.textfield.TextInputEditText
+                android:id="@+id/accEmail"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:inputType="textEmailAddress" />
+
+        </com.google.android.material.textfield.TextInputLayout>
+
+        <com.google.android.material.textfield.TextInputLayout
+            android:id="@+id/accAddressTL"
+            style="@style/Widget.MaterialComponents.TextInputLayout.FilledBox"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_weight="1"
-            android:ems="10"
-            android:inputType="textPostalAddress"
-            android:text="Address" />
+            android:hint="Address">
+
+            <com.google.android.material.textfield.TextInputEditText
+                android:id="@+id/accAddress"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:inputType="textPostalAddress" />
+
+        </com.google.android.material.textfield.TextInputLayout>
 
     </LinearLayout>
 

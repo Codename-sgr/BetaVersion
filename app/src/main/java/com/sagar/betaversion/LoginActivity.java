@@ -5,6 +5,7 @@ import android.app.ProgressDialog;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
+import android.os.Handler;
 import android.text.InputType;
 import android.util.Log;
 import android.util.Patterns;
@@ -18,6 +19,7 @@ import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.constraintlayout.widget.ConstraintLayout;
 
 import com.google.android.gms.auth.api.signin.GoogleSignIn;
 import com.google.android.gms.auth.api.signin.GoogleSignInAccount;
@@ -202,7 +204,6 @@ public class LoginActivity extends AppCompatActivity {
         signUp=findViewById(R.id.signUp);
         forgetPwd=findViewById(R.id.textViewForgetPass);
         googleLoginBtn=findViewById(R.id.googleLoginBtn);
-
 
         forgetPwd.setOnClickListener(new View.OnClickListener() {
             @Override

@@ -13,7 +13,7 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/Theme.MaterialComponents.DayNight.DarkActionBar">
-        <activity android:name=".profile"></activity>
+
         <activity android:name=".FinalProductView"></activity>
         <activity android:name=".ListAd" />
         <activity android:name=".BetaVersion" />
@@ -31,6 +31,7 @@
         <activity android:name=".SignupActivity" />
         <activity android:name=".MainActivity" />
         <activity android:name=".myAccount" />
+        <activity android:name=".profile"/>
     </application>
 
 </manifest>
