@@ -69,7 +69,34 @@ public class myAccount extends AppCompatActivity {
         finish();
     }
 
+    public void reloadUserData()
+    {
+        username=preferences.getString("user_name","Enter Your User Name.");
+        mobile=preferences.getString("mobile",null);
+        email=preferences.getString("email","Enter your email");
+        address=preferences.getString("address",null);
+        retrievedImage=preferences.getString("image","");
+        userImage=findViewById(R.id.userImage);
+        if(!retrievedImage.matches("") && retrievedImage!=null) {
+            Bitmap bitmap = StringToBitMap(retrievedImage);
+            userImage.setImageBitmap(bitmap);
+        }
+        if(username!=null)
+            userNameView.setText(username);
+        else
+            userNameView.setText("Enter User Name.");
+        if(mobile!=null )
+            mobileNoView.setText(mobile);
+        else
+            mobileNoView.setText("Enter Mobile Number.");
+        if(email!=null)
+            emailView.setText(email);
+        if(address!=null)
+            addressView.setText(address);
+        else
+             addressView.setText("Enter address");
 
+    }
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -81,26 +108,12 @@ public class myAccount extends AppCompatActivity {
         }
 
         firebaseAuth=FirebaseAuth.getInstance();
-        preferences=getSharedPreferences("UserData",MODE_PRIVATE);
-        username=preferences.getString("user_name","Enter Your User Name.");
-        mobile=preferences.getString("mobile","Enter your contact number.");
-        email=preferences.getString("email","Enter your email");
-        address=preferences.getString("address","Enter your address");
-        retrievedImage=preferences.getString("image","");
-        userImage=findViewById(R.id.userImage);
-        if(!retrievedImage.matches("")){
-            Bitmap bitmap = StringToBitMap(retrievedImage);
-            userImage.setImageBitmap(bitmap);
-        }
         userNameView=findViewById(R.id.accUserName);
-
         mobileNoView=findViewById(R.id.accMobile);
         emailView=findViewById(R.id.accEmail);
         addressView=findViewById(R.id.accAddress);
-        userNameView.setText(username);
-        mobileNoView.setText(mobile);
-        emailView.setText(email);
-        addressView.setText(address);
+        preferences=getSharedPreferences("UserData",MODE_PRIVATE);
+        reloadUserData();
     }
 
     @Override
@@ -109,7 +122,8 @@ public class myAccount extends AppCompatActivity {
             onBackPressed();
             return true;
         }
-        return super.onOptionsItemSelected(item);}
+        return super.onOptionsItemSelected(item);
+    }
     public Bitmap StringToBitMap(String image) {
         try {
             byte[] encodeByte = Base64.decode(image, Base64.DEFAULT);
@@ -120,7 +134,6 @@ public class myAccount extends AppCompatActivity {
         } catch (Exception e) {
             e.getMessage();
             return null;
-
         }
     }
 }

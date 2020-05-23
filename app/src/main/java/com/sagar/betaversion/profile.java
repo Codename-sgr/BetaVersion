@@ -58,7 +58,12 @@ public class profile extends AppCompatActivity {
     public void UploadImage(View view) {
         ChooseImage();
     }
-
+    public void moveBackToMyAccount()
+    {
+        Intent intent = new Intent(getApplicationContext(), myAccount.class);
+        startActivity(intent);
+        finish();
+    }
     public void update(View view) {
         progressDialog.setMessage("Updating Profile!!");
         progressDialog.show();
@@ -70,13 +75,13 @@ public class profile extends AppCompatActivity {
         mp.put("email", email);
         mp.put("mobile", mobile);
         mp.put("address", address);
+        if(uploadedImage!=null || retrievedImage!=null)
+            mp.put("dp",true);
         databaseRef.child(Uid).updateChildren(mp);
-
         editor.putString("user_name", username);
         editor.putString("email", email);
         editor.putString("mobile", mobile);
         editor.putString("address", address);
-
         if(uploadedImage!=null)
         {
             editor.putString("image",uploadedImage);
@@ -88,9 +93,7 @@ public class profile extends AppCompatActivity {
                 public void onSuccess(UploadTask.TaskSnapshot taskSnapshot) {
                     Toast.makeText(profile.this,"Profile Updated!",Toast.LENGTH_SHORT).show();
                     progressDialog.dismiss();
-                    Intent intent = new Intent(getApplicationContext(), myAccount.class);
-                    startActivity(intent);
-                    finish();
+                    moveBackToMyAccount();
 
                 }
             }).addOnFailureListener(new OnFailureListener() {
@@ -106,9 +109,7 @@ public class profile extends AppCompatActivity {
             editor.putString("image",retrievedImage);
             editor.apply();
             progressDialog.dismiss();
-            Intent intent = new Intent(getApplicationContext(), myAccount.class);
-            startActivity(intent);
-            finish();
+            moveBackToMyAccount();
         }
 
 
@@ -162,7 +163,7 @@ public class profile extends AppCompatActivity {
         email = preferences.getString("email", "");
         address = preferences.getString("address", "");
         retrievedImage = preferences.getString("image", "");
-        if(!retrievedImage.matches(""))
+        if(!retrievedImage.matches("") && retrievedImage!=null)
         {
             bitmap = StringToBitMap(retrievedImage);
             userImage.setImageBitmap(bitmap);
@@ -190,4 +191,5 @@ public class profile extends AppCompatActivity {
 
         }
     }
+
 }

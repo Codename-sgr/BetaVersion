@@ -1,24 +1,14 @@
 package com.sagar.betaversion;
 
-import androidx.annotation.NonNull;
-import androidx.appcompat.app.ActionBar;
 import androidx.appcompat.app.AppCompatActivity;
-
 import android.app.ProgressDialog;
 import android.content.Intent;
 import android.content.SharedPreferences;
-import android.graphics.Bitmap;
-import android.graphics.BitmapFactory;
-import android.net.Uri;
 import android.os.Bundle;
-import android.os.ParcelFileDescriptor;
-import android.provider.MediaStore;
 import android.util.Base64;
 import android.util.Log;
 import android.view.View;
 import android.widget.ImageButton;
-
-import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
@@ -26,29 +16,24 @@ import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
-import com.google.firebase.database.Query;
+
 import com.google.firebase.database.ValueEventListener;
 import com.google.firebase.storage.FirebaseStorage;
 import com.google.firebase.storage.StorageReference;
-import com.squareup.picasso.Picasso;
 
-import java.io.ByteArrayOutputStream;
-import java.io.FileDescriptor;
-import java.io.IOException;
 
 public class MainActivity extends AppCompatActivity {
-    FirebaseAuth firebaseAuth;
+
 
     ImageButton myAccount, newAd, vehicleAds, electronicAds, bookAds, sportAds, furnitureAds;
-    DatabaseReference databaseReference;
     ProgressDialog progressDialog;
-    String username, Image;
+    String username;
+    Boolean dp;
     StorageReference storageReference;
 
     @Override
     protected void onResume() {
         loadUserData();
-
         super.onResume();
     }
 
@@ -77,13 +62,35 @@ public class MainActivity extends AppCompatActivity {
                     String email = String.valueOf(dataSnapshot.child("email").getValue());
                     String mobile = String.valueOf(dataSnapshot.child("mobile").getValue());
                     String address = String.valueOf(dataSnapshot.child("address").getValue());
+                    dp=(Boolean)dataSnapshot.child("dp").getValue();
                     editor.putString("user_name", username);
-                    editor.putString("email", email);
-                    editor.putString("mobile", mobile);
-                    editor.putString("address", address);
+                    if(!email.matches("null"))
+                        editor.putString("email", email);
+                    if(!mobile.matches("null"))
+                        editor.putString("mobile", mobile);
+                    if(!address.matches("null"))
+                        editor.putString("address", address);
+                    if(dp==true)
+                    {
+                        final long TEN_MEGABYTE=10*1024*1024;
+                        storageReference.child(userKey+".jpg").getBytes(TEN_MEGABYTE).addOnSuccessListener(new OnSuccessListener<byte[]>() {
+                            @Override
+                            public void onSuccess(byte[] bytes) {
+                                String img_str = Base64.encodeToString(bytes, 0);
+                                editor.putString("image",img_str);
+                                editor.apply();
+                                progressDialog.dismiss();
 
-                    editor.apply();
-                    progressDialog.dismiss();
+
+                            }
+                        });
+                    }
+                    else
+                    {
+                        editor.apply();
+                        progressDialog.dismiss();
+                    }
+
                 }
 
                 @Override
@@ -99,7 +106,6 @@ public class MainActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-        //loadUserData();
         storageReference = FirebaseStorage.getInstance().getReference().child("UserImage");
         myAccount = findViewById(R.id.myAccountButton);
         newAd = findViewById(R.id.newAdButton);
@@ -160,23 +166,6 @@ public class MainActivity extends AppCompatActivity {
 
 
     }
-
-
-    private Bitmap uriToBitmap(Uri selectedFileUri) {
-        Bitmap image = null;
-        try {
-            ParcelFileDescriptor parcelFileDescriptor =
-                    getContentResolver().openFileDescriptor(selectedFileUri, "r");
-            FileDescriptor fileDescriptor = parcelFileDescriptor.getFileDescriptor();
-            image = BitmapFactory.decodeFileDescriptor(fileDescriptor);
-            
-            parcelFileDescriptor.close();
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
-        return image;
-    }
-
 
 
 }
