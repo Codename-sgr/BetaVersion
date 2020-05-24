@@ -2,6 +2,7 @@ package com.sagar.betaversion;
 
 import android.content.Context;
 import android.media.Image;
+import android.net.Uri;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
@@ -18,7 +19,7 @@ public class finalProductImageAdapter extends PagerAdapter {
     private Context context;
     private String[] productImageUrls;
 
-    finalProductImageAdapter(Context context,String[] productImageUrls) {
+    finalProductImageAdapter(Context context, String[] productImageUrls) {
         this.context=context;
         this.productImageUrls=productImageUrls;
     }

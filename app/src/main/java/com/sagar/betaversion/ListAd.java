@@ -91,15 +91,14 @@ public class ListAd extends AppCompatActivity {
                     myAdapter.adProductName.setText(vehicleAd.getModel());
                     myAdapter.adProductPrice.setText(vehicleAd.getSellingPrice());
                     final Intent intent = new Intent(getApplicationContext(), FinalProductView.class);
-                            intent.putExtra("type","Vehicle");
+                            intent.putExtra("type",type);
                     storageReference.child(vehicleAd.getUser_id()+"/"+vehicleAd.getId()+"/0.jpg")
                             .getDownloadUrl()
                             .addOnSuccessListener(new OnSuccessListener<Uri>() {
                         @Override
                         public void onSuccess(Uri uri) {
                             Picasso.get().load(uri).into(myAdapter.adProductImage);
-                            // Got the download URL for 'users/me/profile.png'
-                            intent.setData(uri);
+
                         }
                     }).addOnFailureListener(new OnFailureListener() {
                         @Override
@@ -114,7 +113,9 @@ public class ListAd extends AppCompatActivity {
                         public void onItemClickListener(View v, int position) {
                             String mProdName=myAdapter.adProductName.getText().toString();
                             String mProductPrice=myAdapter.adProductPrice.getText().toString();
-
+                            intent.putExtra("img_count",vehicleAd.getImg_count());
+                            intent.putExtra("user_id",vehicleAd.getUser_id());
+                            intent.putExtra("ad_id",vehicleAd.getId());
                             intent.putExtra("prodName",mProdName);
                             intent.putExtra("prodPrice",mProductPrice);
                             intent.putExtra("prodMilege",vehicleAd.getMilege());
@@ -145,12 +146,12 @@ public class ListAd extends AppCompatActivity {
 
             ElectronicAdapter=new FirebaseRecyclerAdapter<ElectronicsAd, MyAdapter>(options) {
                 @Override
-                protected void onBindViewHolder(@NonNull final MyAdapter myAdapter, int i, @NonNull final ElectronicsAd electronicsAd) {
-                    myAdapter.adProductName.setText(electronicsAd.getModel());
-                    myAdapter.adProductPrice.setText(electronicsAd.getSellingPrice());
+                protected void onBindViewHolder(@NonNull final MyAdapter myAdapter, int i, @NonNull final ElectronicsAd Ad) {
+                    myAdapter.adProductName.setText(Ad.getModel());
+                    myAdapter.adProductPrice.setText(Ad.getSellingPrice());
                     final Intent intent=new Intent(getApplicationContext(),FinalProductView.class);
 
-                    storageReference.child(electronicsAd.getUser_id()+"/"+electronicsAd.getId()+"/0.jpg").getDownloadUrl().addOnSuccessListener(new OnSuccessListener<Uri>() {
+                    storageReference.child(Ad.getUser_id()+"/"+Ad.getId()+"/0.jpg").getDownloadUrl().addOnSuccessListener(new OnSuccessListener<Uri>() {
 
 
                         @Override
@@ -172,11 +173,14 @@ public class ListAd extends AppCompatActivity {
                         public void onItemClickListener(View v, int position) {
                             String mProdName=myAdapter.adProductName.getText().toString();
                             String mProductPrice=myAdapter.adProductPrice.getText().toString();
-
+                            intent.putExtra("type",type);
+                            intent.putExtra("img_count",Ad.getImg_count());
+                            intent.putExtra("user_id",Ad.getUser_id());
+                            intent.putExtra("ad_id",Ad.getId());
                             intent.putExtra("prodName",mProdName);
                             intent.putExtra("prodPrice",mProductPrice);
-                            intent.putExtra("prodDOP",electronicsAd.getDate_of_purchase());
-                            intent.putExtra("prodDesc",electronicsAd.getDescription());
+                            intent.putExtra("prodDOP",Ad.getDate_of_purchase());
+                            intent.putExtra("prodDesc",Ad.getDescription());
                             startActivity(intent);
                         }
                     });
@@ -202,11 +206,11 @@ public class ListAd extends AppCompatActivity {
 
             BooksAdapter=new FirebaseRecyclerAdapter<BooksAd, MyAdapter>(options) {
                 @Override
-                protected void onBindViewHolder(@NonNull final MyAdapter myAdapter, int i, @NonNull final BooksAd booksAd) {
-                    myAdapter.adProductName.setText(booksAd.getItem());
-                    myAdapter.adProductPrice.setText(booksAd.getSellingPrice());
+                protected void onBindViewHolder(@NonNull final MyAdapter myAdapter, int i, @NonNull final BooksAd Ad) {
+                    myAdapter.adProductName.setText(Ad.getItem());
+                    myAdapter.adProductPrice.setText(Ad.getSellingPrice());
                     final Intent intent=new Intent(getApplicationContext(),FinalProductView.class);
-                    storageReference.child(booksAd.getUser_id()+"/"+booksAd.getId()+"/0.jpg").getDownloadUrl().addOnSuccessListener(new OnSuccessListener<Uri>() {
+                    storageReference.child(Ad.getUser_id()+"/"+Ad.getId()+"/0.jpg").getDownloadUrl().addOnSuccessListener(new OnSuccessListener<Uri>() {
                         @Override
                         public void onSuccess(Uri uri) {
                             Picasso.get().load(uri).into(myAdapter.adProductImage);
@@ -224,10 +228,13 @@ public class ListAd extends AppCompatActivity {
                         public void onItemClickListener(View v, int position) {
                             String mProdName=myAdapter.adProductName.getText().toString();
                             String mProductPrice=myAdapter.adProductPrice.getText().toString();
-
+                            intent.putExtra("type",type);
+                            intent.putExtra("img_count",Ad.getImg_count());
+                            intent.putExtra("user_id",Ad.getUser_id());
+                            intent.putExtra("ad_id",Ad.getId());
                             intent.putExtra("prodName",mProdName);
                             intent.putExtra("prodPrice",mProductPrice);
-                            intent.putExtra("prodDesc",booksAd.getDescription());
+                            intent.putExtra("prodDesc",Ad.getDescription());
                             startActivity(intent);
                         }
                     });
@@ -253,11 +260,11 @@ public class ListAd extends AppCompatActivity {
 
             SportsAdapter=new FirebaseRecyclerAdapter<SportsAd, MyAdapter>(options) {
                 @Override
-                protected void onBindViewHolder(@NonNull final MyAdapter myAdapter, int i, @NonNull final SportsAd sportsAd) {
-                    myAdapter.adProductName.setText(sportsAd.getItem());
-                    myAdapter.adProductPrice.setText(sportsAd.getSellingPrice());
+                protected void onBindViewHolder(@NonNull final MyAdapter myAdapter, int i, @NonNull final SportsAd Ad) {
+                    myAdapter.adProductName.setText(Ad.getItem());
+                    myAdapter.adProductPrice.setText(Ad.getSellingPrice());
                     final Intent intent=new Intent(getApplicationContext(),FinalProductView.class);
-                    storageReference.child(sportsAd.getUser_id()+"/"+sportsAd.getId()+"/0.jpg").getDownloadUrl().addOnSuccessListener(new OnSuccessListener<Uri>() {
+                    storageReference.child(Ad.getUser_id()+"/"+Ad.getId()+"/0.jpg").getDownloadUrl().addOnSuccessListener(new OnSuccessListener<Uri>() {
                         @Override
                         public void onSuccess(Uri uri) {
                             Picasso.get().load(uri).into(myAdapter.adProductImage);
@@ -277,10 +284,13 @@ public class ListAd extends AppCompatActivity {
                         public void onItemClickListener(View v, int position) {
                             String mProdName=myAdapter.adProductName.getText().toString();
                             String mProductPrice=myAdapter.adProductPrice.getText().toString();
-
+                            intent.putExtra("type",type);
+                            intent.putExtra("img_count",Ad.getImg_count());
+                            intent.putExtra("user_id",Ad.getUser_id());
+                            intent.putExtra("ad_id",Ad.getId());
                             intent.putExtra("prodName",mProdName);
                             intent.putExtra("prodPrice",mProductPrice);
-                            intent.putExtra("prodDesc",sportsAd.getDescription());
+                            intent.putExtra("prodDesc",Ad.getDescription());
                             startActivity(intent);
                         }
                     });
@@ -329,7 +339,10 @@ public class ListAd extends AppCompatActivity {
                         public void onItemClickListener(View v, int position) {
                             String mProdName=myAdapter.adProductName.getText().toString();
                             String mProductPrice=myAdapter.adProductPrice.getText().toString();
-
+                            intent.putExtra("type",type);
+                            intent.putExtra("img_count",Ad.getImg_count());
+                            intent.putExtra("user_id",Ad.getUser_id());
+                            intent.putExtra("ad_id",Ad.getId());
                             intent.putExtra("prodName",mProdName);
                             intent.putExtra("prodPrice",mProductPrice);
                             intent.putExtra("prodDesc",Ad.getDescription());

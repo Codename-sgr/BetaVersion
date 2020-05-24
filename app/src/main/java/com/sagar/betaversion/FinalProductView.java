@@ -43,7 +43,7 @@ public class FinalProductView extends AppCompatActivity {
     FirebaseDatabase database;
     DatabaseReference databaseReference;
     StorageReference storageReference;
-
+    int image_count=2;
     /*ImageView prodImg;*/
     TextView prodName,prodPrice,prodMillege,prodDop,prodDesc;
 
@@ -68,39 +68,41 @@ public class FinalProductView extends AppCompatActivity {
         prodMillege=findViewById(R.id.prodMillege);
         prodDop=findViewById(R.id.prodDop);
         prodDesc=findViewById(R.id.prodDesc);
-        VehicleAd vehicleAd = new VehicleAd();
+
 
         String type=intent.getStringExtra("type");
         database=FirebaseDatabase.getInstance();
         databaseReference=database.getReference(type+"Ad");
         storageReference= FirebaseStorage.getInstance().getReference(type+"Image");
-        final String[] imageUrls= new String[]{
+        image_count=intent.getIntExtra("img_count",2);
+        final String[] imageUrls= new String[image_count];
+        String user_id=intent.getStringExtra("user_id");
+        String ad_id=intent.getStringExtra("ad_id");
 
-                ///INSERT IMAGE URLS in this place.
-                /*"https://firebasestorage.googleapis.com/v0/b/manitcart.appspot.com/o/"+type+"Image"+vehicleAd.getUser_id()+"/"+vehicleAd.getId()+"/0.jpg",
-                "https://firebasestorage.googleapis.com/v0/b/manitcart.appspot.com/o/"+type+"Image"+vehicleAd.getUser_id()+"/"+vehicleAd.getId()+"/1.jpg",
-                "https://firebasestorage.googleapis.com/v0/b/manitcart.appspot.com/o/"+type+"Image"+vehicleAd.getUser_id()+"/"+vehicleAd.getId()+"/2.jpg",*/
+        Log.i("work",Integer.toString(image_count));
 
-                "https://i.pinimg.com/originals/76/47/9d/76479dd91dc55c2768ddccfc30a4fbf5.png",
-                "https://w7.pngwing.com/pngs/8/546/png-transparent-pikachu-illustration-pikachu-ash-ketchum-pokemon-pichu-raichu-pikachu-mammal-vertebrate-cartoon.png",
-                "https://i1.pngguru.com/preview/38/605/204/cartoons-pikachu-of-pokemon-illustration-png-clipart.jpg"
-        };
-
-        /*for(int i = 0; i<vehicleAd.getImg_count(); i++){
-            storageReference.child(vehicleAd.getUser_id()+"/"+vehicleAd.getId()+"/"+i+".jpg")
+        for(int i = 0; i<image_count; i++){
+            final int finalI = i;
+            storageReference.child(user_id+"/"+ad_id+"/"+i+".jpg")
                     .getDownloadUrl()
-                    .addOnCompleteListener(new OnCompleteListener<Uri>() {
+                    .addOnSuccessListener(new OnSuccessListener<Uri>() {
                         @Override
-                        public void onComplete(@NonNull Task<Uri> task) {
-                            Log.i("URL", String.valueOf(task.getResult()));
+                        public void onSuccess(Uri uri) {
+                            imageUrls[finalI]=uri.toString();
+                            Log.i("work shivam",uri.toString());
+                            if(finalI==image_count-1)
+                            {
+                                finalProductImageAdapter finalProductImageAdapter=new finalProductImageAdapter(FinalProductView.this,imageUrls);
+                                prodImageViewPager.setAdapter(finalProductImageAdapter);
+
+                                viewpagerIndicator.setupWithViewPager(prodImageViewPager,true);
+                            }
+
                         }
                     });
-        }*/
+        }
 
-        finalProductImageAdapter finalProductImageAdapter=new finalProductImageAdapter(this,imageUrls);
-        prodImageViewPager.setAdapter(finalProductImageAdapter);
 
-        viewpagerIndicator.setupWithViewPager(prodImageViewPager,true);
 
         /*Uri uri=intent.getData();
         //Picasso.get().load(uri).into(prodImg);*/
