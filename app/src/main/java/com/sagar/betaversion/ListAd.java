@@ -3,6 +3,7 @@ package com.sagar.betaversion;
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.GridLayoutManager;
+import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import android.content.Intent;
@@ -29,6 +30,7 @@ import com.sagar.betaversion.AdCategory.ElectronicsAd;
 import com.sagar.betaversion.AdCategory.FurnitureAd;
 import com.sagar.betaversion.AdCategory.SportsAd;
 import com.sagar.betaversion.AdCategory.VehicleAd;
+
 import com.squareup.picasso.Picasso;
 
 import java.io.ByteArrayOutputStream;
@@ -70,7 +72,7 @@ public class ListAd extends AppCompatActivity {
 
         recyclerView=findViewById(R.id.AdListRecyclerView);
         recyclerView.setHasFixedSize(true);
-        recyclerView.setLayoutManager(new GridLayoutManager(this,2));
+        recyclerView.setLayoutManager(new LinearLayoutManager(this));
 
         showList();
 
@@ -89,7 +91,7 @@ public class ListAd extends AppCompatActivity {
                     myAdapter.adProductName.setText(vehicleAd.getModel());
                     myAdapter.adProductPrice.setText(vehicleAd.getSellingPrice());
                     final Intent intent = new Intent(getApplicationContext(), FinalProductView.class);
-
+                            intent.putExtra("type","Vehicle");
                     storageReference.child(vehicleAd.getUser_id()+"/"+vehicleAd.getId()+"/0.jpg")
                             .getDownloadUrl()
                             .addOnSuccessListener(new OnSuccessListener<Uri>() {
