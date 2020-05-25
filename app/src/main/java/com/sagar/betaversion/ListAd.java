@@ -1,6 +1,7 @@
 package com.sagar.betaversion;
 
 import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
@@ -8,6 +9,7 @@ import androidx.recyclerview.widget.RecyclerView;
 import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.MenuItem;
 import android.view.View;
@@ -18,6 +20,11 @@ import com.firebase.ui.database.FirebaseRecyclerAdapter;
 import com.firebase.ui.database.FirebaseRecyclerOptions;
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
+import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.FirebaseUser;
+import com.google.firebase.database.ChildEventListener;
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.storage.FirebaseStorage;
@@ -30,6 +37,8 @@ import com.sagar.betaversion.AdCategory.VehicleAd;
 
 import com.squareup.picasso.Picasso;
 
+import java.util.ArrayList;
+
 public class ListAd extends AppCompatActivity {
      RecyclerView recyclerView;
      FirebaseRecyclerAdapter<VehicleAd, listAdRecViewAdapter> VehicleAdapter;
@@ -41,6 +50,7 @@ public class ListAd extends AppCompatActivity {
      DatabaseReference databaseReference;
      StorageReference storageReference;
      String type;
+     String Uid;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -61,7 +71,9 @@ public class ListAd extends AppCompatActivity {
         database= FirebaseDatabase.getInstance();
         databaseReference=database.getReference(type+"Ad");
         storageReference= FirebaseStorage.getInstance().getReference(type+"Image");
-
+        FirebaseAuth mAuth= FirebaseAuth.getInstance();
+        FirebaseUser user =mAuth.getCurrentUser();
+        Uid=user.getUid();
         databaseReference.keepSynced(true);
 
         recyclerView=findViewById(R.id.AdListRecyclerView);
@@ -73,8 +85,58 @@ public class ListAd extends AppCompatActivity {
     }
 
     private void showList() {
+
         if(type.matches("Vehicle"))
         {
+
+            //STARTS HERE CHECK THIS BRO
+            final ArrayList<VehicleAd> arrayList= new ArrayList<>();
+            ChildEventListener childEventListener = new ChildEventListener() {
+                @Override
+                public void onChildAdded(@NonNull DataSnapshot dataSnapshot, @Nullable String s) {
+
+                    VehicleAd vehicleAd=dataSnapshot.getValue(VehicleAd.class);
+                    if(vehicleAd.isStatus() && vehicleAd.getUser_id()!=Uid)
+                    {
+                        Log.i("arrayList",dataSnapshot.getKey());
+                        arrayList.add(vehicleAd);
+                    }
+
+                }
+
+
+                @Override
+                public void onChildChanged(@NonNull DataSnapshot dataSnapshot, @Nullable String s) {
+                    VehicleAd vehicleAd=dataSnapshot.getValue(VehicleAd.class);
+                    arrayList.remove(vehicleAd);
+                    if(vehicleAd.isStatus() && vehicleAd.getUser_id()!=Uid)
+                    {
+                        Log.i("arrayList",dataSnapshot.getKey());
+                        arrayList.add(vehicleAd);
+                    }
+
+                }
+
+                @Override
+                public void onChildRemoved(@NonNull DataSnapshot dataSnapshot) {
+                    VehicleAd vehicleAd=dataSnapshot.getValue(VehicleAd.class);
+                    arrayList.remove(vehicleAd);
+                }
+
+                @Override
+                public void onChildMoved(@NonNull DataSnapshot dataSnapshot, @Nullable String s) {
+
+                }
+
+
+                @Override
+                public void onCancelled(@NonNull DatabaseError databaseError) {
+                    Toast.makeText(ListAd.this,"Database Error try again!!",Toast.LENGTH_SHORT).show();
+                }
+            };
+            //ENDS HERE BAAKI CODE ME KCH CHANGES NAHI HAI RECYCLERVIEW ME YE ARRAYLIST DAAL DENA
+            databaseReference.orderByKey();
+            databaseReference.addChildEventListener(childEventListener);
             FirebaseRecyclerOptions<VehicleAd> options=new FirebaseRecyclerOptions.Builder<VehicleAd>()
                     .setQuery(databaseReference,VehicleAd.class)
                     .build();
@@ -84,7 +146,7 @@ public class ListAd extends AppCompatActivity {
                 protected void onBindViewHolder(@NonNull final listAdRecViewAdapter listAdRecViewAdapter, final int i, @NonNull final VehicleAd vehicleAd) {
                     listAdRecViewAdapter.adProductBrand.setText(vehicleAd.getBrand());
                     listAdRecViewAdapter.adProductModel.setText(vehicleAd.getModel());
-                    listAdRecViewAdapter.adProductPrice.setText(vehicleAd.getSellingPrice());
+                    listAdRecViewAdapter.adProductPrice.setText(Integer.toString(vehicleAd.getSellingPrice()));
                     final Intent intent = new Intent(getApplicationContext(), FinalProductView.class);
                             intent.putExtra("type",type);
                     storageReference.child(vehicleAd.getUser_id()+"/"+vehicleAd.getId()+"/0.jpg")
@@ -116,8 +178,8 @@ public class ListAd extends AppCompatActivity {
                             intent.putExtra("prodBrand",mProdBrand);
                             intent.putExtra("prodModel",mProdModel);
                             intent.putExtra("prodPrice",mProductPrice);
-                            intent.putExtra("prodKmsDriven",vehicleAd.getKmsDriven());
-                            intent.putExtra("prodMilege",vehicleAd.getMilege());
+                            intent.putExtra("prodKmsDriven",Integer.toString(vehicleAd.getKmsDriven()));
+                            intent.putExtra("prodMilege",Integer.toString(vehicleAd.getMilege()));
                             intent.putExtra("prodDOP",vehicleAd.getDate_of_purchase());
                             intent.putExtra("prodDesc",vehicleAd.getDescription());
                             startActivity(intent);
@@ -148,7 +210,7 @@ public class ListAd extends AppCompatActivity {
                 protected void onBindViewHolder(@NonNull final listAdRecViewAdapter listAdRecViewAdapter, int i, @NonNull final ElectronicsAd Ad) {
                     listAdRecViewAdapter.adProductBrand.setText(Ad.getBrand());
                     listAdRecViewAdapter.adProductModel.setText(Ad.getModel());
-                    listAdRecViewAdapter.adProductPrice.setText(Ad.getSellingPrice());
+                    listAdRecViewAdapter.adProductPrice.setText(Integer.toString(Ad.getSellingPrice()));
                     final Intent intent=new Intent(getApplicationContext(),FinalProductView.class);
 
                     storageReference.child(Ad.getUser_id()+"/"+Ad.getId()+"/0.jpg").getDownloadUrl().addOnSuccessListener(new OnSuccessListener<Uri>() {
@@ -212,7 +274,7 @@ public class ListAd extends AppCompatActivity {
                 protected void onBindViewHolder(@NonNull final listAdRecViewAdapter listAdRecViewAdapter, int i, @NonNull final BooksAd Ad) {
                     listAdRecViewAdapter.adProductBrand.setText(Ad.getBrand());
                     listAdRecViewAdapter.adProductModel.setText(Ad.getModel());
-                    listAdRecViewAdapter.adProductPrice.setText(Ad.getSellingPrice());
+                    listAdRecViewAdapter.adProductPrice.setText(Integer.toString(Ad.getSellingPrice()));
                     final Intent intent=new Intent(getApplicationContext(),FinalProductView.class);
                     storageReference.child(Ad.getUser_id()+"/"+Ad.getId()+"/0.jpg").getDownloadUrl().addOnSuccessListener(new OnSuccessListener<Uri>() {
                         @Override
@@ -269,7 +331,7 @@ public class ListAd extends AppCompatActivity {
                 protected void onBindViewHolder(@NonNull final listAdRecViewAdapter listAdRecViewAdapter, int i, @NonNull final SportsAd Ad) {
                     listAdRecViewAdapter.adProductBrand.setText(Ad.getBrand());
                     listAdRecViewAdapter.adProductModel.setText(Ad.getModel());
-                    listAdRecViewAdapter.adProductPrice.setText(Ad.getSellingPrice());
+                    listAdRecViewAdapter.adProductPrice.setText(Integer.toString(Ad.getSellingPrice()));
                     final Intent intent=new Intent(getApplicationContext(),FinalProductView.class);
                     storageReference.child(Ad.getUser_id()+"/"+Ad.getId()+"/0.jpg").getDownloadUrl().addOnSuccessListener(new OnSuccessListener<Uri>() {
                         @Override
@@ -327,7 +389,7 @@ public class ListAd extends AppCompatActivity {
                 @Override
                 protected void onBindViewHolder(@NonNull final listAdRecViewAdapter listAdRecViewAdapter, int i, @NonNull final FurnitureAd Ad) {
                     listAdRecViewAdapter.adProductModel.setText(Ad.getModel());
-                    listAdRecViewAdapter.adProductPrice.setText(Ad.getSellingPrice());
+                    listAdRecViewAdapter.adProductPrice.setText(Integer.toString(Ad.getSellingPrice()));
                     final Intent intent=new Intent(getApplicationContext(),FinalProductView.class);
                     storageReference.child(Ad.getUser_id()+"/"+Ad.getId()+"/0.jpg").getDownloadUrl().addOnSuccessListener(new OnSuccessListener<Uri>() {
                         @Override

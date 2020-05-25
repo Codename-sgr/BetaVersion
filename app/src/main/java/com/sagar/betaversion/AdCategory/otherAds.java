@@ -54,7 +54,13 @@ public class otherAds extends AppCompatActivity {
         final int[] flag = {0};
         if(type.matches("Books"))
         {
-            final BooksAd booksAd= new BooksAd(ad_id,user_id,brand.getText().toString(),model.getText().toString(),purchaseDate.getText().toString(),description.getText().toString(),sellinPrice.getText().toString());
+            final BooksAd booksAd= new BooksAd(ad_id,
+                                                user_id,
+                                                brand.getText().toString(),
+                                                model.getText().toString(),
+                                                purchaseDate.getText().toString(),
+                                                description.getText().toString(),
+                                                Integer.parseInt(sellinPrice.getText().toString()));
             final int count=ImageUri.size();
             booksAd.setImg_count(count);
 
@@ -97,7 +103,13 @@ public class otherAds extends AppCompatActivity {
         }
         else if(type.matches("Furniture"))
         {
-            final FurnitureAd furnitureAd= new FurnitureAd(ad_id,user_id,model.getText().toString(),purchaseDate.getText().toString(),description.getText().toString(),sellinPrice.getText().toString());
+            final FurnitureAd furnitureAd= new FurnitureAd(ad_id,
+                                                            user_id,
+                                                            brand.getText().toString(),
+                                                            model.getText().toString(),
+                                                            purchaseDate.getText().toString(),
+                                                            description.getText().toString(),
+                                                            Integer.parseInt(sellinPrice.getText().toString()));
             final int count=ImageUri.size();
             furnitureAd.setImg_count(count);
             databaseAd.child(ad_id).setValue(furnitureAd);
@@ -143,7 +155,13 @@ public class otherAds extends AppCompatActivity {
         }
         else if(type.matches("Sports"))
         {
-            final SportsAd sportsAd= new SportsAd(ad_id,user_id,brand.getText().toString(),model.getText().toString(),purchaseDate.getText().toString(),description.getText().toString(),sellinPrice.getText().toString());
+            final SportsAd sportsAd= new SportsAd(ad_id,
+                                                    user_id,
+                                                    brand.getText().toString(),
+                                                    model.getText().toString(),
+                                                    purchaseDate.getText().toString(),
+                                                    description.getText().toString(),
+                                                    Integer.parseInt(sellinPrice.getText().toString()));
             final int count=ImageUri.size();
             sportsAd.setImg_count(count);
 
@@ -220,7 +238,7 @@ public class otherAds extends AppCompatActivity {
                 {
                     Toast.makeText(otherAds.this,"You can select maximum 3 photos, Try Again!",Toast.LENGTH_SHORT).show();
                 }
-                else if(count<2)
+                else if(count<=1)
                 {
                     Toast.makeText(otherAds.this,"You have to select minimum 2 photos, Try Again!",Toast.LENGTH_SHORT).show();
                 }
@@ -292,6 +310,15 @@ public class otherAds extends AppCompatActivity {
         {
             brand.setHint("Author");
             model.setHint("Title");
+        }
+        if(type.matches("Furniture"))
+        {
+            brand.setHint("Item");
+        }
+        if(type.matches("Sports"))
+        {
+            brand.setHint("Item");
+            model.setHint("Brand");
         }
 
     }

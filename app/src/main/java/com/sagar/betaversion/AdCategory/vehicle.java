@@ -39,12 +39,16 @@ import java.io.ByteArrayOutputStream;
 import java.io.IOException;
 import java.net.URI;
 import java.text.DateFormat;
+import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
 
 public class vehicle extends AppCompatActivity {
     EditText  brand,model,purchaseDate,kmsDriven,milege,sellinPrice,description;
+    String vbrand,vmodel,vdescription;
+    String vpurchaseDate;
+    int vkmsDriven,vsellinPrice,vmilege;
     FirebaseAuth mAuth;
     ImageView img1,img2,img3;
     ArrayList<Uri> ImageUri= new ArrayList<>();
@@ -63,7 +67,14 @@ public class vehicle extends AppCompatActivity {
         progressDialog.show();
 
         ad_id=databaseAd.push().getKey();
-        final VehicleAd vehicleAd= new VehicleAd(ad_id,user_id,brand.getText().toString() ,model.getText().toString(),purchaseDate.getText().toString(),kmsDriven.getText().toString(),milege.getText().toString(),sellinPrice.getText().toString(),description.getText().toString());
+        vmodel=model.getText().toString();
+        vbrand=brand.getText().toString();
+        vdescription=description.getText().toString();
+        vkmsDriven=Integer.parseInt( kmsDriven.getText().toString() );
+        vmilege=Integer.parseInt( milege.getText().toString() );
+        vsellinPrice=Integer.parseInt(sellinPrice.getText().toString());
+        vpurchaseDate=purchaseDate.getText().toString();
+        final VehicleAd vehicleAd= new VehicleAd(ad_id,user_id,vbrand,vmodel,vpurchaseDate,vkmsDriven,vmilege,vsellinPrice,vdescription);
 
         final int count=ImageUri.size();
         vehicleAd.setImg_count(count);
@@ -131,7 +142,7 @@ public class vehicle extends AppCompatActivity {
                {
                    Toast.makeText(vehicle.this,"You can select maximum 3 photos, Try Again!",Toast.LENGTH_SHORT).show();
                }
-               else if(count<2)
+               else if(count<=1)
                {
                    Toast.makeText(vehicle.this,"You have to select minimum 2 photos, Try Again!",Toast.LENGTH_SHORT).show();
                }
@@ -142,7 +153,7 @@ public class vehicle extends AppCompatActivity {
                            Uri imageUri = data.getClipData().getItemAt(i).getUri();
                            Bitmap bitmap = MediaStore.Images.Media.getBitmap(this.getContentResolver(), imageUri);
                            ByteArrayOutputStream stream = new ByteArrayOutputStream();
-                           bitmap.compress(Bitmap.CompressFormat.WEBP, 40, stream);
+                           bitmap.compress(Bitmap.CompressFormat.JPEG,20, stream);
                            byte[] byteArray = stream.toByteArray();
                            if(i==0)
                            {

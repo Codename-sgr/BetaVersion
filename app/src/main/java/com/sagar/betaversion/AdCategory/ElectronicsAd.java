@@ -14,8 +14,8 @@ public class ElectronicsAd {
     String date_of_purchase;
     String description;
     int img_count;
-    String sellingPrice;
-    String fileExtension;
+    int sellingPrice;
+
     boolean status;//true for unsold, false for sold
     public ElectronicsAd()
     {
@@ -54,15 +54,13 @@ public class ElectronicsAd {
         return img_count;
     }
 
-    public String getSellingPrice(){
+    public int getSellingPrice(){
         return sellingPrice;
     }
 
-    public String getFileExtension() {
-        return fileExtension;
-    }
 
-    public ElectronicsAd(String id, String user_id,String brand, String model, String date_of_purchase, String description, String sellingPrice) {
+
+    public ElectronicsAd(String id, String user_id,String brand, String model, String date_of_purchase, String description, int sellingPrice) {
         this.id = id;
         this.user_id = user_id;
         this.brand=brand;
@@ -102,12 +100,8 @@ public class ElectronicsAd {
         this.img_count = img_count;
     }
 
-    public void setSellingPrice(String sellingPrice) {
+    public void setSellingPrice(int sellingPrice) {
         this.sellingPrice = sellingPrice;
-    }
-
-    public void setFileExtension(String fileExtension) {
-        this.fileExtension = fileExtension;
     }
 
     public void setStatus(boolean status) {

@@ -4,11 +4,11 @@ public class SportsAd
 {
     String id;
     String user_id;
-    String brand;
+    String brand;//item
     String model;
     String doP;
     String description;
-    String sellingPrice;
+    int sellingPrice;
     int img_count;
     boolean status;//true for unsold, false for sold
     public SportsAd()
@@ -16,7 +16,7 @@ public class SportsAd
 
     }
 
-    public SportsAd(String id, String user_id, String brand,String model,String doP, String description, String sellingPrice) {
+    public SportsAd(String id, String user_id, String brand,String model,String doP, String description, int sellingPrice) {
         this.id = id;
         this.user_id = user_id;
         this.brand = brand;
@@ -74,11 +74,11 @@ public class SportsAd
         this.description = description;
     }
 
-    public String getSellingPrice() {
+    public int getSellingPrice() {
         return sellingPrice;
     }
 
-    public void setSellingPrice(String sellingPrice) {
+    public void setSellingPrice(int sellingPrice) {
         this.sellingPrice = sellingPrice;
     }
 

@@ -58,7 +58,7 @@ public class electronics extends AppCompatActivity {
                                                             ,model.getText().toString()
                                                             ,purchaseDate.getText().toString()
                                                             ,description.getText().toString()
-                                                            ,sellingPrice.getText().toString());
+                                                            ,Integer.parseInt(sellingPrice.getText().toString()));
         final int count=ImageUri.size();
         electronicsAd.setImg_count(count);
         final int[] flag = {0};
@@ -130,7 +130,7 @@ public class electronics extends AppCompatActivity {
                 {
                     Toast.makeText(electronics.this,"You can select maximum 3 photos, Try Again!",Toast.LENGTH_SHORT).show();
                 }
-                else if(count==1)
+                else if(count<=1)
                 {
                     Toast.makeText(electronics.this,"You have to select minimum 2 photos, Try Again!",Toast.LENGTH_SHORT).show();
                 }
@@ -143,7 +143,7 @@ public class electronics extends AppCompatActivity {
                             Uri imageUri = data.getClipData().getItemAt(i).getUri();
                             Bitmap bitmap = MediaStore.Images.Media.getBitmap(this.getContentResolver(), imageUri);
                             ByteArrayOutputStream stream = new ByteArrayOutputStream();
-                            bitmap.compress(Bitmap.CompressFormat.JPEG, 40, stream);
+                            bitmap.compress(Bitmap.CompressFormat.JPEG, 20, stream);
                             byte[] byteArray = stream.toByteArray();
                             if(i==0)
                             {
@@ -199,11 +199,5 @@ public class electronics extends AppCompatActivity {
         user_id=user.getUid();
         userAd=FirebaseDatabase.getInstance().getReference("UserAd").child(user_id).child("ElectronicId");
 
-    }
-    public String getFileExtension(Uri uri)
-    {
-        ContentResolver CR=getContentResolver();
-        MimeTypeMap mime=MimeTypeMap.getSingleton();
-        return mime.getExtensionFromMimeType(CR.getType(uri));
     }
 }

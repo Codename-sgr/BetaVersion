@@ -8,27 +8,19 @@ public class VehicleAd {
     String brand;
     String model;
     String date_of_purchase;
-    String kmsDriven;
-    String milege;
-    String sellingPrice;
+    int kmsDriven;
+    int milege;
+    int sellingPrice;
     int img_count;
     String description;
-    String fileExtension;
-
     boolean status;//true for unsold, false for sold
-    public String getFileExtension() {
-        return fileExtension;
-    }
 
-    public void setFileExtension(String fileExtension) {
-        this.fileExtension = fileExtension;
-    }
     public VehicleAd()
      {
 
      }
 
-    public VehicleAd(String id, String user_id, String brand, String model, String date_of_purchase, String kmsDriven, String milege, String sellingPrice, String description) {
+    public VehicleAd(String id, String user_id, String brand, String model, String  date_of_purchase, int kmsDriven, int milege, int sellingPrice, String description) {
         this.id = id;
         this.user_id = user_id;
         this.brand=brand;
@@ -72,16 +64,16 @@ public class VehicleAd {
         return date_of_purchase;
     }
 
-    public String getKmsDriven() {
+    public int getKmsDriven() {
         return kmsDriven;
     }
 
 
-    public String getMilege() {
+    public int getMilege() {
         return milege;
     }
 
-    public String getSellingPrice(){
+    public int getSellingPrice(){
         return sellingPrice;
     }
 

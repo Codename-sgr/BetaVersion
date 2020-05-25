@@ -3,18 +3,18 @@ package com.sagar.betaversion.AdCategory;
 public class BooksAd {
     String id;
     String user_id;
-    String brand;
-    String model;
+    String brand;// Author
+    String model;// Title
     String doP;
     String description;
-    String sellingPrice;
+    int sellingPrice;
     int img_count;
     boolean status;//true for unsold, false for sold
     public BooksAd()
     {
 
     }
-    public BooksAd(String id, String user_id, String brand,String model,String doP, String description, String sellingPrice) {
+    public BooksAd(String id, String user_id, String brand,String model,String doP, String description, int sellingPrice) {
         this.id = id;
         this.user_id = user_id;
         this.brand=brand;
@@ -74,11 +74,11 @@ public class BooksAd {
         this.description = description;
     }
 
-    public String getSellingPrice() {
+    public int getSellingPrice() {
         return sellingPrice;
     }
 
-    public void setSellingPrice(String sellingPrice) {
+    public void setSellingPrice(int sellingPrice) {
         this.sellingPrice = sellingPrice;
     }
 
