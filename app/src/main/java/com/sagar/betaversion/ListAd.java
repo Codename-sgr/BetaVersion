@@ -31,8 +31,7 @@ import com.google.firebase.storage.FirebaseStorage;
 import com.google.firebase.storage.StorageReference;
 import com.sagar.betaversion.AdCategory.BooksAd;
 import com.sagar.betaversion.AdCategory.ElectronicsAd;
-import com.sagar.betaversion.AdCategory.FurnitureAd;
-import com.sagar.betaversion.AdCategory.SportsAd;
+import com.sagar.betaversion.AdCategory.MiscAd;
 import com.sagar.betaversion.AdCategory.VehicleAd;
 
 import com.squareup.picasso.Picasso;
@@ -43,9 +42,9 @@ public class ListAd extends AppCompatActivity {
      RecyclerView recyclerView;
      FirebaseRecyclerAdapter<VehicleAd, listAdRecViewAdapter> VehicleAdapter;
      FirebaseRecyclerAdapter<ElectronicsAd, listAdRecViewAdapter> ElectronicAdapter;
-     FirebaseRecyclerAdapter<SportsAd, listAdRecViewAdapter> SportsAdapter;
+     FirebaseRecyclerAdapter<MiscAd, listAdRecViewAdapter> SportsAdapter;
      FirebaseRecyclerAdapter<BooksAd, listAdRecViewAdapter> BooksAdapter;
-     FirebaseRecyclerAdapter<FurnitureAd, listAdRecViewAdapter> FurnitureAdapter;
+
      FirebaseDatabase database;
      DatabaseReference databaseReference;
      StorageReference storageReference;
@@ -320,15 +319,15 @@ public class ListAd extends AppCompatActivity {
             BooksAdapter.notifyDataSetChanged();
             recyclerView.setAdapter(BooksAdapter);
         }
-        else if(type.matches("Sports"))
+        else if(type.matches("Miscellaneous"))
         {
-            FirebaseRecyclerOptions<SportsAd> options=new FirebaseRecyclerOptions.Builder<SportsAd>()
-                    .setQuery(databaseReference,SportsAd.class)
+            FirebaseRecyclerOptions<MiscAd> options=new FirebaseRecyclerOptions.Builder<MiscAd>()
+                    .setQuery(databaseReference, MiscAd.class)
                     .build();
 
-            SportsAdapter=new FirebaseRecyclerAdapter<SportsAd, listAdRecViewAdapter>(options) {
+            SportsAdapter=new FirebaseRecyclerAdapter<MiscAd, listAdRecViewAdapter>(options) {
                 @Override
-                protected void onBindViewHolder(@NonNull final listAdRecViewAdapter listAdRecViewAdapter, int i, @NonNull final SportsAd Ad) {
+                protected void onBindViewHolder(@NonNull final listAdRecViewAdapter listAdRecViewAdapter, int i, @NonNull final MiscAd Ad) {
                     listAdRecViewAdapter.adProductBrand.setText(Ad.getBrand());
                     listAdRecViewAdapter.adProductModel.setText(Ad.getModel());
                     listAdRecViewAdapter.adProductPrice.setText(Integer.toString(Ad.getSellingPrice()));
@@ -379,62 +378,7 @@ public class ListAd extends AppCompatActivity {
             SportsAdapter.notifyDataSetChanged();
             recyclerView.setAdapter(SportsAdapter);
         }
-        else if(type.matches("Furniture"))
-        {
-            FirebaseRecyclerOptions<FurnitureAd> options=new FirebaseRecyclerOptions.Builder<FurnitureAd>()
-                    .setQuery(databaseReference,FurnitureAd.class)
-                    .build();
 
-            FurnitureAdapter=new FirebaseRecyclerAdapter<FurnitureAd, listAdRecViewAdapter>(options) {
-                @Override
-                protected void onBindViewHolder(@NonNull final listAdRecViewAdapter listAdRecViewAdapter, int i, @NonNull final FurnitureAd Ad) {
-                    listAdRecViewAdapter.adProductModel.setText(Ad.getModel());
-                    listAdRecViewAdapter.adProductPrice.setText(Integer.toString(Ad.getSellingPrice()));
-                    final Intent intent=new Intent(getApplicationContext(),FinalProductView.class);
-                    storageReference.child(Ad.getUser_id()+"/"+Ad.getId()+"/0.jpg").getDownloadUrl().addOnSuccessListener(new OnSuccessListener<Uri>() {
-                        @Override
-                        public void onSuccess(Uri uri) {
-                            Picasso.get().load(uri).into(listAdRecViewAdapter.adProductImage);
-                            // Got the download URL for 'users/me/profile.png'
-                            intent.setData(uri);
-                        }
-                    }).addOnFailureListener(new OnFailureListener() {
-                        @Override
-                        public void onFailure(@NonNull Exception exception) {
-                            // Handle any errors
-                            listAdRecViewAdapter.adProductImage.setImageResource(R.drawable.androidlogo);
-                        }
-                    });
-
-                    listAdRecViewAdapter.setItemClickListener(new ItemClickListener() {
-                        @Override
-                        public void onItemClickListener(View v, int position) {
-                            String mProdModel= listAdRecViewAdapter.adProductModel.getText().toString();
-                            String mProductPrice= listAdRecViewAdapter.adProductPrice.getText().toString();
-                            intent.putExtra("type",type);
-                            intent.putExtra("img_count",Ad.getImg_count());
-                            intent.putExtra("user_id",Ad.getUser_id());
-                            intent.putExtra("ad_id",Ad.getId());
-                            intent.putExtra("prodModel",mProdModel);
-                            intent.putExtra("prodPrice",mProductPrice);
-                            intent.putExtra("prodDesc",Ad.getDescription());
-                            startActivity(intent);
-                        }
-                    });
-
-                }
-                @NonNull
-                @Override
-                public listAdRecViewAdapter onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
-                    View view=LayoutInflater.from(parent.getContext())
-                            .inflate(R.layout.row_data,parent,false);
-                    return new listAdRecViewAdapter(view);
-                }
-            };
-            FurnitureAdapter.startListening();
-            FurnitureAdapter.notifyDataSetChanged();
-            recyclerView.setAdapter(FurnitureAdapter);
-        }
         else {
             Toast.makeText(ListAd.this,"Tapped "+type,Toast.LENGTH_SHORT).show();
         }

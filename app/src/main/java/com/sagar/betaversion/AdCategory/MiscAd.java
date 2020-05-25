@@ -1,6 +1,6 @@
 package com.sagar.betaversion.AdCategory;
 
-public class SportsAd
+public class MiscAd
 {
     String id;
     String user_id;
@@ -11,12 +11,12 @@ public class SportsAd
     int sellingPrice;
     int img_count;
     boolean status;//true for unsold, false for sold
-    public SportsAd()
+    public MiscAd()
     {
 
     }
 
-    public SportsAd(String id, String user_id, String brand,String model,String doP, String description, int sellingPrice) {
+    public MiscAd(String id, String user_id, String brand, String model, String doP, String description, int sellingPrice) {
         this.id = id;
         this.user_id = user_id;
         this.brand = brand;

@@ -26,7 +26,7 @@ import com.sagar.betaversion.AdCategory.myAdActivity;
 public class MainActivity extends AppCompatActivity {
 
 
-    ImageButton myAccount, newAd, vehicleAds, electronicAds, bookAds, sportAds, furnitureAds,MyAds;
+    ImageButton myAccount, newAd, vehicleAds, electronicAds, bookAds, miscAds,MyAds;
     ProgressDialog progressDialog;
     String username;
     Boolean dp;
@@ -112,10 +112,10 @@ public class MainActivity extends AppCompatActivity {
         newAd = findViewById(R.id.newAdButton);
         MyAds=findViewById(R.id.myAdButton);
         vehicleAds = findViewById(R.id.vehicleButton);
+        miscAds=findViewById(R.id.miscButton);
         electronicAds = findViewById(R.id.electronicsButton);
         bookAds = findViewById(R.id.booksButton);
-        sportAds = findViewById(R.id.sportsButton);
-        furnitureAds = findViewById(R.id.furnitureButton);
+
         final Intent intent = new Intent(getApplicationContext(), ListAd.class);
         vehicleAds.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -138,20 +138,15 @@ public class MainActivity extends AppCompatActivity {
                 startActivity(intent);
             }
         });
-        sportAds.setOnClickListener(new View.OnClickListener() {
+        miscAds.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                intent.putExtra("type", "Sports");
+                intent.putExtra("type", "Miscellaneous");
                 startActivity(intent);
             }
         });
-        furnitureAds.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                intent.putExtra("type", "Furniture");
-                startActivity(intent);
-            }
-        });
+
+
         myAccount.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {

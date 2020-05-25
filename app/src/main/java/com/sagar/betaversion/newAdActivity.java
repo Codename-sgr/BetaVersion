@@ -31,8 +31,8 @@ public class newAdActivity extends AppCompatActivity {
         categories.add("Vehicle");
         categories.add("Electronic");
         categories.add("Books");
-        categories.add("Furniture");
-        categories.add("Sports");
+        categories.add("Miscellaneous");
+
         //categories.add("Misc");
         ListView listView=findViewById(R.id.Category);
         ArrayAdapter arrayAdapter= new ArrayAdapter(this,android.R.layout.simple_list_item_1,categories);

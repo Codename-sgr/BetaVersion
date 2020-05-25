@@ -101,69 +101,18 @@ public class otherAds extends AppCompatActivity {
             }
 
         }
-        else if(type.matches("Furniture"))
+
+        else if(type.matches("Miscellaneous"))
         {
-            final FurnitureAd furnitureAd= new FurnitureAd(ad_id,
-                                                            user_id,
-                                                            brand.getText().toString(),
-                                                            model.getText().toString(),
-                                                            purchaseDate.getText().toString(),
-                                                            description.getText().toString(),
-                                                            Integer.parseInt(sellinPrice.getText().toString()));
+            final MiscAd Ad= new MiscAd(ad_id,
+                    user_id,
+                    brand.getText().toString(),
+                    model.getText().toString(),
+                    purchaseDate.getText().toString(),
+                    description.getText().toString(),
+                    Integer.parseInt(sellinPrice.getText().toString()));
             final int count=ImageUri.size();
-            furnitureAd.setImg_count(count);
-            databaseAd.child(ad_id).setValue(furnitureAd);
-            for(int i=0;i<count;i++)
-            {
-                final StorageReference ref=imageStorageRef.child(user_id+"/"+ad_id+"/"+ (i) +".jpg");
-
-                UploadTask uploadTask = ref.putBytes(ImageArray.get(i));
-                final int finalI = i;
-                uploadTask.addOnSuccessListener(new OnSuccessListener<UploadTask.TaskSnapshot>() {
-                    @Override
-                    public void onSuccess(UploadTask.TaskSnapshot taskSnapshot) {
-
-                        if(finalI ==count-1)
-                        {
-                            progressDialog.dismiss();
-                            userAd.child(ad_id).setValue(true);
-                            databaseAd.child(ad_id).setValue(furnitureAd);
-                            Toast.makeText(otherAds.this,"Ad Posted Successfully",Toast.LENGTH_SHORT).show();
-                            Intent intent=new Intent(getApplicationContext(),MainActivity.class);
-                            startActivity(intent);
-                            finish();
-                        }
-                    }
-                }).addOnFailureListener(new OnFailureListener() {
-                    @Override
-                    public void onFailure(@NonNull Exception e) {
-                        flag[0] =1;
-                    }
-                });
-
-
-            }
-
-            if(flag[0]==1) {
-
-                Toast.makeText(this,"Retry!",Toast.LENGTH_SHORT).show();
-                Intent intent=new Intent(getApplicationContext(),MainActivity.class);
-                startActivity(intent);
-                finish();
-            }
-
-        }
-        else if(type.matches("Sports"))
-        {
-            final SportsAd sportsAd= new SportsAd(ad_id,
-                                                    user_id,
-                                                    brand.getText().toString(),
-                                                    model.getText().toString(),
-                                                    purchaseDate.getText().toString(),
-                                                    description.getText().toString(),
-                                                    Integer.parseInt(sellinPrice.getText().toString()));
-            final int count=ImageUri.size();
-            sportsAd.setImg_count(count);
+            Ad.setImg_count(count);
 
             for(int i=0;i<count;i++)
             {
@@ -179,7 +128,7 @@ public class otherAds extends AppCompatActivity {
                         {
                             progressDialog.dismiss();
                             userAd.child(ad_id).setValue(true);
-                            databaseAd.child(ad_id).setValue(sportsAd);
+                            databaseAd.child(ad_id).setValue(Ad);
                             Toast.makeText(otherAds.this,"Ad Posted Successfully",Toast.LENGTH_SHORT).show();
                             Intent intent=new Intent(getApplicationContext(),MainActivity.class);
                             startActivity(intent);
@@ -311,11 +260,8 @@ public class otherAds extends AppCompatActivity {
             brand.setHint("Author");
             model.setHint("Title");
         }
-        if(type.matches("Furniture"))
-        {
-            brand.setHint("Item");
-        }
-        if(type.matches("Sports"))
+
+        if(type.matches("Miscellaneous"))
         {
             brand.setHint("Item");
             model.setHint("Brand");
