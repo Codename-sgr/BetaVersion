@@ -5,6 +5,7 @@ import java.util.Date;
 public class VehicleAd {
     String id;
     String user_id;
+    String brand;
     String model;
     String date_of_purchase;
     String kmsDriven;
@@ -27,9 +28,10 @@ public class VehicleAd {
 
      }
 
-    public VehicleAd(String id, String user_id, String model, String date_of_purchase, String kmsDriven, String milege,String sellingPrice, String description) {
+    public VehicleAd(String id, String user_id, String brand, String model, String date_of_purchase, String kmsDriven, String milege, String sellingPrice, String description) {
         this.id = id;
         this.user_id = user_id;
+        this.brand=brand;
         this.model = model;
         this.date_of_purchase = date_of_purchase;
         this.kmsDriven = kmsDriven;
@@ -54,6 +56,10 @@ public class VehicleAd {
         return user_id;
     }
 
+    public String getBrand() {
+        return brand;
+    }
+
     public String getModel() {
         return model;
     }
@@ -66,9 +72,10 @@ public class VehicleAd {
         return date_of_purchase;
     }
 
-    public String getkmsDriven() {
+    public String getKmsDriven() {
         return kmsDriven;
     }
+
 
     public String getMilege() {
         return milege;

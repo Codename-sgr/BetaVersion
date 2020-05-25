@@ -2,13 +2,10 @@ package com.sagar.betaversion;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
-import androidx.recyclerview.widget.GridLayoutManager;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import android.content.Intent;
-import android.graphics.Bitmap;
-import android.graphics.BitmapFactory;
 import android.net.Uri;
 import android.os.Bundle;
 import android.view.LayoutInflater;
@@ -33,16 +30,13 @@ import com.sagar.betaversion.AdCategory.VehicleAd;
 
 import com.squareup.picasso.Picasso;
 
-import java.io.ByteArrayOutputStream;
-import java.net.URI;
-
 public class ListAd extends AppCompatActivity {
      RecyclerView recyclerView;
-     FirebaseRecyclerAdapter<VehicleAd,MyAdapter> VehicleAdapter;
-     FirebaseRecyclerAdapter<ElectronicsAd,MyAdapter> ElectronicAdapter;
-     FirebaseRecyclerAdapter<SportsAd,MyAdapter> SportsAdapter;
-     FirebaseRecyclerAdapter<BooksAd,MyAdapter> BooksAdapter;
-     FirebaseRecyclerAdapter<FurnitureAd,MyAdapter> FurnitureAdapter;
+     FirebaseRecyclerAdapter<VehicleAd, listAdRecViewAdapter> VehicleAdapter;
+     FirebaseRecyclerAdapter<ElectronicsAd, listAdRecViewAdapter> ElectronicAdapter;
+     FirebaseRecyclerAdapter<SportsAd, listAdRecViewAdapter> SportsAdapter;
+     FirebaseRecyclerAdapter<BooksAd, listAdRecViewAdapter> BooksAdapter;
+     FirebaseRecyclerAdapter<FurnitureAd, listAdRecViewAdapter> FurnitureAdapter;
      FirebaseDatabase database;
      DatabaseReference databaseReference;
      StorageReference storageReference;
@@ -85,39 +79,44 @@ public class ListAd extends AppCompatActivity {
                     .setQuery(databaseReference,VehicleAd.class)
                     .build();
 
-            VehicleAdapter=new FirebaseRecyclerAdapter<VehicleAd, MyAdapter>(options) {
+            VehicleAdapter=new FirebaseRecyclerAdapter<VehicleAd, listAdRecViewAdapter>(options) {
                 @Override
-                protected void onBindViewHolder(@NonNull final MyAdapter myAdapter, final int i, @NonNull final VehicleAd vehicleAd) {
-                    myAdapter.adProductName.setText(vehicleAd.getModel());
-                    myAdapter.adProductPrice.setText(vehicleAd.getSellingPrice());
+                protected void onBindViewHolder(@NonNull final listAdRecViewAdapter listAdRecViewAdapter, final int i, @NonNull final VehicleAd vehicleAd) {
+                    listAdRecViewAdapter.adProductBrand.setText(vehicleAd.getBrand());
+                    listAdRecViewAdapter.adProductModel.setText(vehicleAd.getModel());
+                    listAdRecViewAdapter.adProductPrice.setText(vehicleAd.getSellingPrice());
                     final Intent intent = new Intent(getApplicationContext(), FinalProductView.class);
                             intent.putExtra("type",type);
                     storageReference.child(vehicleAd.getUser_id()+"/"+vehicleAd.getId()+"/0.jpg")
                             .getDownloadUrl()
                             .addOnSuccessListener(new OnSuccessListener<Uri>() {
+
                         @Override
                         public void onSuccess(Uri uri) {
-                            Picasso.get().load(uri).into(myAdapter.adProductImage);
+                            Picasso.get().load(uri).into(listAdRecViewAdapter.adProductImage);
 
                         }
                     }).addOnFailureListener(new OnFailureListener() {
                         @Override
                         public void onFailure(@NonNull Exception exception) {
                             // Handle any errors
-                            myAdapter.adProductImage.setImageResource(R.drawable.androidlogo);
+                            listAdRecViewAdapter.adProductImage.setImageResource(R.drawable.androidlogo);
                         }
                     });
 
-                    myAdapter.setItemClickListener(new ItemClickListener() {
+                    listAdRecViewAdapter.setItemClickListener(new ItemClickListener() {
                         @Override
                         public void onItemClickListener(View v, int position) {
-                            String mProdName=myAdapter.adProductName.getText().toString();
-                            String mProductPrice=myAdapter.adProductPrice.getText().toString();
+                            String mProdBrand= listAdRecViewAdapter.adProductBrand.getText().toString();
+                            String mProdModel= listAdRecViewAdapter.adProductModel.getText().toString();
+                            String mProductPrice= listAdRecViewAdapter.adProductPrice.getText().toString();
                             intent.putExtra("img_count",vehicleAd.getImg_count());
                             intent.putExtra("user_id",vehicleAd.getUser_id());
                             intent.putExtra("ad_id",vehicleAd.getId());
-                            intent.putExtra("prodName",mProdName);
+                            intent.putExtra("prodBrand",mProdBrand);
+                            intent.putExtra("prodModel",mProdModel);
                             intent.putExtra("prodPrice",mProductPrice);
+                            intent.putExtra("prodKmsDriven",vehicleAd.getKmsDriven());
                             intent.putExtra("prodMilege",vehicleAd.getMilege());
                             intent.putExtra("prodDOP",vehicleAd.getDate_of_purchase());
                             intent.putExtra("prodDesc",vehicleAd.getDescription());
@@ -128,10 +127,10 @@ public class ListAd extends AppCompatActivity {
                 }
                 @NonNull
                 @Override
-                public MyAdapter onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
+                public listAdRecViewAdapter onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
                     View view=LayoutInflater.from(parent.getContext())
                             .inflate(R.layout.row_data,parent,false);
-                    return new MyAdapter(view);
+                    return new listAdRecViewAdapter(view);
                 }
             };
             VehicleAdapter.startListening();
@@ -144,11 +143,12 @@ public class ListAd extends AppCompatActivity {
                     .setQuery(databaseReference,ElectronicsAd.class)
                     .build();
 
-            ElectronicAdapter=new FirebaseRecyclerAdapter<ElectronicsAd, MyAdapter>(options) {
+            ElectronicAdapter=new FirebaseRecyclerAdapter<ElectronicsAd, listAdRecViewAdapter>(options) {
                 @Override
-                protected void onBindViewHolder(@NonNull final MyAdapter myAdapter, int i, @NonNull final ElectronicsAd Ad) {
-                    myAdapter.adProductName.setText(Ad.getModel());
-                    myAdapter.adProductPrice.setText(Ad.getSellingPrice());
+                protected void onBindViewHolder(@NonNull final listAdRecViewAdapter listAdRecViewAdapter, int i, @NonNull final ElectronicsAd Ad) {
+                    listAdRecViewAdapter.adProductBrand.setText(Ad.getBrand());
+                    listAdRecViewAdapter.adProductModel.setText(Ad.getModel());
+                    listAdRecViewAdapter.adProductPrice.setText(Ad.getSellingPrice());
                     final Intent intent=new Intent(getApplicationContext(),FinalProductView.class);
 
                     storageReference.child(Ad.getUser_id()+"/"+Ad.getId()+"/0.jpg").getDownloadUrl().addOnSuccessListener(new OnSuccessListener<Uri>() {
@@ -156,7 +156,7 @@ public class ListAd extends AppCompatActivity {
 
                         @Override
                         public void onSuccess(Uri uri) {
-                            Picasso.get().load(uri).into(myAdapter.adProductImage);
+                            Picasso.get().load(uri).into(listAdRecViewAdapter.adProductImage);
                             // Got the download URL for 'users/me/profile.png'
                             intent.setData(uri);
                         }
@@ -164,20 +164,22 @@ public class ListAd extends AppCompatActivity {
                         @Override
                         public void onFailure(@NonNull Exception exception) {
                             // Handle any errors
-                            myAdapter.adProductImage.setImageResource(R.drawable.androidlogo);
+                            listAdRecViewAdapter.adProductImage.setImageResource(R.drawable.androidlogo);
                         }
                     });
 
-                    myAdapter.setItemClickListener(new ItemClickListener() {
+                    listAdRecViewAdapter.setItemClickListener(new ItemClickListener() {
                         @Override
                         public void onItemClickListener(View v, int position) {
-                            String mProdName=myAdapter.adProductName.getText().toString();
-                            String mProductPrice=myAdapter.adProductPrice.getText().toString();
+                            String mProdBrand= listAdRecViewAdapter.adProductBrand.getText().toString();
+                            String mProdModel= listAdRecViewAdapter.adProductModel.getText().toString();
+                            String mProductPrice= listAdRecViewAdapter.adProductPrice.getText().toString();
                             intent.putExtra("type",type);
                             intent.putExtra("img_count",Ad.getImg_count());
                             intent.putExtra("user_id",Ad.getUser_id());
                             intent.putExtra("ad_id",Ad.getId());
-                            intent.putExtra("prodName",mProdName);
+                            intent.putExtra("prodBrand",mProdBrand);
+                            intent.putExtra("prodModel",mProdModel);
                             intent.putExtra("prodPrice",mProductPrice);
                             intent.putExtra("prodDOP",Ad.getDate_of_purchase());
                             intent.putExtra("prodDesc",Ad.getDescription());
@@ -188,51 +190,55 @@ public class ListAd extends AppCompatActivity {
                 }
                 @NonNull
                 @Override
-                public MyAdapter onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
+                public listAdRecViewAdapter onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
                     View view=LayoutInflater.from(parent.getContext())
                             .inflate(R.layout.row_data,parent,false);
-                    return new MyAdapter(view);
+                    return new listAdRecViewAdapter(view);
                 }
             };
             ElectronicAdapter.startListening();
             ElectronicAdapter.notifyDataSetChanged();
             recyclerView.setAdapter(ElectronicAdapter);
         }
-        else if(type.matches("Books"))
+        else if(type.matches("Books"))   //BRAND--AUTHOR_______MODEL=TITLE
         {
+
             FirebaseRecyclerOptions<BooksAd> options=new FirebaseRecyclerOptions.Builder<BooksAd>()
                     .setQuery(databaseReference,BooksAd.class)
                     .build();
 
-            BooksAdapter=new FirebaseRecyclerAdapter<BooksAd, MyAdapter>(options) {
+            BooksAdapter=new FirebaseRecyclerAdapter<BooksAd, listAdRecViewAdapter>(options) {
                 @Override
-                protected void onBindViewHolder(@NonNull final MyAdapter myAdapter, int i, @NonNull final BooksAd Ad) {
-                    myAdapter.adProductName.setText(Ad.getItem());
-                    myAdapter.adProductPrice.setText(Ad.getSellingPrice());
+                protected void onBindViewHolder(@NonNull final listAdRecViewAdapter listAdRecViewAdapter, int i, @NonNull final BooksAd Ad) {
+                    listAdRecViewAdapter.adProductBrand.setText(Ad.getBrand());
+                    listAdRecViewAdapter.adProductModel.setText(Ad.getModel());
+                    listAdRecViewAdapter.adProductPrice.setText(Ad.getSellingPrice());
                     final Intent intent=new Intent(getApplicationContext(),FinalProductView.class);
                     storageReference.child(Ad.getUser_id()+"/"+Ad.getId()+"/0.jpg").getDownloadUrl().addOnSuccessListener(new OnSuccessListener<Uri>() {
                         @Override
                         public void onSuccess(Uri uri) {
-                            Picasso.get().load(uri).into(myAdapter.adProductImage);
+                            Picasso.get().load(uri).into(listAdRecViewAdapter.adProductImage);
                             intent.setData(uri);
                         }
                     }).addOnFailureListener(new OnFailureListener() {
                         @Override
                         public void onFailure(@NonNull Exception exception) {
-                            myAdapter.adProductImage.setImageResource(R.drawable.androidlogo);
+                            listAdRecViewAdapter.adProductImage.setImageResource(R.drawable.androidlogo);
                         }
                     });
 
-                    myAdapter.setItemClickListener(new ItemClickListener() {
+                    listAdRecViewAdapter.setItemClickListener(new ItemClickListener() {
                         @Override
                         public void onItemClickListener(View v, int position) {
-                            String mProdName=myAdapter.adProductName.getText().toString();
-                            String mProductPrice=myAdapter.adProductPrice.getText().toString();
+                            String mProdBrand= listAdRecViewAdapter.adProductBrand.getText().toString();
+                            String mProdModel= listAdRecViewAdapter.adProductModel.getText().toString();
+                            String mProductPrice= listAdRecViewAdapter.adProductPrice.getText().toString();
                             intent.putExtra("type",type);
                             intent.putExtra("img_count",Ad.getImg_count());
                             intent.putExtra("user_id",Ad.getUser_id());
                             intent.putExtra("ad_id",Ad.getId());
-                            intent.putExtra("prodName",mProdName);
+                            intent.putExtra("prodBrand",mProdBrand);
+                            intent.putExtra("prodModel",mProdModel);
                             intent.putExtra("prodPrice",mProductPrice);
                             intent.putExtra("prodDesc",Ad.getDescription());
                             startActivity(intent);
@@ -242,10 +248,10 @@ public class ListAd extends AppCompatActivity {
                 }
                 @NonNull
                 @Override
-                public MyAdapter onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
+                public listAdRecViewAdapter onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
                     View view=LayoutInflater.from(parent.getContext())
                             .inflate(R.layout.row_data,parent,false);
-                    return new MyAdapter(view);
+                    return new listAdRecViewAdapter(view);
                 }
             };
             BooksAdapter.startListening();
@@ -258,16 +264,17 @@ public class ListAd extends AppCompatActivity {
                     .setQuery(databaseReference,SportsAd.class)
                     .build();
 
-            SportsAdapter=new FirebaseRecyclerAdapter<SportsAd, MyAdapter>(options) {
+            SportsAdapter=new FirebaseRecyclerAdapter<SportsAd, listAdRecViewAdapter>(options) {
                 @Override
-                protected void onBindViewHolder(@NonNull final MyAdapter myAdapter, int i, @NonNull final SportsAd Ad) {
-                    myAdapter.adProductName.setText(Ad.getItem());
-                    myAdapter.adProductPrice.setText(Ad.getSellingPrice());
+                protected void onBindViewHolder(@NonNull final listAdRecViewAdapter listAdRecViewAdapter, int i, @NonNull final SportsAd Ad) {
+                    listAdRecViewAdapter.adProductBrand.setText(Ad.getBrand());
+                    listAdRecViewAdapter.adProductModel.setText(Ad.getModel());
+                    listAdRecViewAdapter.adProductPrice.setText(Ad.getSellingPrice());
                     final Intent intent=new Intent(getApplicationContext(),FinalProductView.class);
                     storageReference.child(Ad.getUser_id()+"/"+Ad.getId()+"/0.jpg").getDownloadUrl().addOnSuccessListener(new OnSuccessListener<Uri>() {
                         @Override
                         public void onSuccess(Uri uri) {
-                            Picasso.get().load(uri).into(myAdapter.adProductImage);
+                            Picasso.get().load(uri).into(listAdRecViewAdapter.adProductImage);
                             intent.setData(uri);
                             // Got the download URL for 'users/me/profile.png'
                         }
@@ -275,20 +282,22 @@ public class ListAd extends AppCompatActivity {
                         @Override
                         public void onFailure(@NonNull Exception exception) {
                             // Handle any errors
-                            myAdapter.adProductImage.setImageResource(R.drawable.androidlogo);
+                            listAdRecViewAdapter.adProductImage.setImageResource(R.drawable.androidlogo);
                         }
                     });
 
-                    myAdapter.setItemClickListener(new ItemClickListener() {
+                    listAdRecViewAdapter.setItemClickListener(new ItemClickListener() {
                         @Override
                         public void onItemClickListener(View v, int position) {
-                            String mProdName=myAdapter.adProductName.getText().toString();
-                            String mProductPrice=myAdapter.adProductPrice.getText().toString();
+                            String mProdBrand= listAdRecViewAdapter.adProductBrand.getText().toString();
+                            String mProdModel= listAdRecViewAdapter.adProductModel.getText().toString();
+                            String mProductPrice= listAdRecViewAdapter.adProductPrice.getText().toString();
                             intent.putExtra("type",type);
                             intent.putExtra("img_count",Ad.getImg_count());
                             intent.putExtra("user_id",Ad.getUser_id());
                             intent.putExtra("ad_id",Ad.getId());
-                            intent.putExtra("prodName",mProdName);
+                            intent.putExtra("prodBrand",mProdBrand);
+                            intent.putExtra("prodModel",mProdModel);
                             intent.putExtra("prodPrice",mProductPrice);
                             intent.putExtra("prodDesc",Ad.getDescription());
                             startActivity(intent);
@@ -298,31 +307,32 @@ public class ListAd extends AppCompatActivity {
                 }
                 @NonNull
                 @Override
-                public MyAdapter onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
+                public listAdRecViewAdapter onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
                     View view=LayoutInflater.from(parent.getContext())
                             .inflate(R.layout.row_data,parent,false);
-                    return new MyAdapter(view);
+                    return new listAdRecViewAdapter(view);
                 }
             };
             SportsAdapter.startListening();
             SportsAdapter.notifyDataSetChanged();
             recyclerView.setAdapter(SportsAdapter);
-        }else if(type.matches("Furniture"))
+        }
+        else if(type.matches("Furniture"))
         {
             FirebaseRecyclerOptions<FurnitureAd> options=new FirebaseRecyclerOptions.Builder<FurnitureAd>()
                     .setQuery(databaseReference,FurnitureAd.class)
                     .build();
 
-            FurnitureAdapter=new FirebaseRecyclerAdapter<FurnitureAd, MyAdapter>(options) {
+            FurnitureAdapter=new FirebaseRecyclerAdapter<FurnitureAd, listAdRecViewAdapter>(options) {
                 @Override
-                protected void onBindViewHolder(@NonNull final MyAdapter myAdapter, int i, @NonNull final FurnitureAd Ad) {
-                    myAdapter.adProductName.setText(Ad.getItem());
-                    myAdapter.adProductPrice.setText(Ad.getSellingPrice());
+                protected void onBindViewHolder(@NonNull final listAdRecViewAdapter listAdRecViewAdapter, int i, @NonNull final FurnitureAd Ad) {
+                    listAdRecViewAdapter.adProductModel.setText(Ad.getModel());
+                    listAdRecViewAdapter.adProductPrice.setText(Ad.getSellingPrice());
                     final Intent intent=new Intent(getApplicationContext(),FinalProductView.class);
                     storageReference.child(Ad.getUser_id()+"/"+Ad.getId()+"/0.jpg").getDownloadUrl().addOnSuccessListener(new OnSuccessListener<Uri>() {
                         @Override
                         public void onSuccess(Uri uri) {
-                            Picasso.get().load(uri).into(myAdapter.adProductImage);
+                            Picasso.get().load(uri).into(listAdRecViewAdapter.adProductImage);
                             // Got the download URL for 'users/me/profile.png'
                             intent.setData(uri);
                         }
@@ -330,20 +340,20 @@ public class ListAd extends AppCompatActivity {
                         @Override
                         public void onFailure(@NonNull Exception exception) {
                             // Handle any errors
-                            myAdapter.adProductImage.setImageResource(R.drawable.androidlogo);
+                            listAdRecViewAdapter.adProductImage.setImageResource(R.drawable.androidlogo);
                         }
                     });
 
-                    myAdapter.setItemClickListener(new ItemClickListener() {
+                    listAdRecViewAdapter.setItemClickListener(new ItemClickListener() {
                         @Override
                         public void onItemClickListener(View v, int position) {
-                            String mProdName=myAdapter.adProductName.getText().toString();
-                            String mProductPrice=myAdapter.adProductPrice.getText().toString();
+                            String mProdModel= listAdRecViewAdapter.adProductModel.getText().toString();
+                            String mProductPrice= listAdRecViewAdapter.adProductPrice.getText().toString();
                             intent.putExtra("type",type);
                             intent.putExtra("img_count",Ad.getImg_count());
                             intent.putExtra("user_id",Ad.getUser_id());
                             intent.putExtra("ad_id",Ad.getId());
-                            intent.putExtra("prodName",mProdName);
+                            intent.putExtra("prodModel",mProdModel);
                             intent.putExtra("prodPrice",mProductPrice);
                             intent.putExtra("prodDesc",Ad.getDescription());
                             startActivity(intent);
@@ -353,10 +363,10 @@ public class ListAd extends AppCompatActivity {
                 }
                 @NonNull
                 @Override
-                public MyAdapter onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
+                public listAdRecViewAdapter onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
                     View view=LayoutInflater.from(parent.getContext())
                             .inflate(R.layout.row_data,parent,false);
-                    return new MyAdapter(view);
+                    return new listAdRecViewAdapter(view);
                 }
             };
             FurnitureAdapter.startListening();

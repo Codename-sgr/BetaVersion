@@ -35,7 +35,7 @@ import java.io.IOException;
 import java.util.ArrayList;
 
 public class electronics extends AppCompatActivity {
-    EditText model,purchaseDate,insuranceDate,sellingPrice,description;
+    EditText brand,model,purchaseDate,sellingPrice,description;
     FirebaseAuth mAuth;
     ImageView img1,img2,img3;
     ArrayList<Uri> ImageUri= new ArrayList<>();
@@ -54,9 +54,9 @@ public class electronics extends AppCompatActivity {
         ad_id=databaseAd.push().getKey();
         final ElectronicsAd electronicsAd= new ElectronicsAd(ad_id
                                                             ,user_id
+                                                            ,brand.getText().toString()
                                                             ,model.getText().toString()
                                                             ,purchaseDate.getText().toString()
-                                                            ,insuranceDate.getText().toString()
                                                             ,description.getText().toString()
                                                             ,sellingPrice.getText().toString());
         final int count=ImageUri.size();
@@ -182,9 +182,10 @@ public class electronics extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_electronics);
+
+        brand=findViewById(R.id.brand);
         model=findViewById(R.id.model);
         purchaseDate=findViewById(R.id.purchaseDate);
-        insuranceDate=findViewById(R.id.kmsDriven);
         sellingPrice=findViewById(R.id.sellingPrice);
         description=findViewById(R.id.description);
         img1=findViewById(R.id.img1);

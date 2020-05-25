@@ -4,7 +4,8 @@ public class FurnitureAd
 {
     String id;
     String user_id;
-    String item;
+    String model;
+    String doP;
     String description;
     String sellingPrice;
     int img_count;
@@ -14,10 +15,11 @@ public class FurnitureAd
 
     }
 
-    public FurnitureAd(String id, String user_id, String item, String description, String sellingPrice) {
+    public FurnitureAd(String id, String user_id, String model,String doP, String description, String sellingPrice) {
         this.id = id;
         this.user_id = user_id;
-        this.item = item;
+        this.model = model;
+        this.doP=doP;
         this.description = description;
         this.sellingPrice = sellingPrice;
         this.status=true;
@@ -39,14 +41,21 @@ public class FurnitureAd
         this.user_id = user_id;
     }
 
-    public String getItem() {
-        return item;
+    public String getModel() {
+        return model;
     }
 
-    public void setItem(String item) {
-        this.item = item;
+    public void setModel(String item) {
+        this.model = item;
     }
 
+    public String getDoP() {
+        return doP;
+    }
+
+    public void setDoP(String doP) {
+        this.doP = doP;
+    }
 
     public String getDescription() {
         return description;

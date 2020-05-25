@@ -44,7 +44,7 @@ import java.util.ArrayList;
 import java.util.Date;
 
 public class vehicle extends AppCompatActivity {
-    EditText  model,purchaseDate,kmsDriven,milege,sellinPrice,description;
+    EditText  brand,model,purchaseDate,kmsDriven,milege,sellinPrice,description;
     FirebaseAuth mAuth;
     ImageView img1,img2,img3;
     ArrayList<Uri> ImageUri= new ArrayList<>();
@@ -63,7 +63,7 @@ public class vehicle extends AppCompatActivity {
         progressDialog.show();
 
         ad_id=databaseAd.push().getKey();
-        final VehicleAd vehicleAd= new VehicleAd(ad_id,user_id,model.getText().toString(),purchaseDate.getText().toString(),kmsDriven.getText().toString(),milege.getText().toString(),sellinPrice.getText().toString(),description.getText().toString());
+        final VehicleAd vehicleAd= new VehicleAd(ad_id,user_id,brand.getText().toString() ,model.getText().toString(),purchaseDate.getText().toString(),kmsDriven.getText().toString(),milege.getText().toString(),sellinPrice.getText().toString(),description.getText().toString());
 
         final int count=ImageUri.size();
         vehicleAd.setImg_count(count);
@@ -183,6 +183,7 @@ public class vehicle extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_vehicle);
 
+        brand=findViewById(R.id.brand);
         model=findViewById(R.id.model);
         progressDialog=new ProgressDialog(this);
         purchaseDate=findViewById(R.id.purchaseDate);

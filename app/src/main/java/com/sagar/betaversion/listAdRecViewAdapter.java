@@ -9,17 +9,19 @@ import android.widget.TextView;
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
-public class MyAdapter extends RecyclerView.ViewHolder implements View.OnClickListener{
+public class listAdRecViewAdapter extends RecyclerView.ViewHolder implements View.OnClickListener{
 
-    public TextView adProductName;
+    public TextView adProductBrand;
+    public TextView adProductModel;
     public TextView adProductPrice;
     public ImageView adProductImage;
     ItemClickListener itemClickListener;
 
 
-    MyAdapter(@NonNull View itemView) {
+    listAdRecViewAdapter(@NonNull View itemView) {
         super(itemView);
-        adProductName=itemView.findViewById(R.id.AdProdName);
+        adProductBrand=itemView.findViewById(R.id.AdProdBrand);
+        adProductModel=itemView.findViewById(R.id.AdProdModel);
         adProductPrice=itemView.findViewById(R.id.AdProdPrice);
         adProductImage=itemView.findViewById(R.id.adImageView);
 

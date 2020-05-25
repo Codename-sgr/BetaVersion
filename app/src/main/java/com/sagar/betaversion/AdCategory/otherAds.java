@@ -5,23 +5,18 @@ import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.app.ProgressDialog;
-import android.content.ContentResolver;
 import android.content.Intent;
 import android.graphics.Bitmap;
 import android.net.Uri;
 import android.os.Bundle;
 import android.provider.MediaStore;
 import android.view.View;
-import android.webkit.MimeTypeMap;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.Toast;
 
-import com.google.android.gms.tasks.Continuation;
-import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
-import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.database.DatabaseReference;
@@ -38,9 +33,9 @@ import java.util.ArrayList;
 
 import com.sagar.betaversion.R;
 
-public class others extends AppCompatActivity {
+public class otherAds extends AppCompatActivity {
     String type;
-    EditText model,purchaseDate,sellinPrice,description;
+    EditText brand,model,purchaseDate,sellinPrice,description;
     FirebaseAuth mAuth;
     ImageView img1,img2,img3;
     ProgressDialog progressDialog;
@@ -59,7 +54,7 @@ public class others extends AppCompatActivity {
         final int[] flag = {0};
         if(type.matches("Books"))
         {
-            final BooksAd booksAd= new BooksAd(ad_id,user_id,model.getText().toString(),description.getText().toString(),sellinPrice.getText().toString());
+            final BooksAd booksAd= new BooksAd(ad_id,user_id,brand.getText().toString(),model.getText().toString(),purchaseDate.getText().toString(),description.getText().toString(),sellinPrice.getText().toString());
             final int count=ImageUri.size();
             booksAd.setImg_count(count);
 
@@ -76,7 +71,7 @@ public class others extends AppCompatActivity {
                             progressDialog.dismiss();
                             databaseAd.child(ad_id).setValue(booksAd);
                             userAd.child(ad_id).setValue(true);
-                            Toast.makeText(others.this,"Ad Posted Successfully",Toast.LENGTH_SHORT).show();
+                            Toast.makeText(otherAds.this,"Ad Posted Successfully",Toast.LENGTH_SHORT).show();
                             Intent intent=new Intent(getApplicationContext(),MainActivity.class);
                             startActivity(intent);
                             finish();
@@ -93,7 +88,7 @@ public class others extends AppCompatActivity {
 
             if(flag[0]==1) {
 
-                Toast.makeText(others.this,"Retry!",Toast.LENGTH_SHORT).show();
+                Toast.makeText(otherAds.this,"Retry!",Toast.LENGTH_SHORT).show();
                 Intent intent=new Intent(getApplicationContext(),MainActivity.class);
                 startActivity(intent);
                 finish();
@@ -102,7 +97,7 @@ public class others extends AppCompatActivity {
         }
         else if(type.matches("Furniture"))
         {
-            final FurnitureAd furnitureAd= new FurnitureAd(ad_id,user_id,model.getText().toString(),description.getText().toString(),sellinPrice.getText().toString());
+            final FurnitureAd furnitureAd= new FurnitureAd(ad_id,user_id,model.getText().toString(),purchaseDate.getText().toString(),description.getText().toString(),sellinPrice.getText().toString());
             final int count=ImageUri.size();
             furnitureAd.setImg_count(count);
             databaseAd.child(ad_id).setValue(furnitureAd);
@@ -121,7 +116,7 @@ public class others extends AppCompatActivity {
                             progressDialog.dismiss();
                             userAd.child(ad_id).setValue(true);
                             databaseAd.child(ad_id).setValue(furnitureAd);
-                            Toast.makeText(others.this,"Ad Posted Successfully",Toast.LENGTH_SHORT).show();
+                            Toast.makeText(otherAds.this,"Ad Posted Successfully",Toast.LENGTH_SHORT).show();
                             Intent intent=new Intent(getApplicationContext(),MainActivity.class);
                             startActivity(intent);
                             finish();
@@ -148,7 +143,7 @@ public class others extends AppCompatActivity {
         }
         else if(type.matches("Sports"))
         {
-            final SportsAd sportsAd= new SportsAd(ad_id,user_id,model.getText().toString(),description.getText().toString(),sellinPrice.getText().toString());
+            final SportsAd sportsAd= new SportsAd(ad_id,user_id,brand.getText().toString(),model.getText().toString(),purchaseDate.getText().toString(),description.getText().toString(),sellinPrice.getText().toString());
             final int count=ImageUri.size();
             sportsAd.setImg_count(count);
 
@@ -167,7 +162,7 @@ public class others extends AppCompatActivity {
                             progressDialog.dismiss();
                             userAd.child(ad_id).setValue(true);
                             databaseAd.child(ad_id).setValue(sportsAd);
-                            Toast.makeText(others.this,"Ad Posted Successfully",Toast.LENGTH_SHORT).show();
+                            Toast.makeText(otherAds.this,"Ad Posted Successfully",Toast.LENGTH_SHORT).show();
                             Intent intent=new Intent(getApplicationContext(),MainActivity.class);
                             startActivity(intent);
                             finish();
@@ -194,7 +189,7 @@ public class others extends AppCompatActivity {
 
         }
         else{
-            Toast.makeText(others.this,type,Toast.LENGTH_SHORT).show();
+            Toast.makeText(otherAds.this,type,Toast.LENGTH_SHORT).show();
             Intent intent=new Intent(getApplicationContext(), MainActivity.class);
             startActivity(intent);
         }
@@ -223,11 +218,11 @@ public class others extends AppCompatActivity {
                 int count=data.getClipData().getItemCount();
                 if(count>3)
                 {
-                    Toast.makeText(others.this,"You can select maximum 3 photos, Try Again!",Toast.LENGTH_SHORT).show();
+                    Toast.makeText(otherAds.this,"You can select maximum 3 photos, Try Again!",Toast.LENGTH_SHORT).show();
                 }
                 else if(count<2)
                 {
-                    Toast.makeText(others.this,"You have to select minimum 2 photos, Try Again!",Toast.LENGTH_SHORT).show();
+                    Toast.makeText(otherAds.this,"You have to select minimum 2 photos, Try Again!",Toast.LENGTH_SHORT).show();
                 }
                 else
                 {
@@ -276,6 +271,15 @@ public class others extends AppCompatActivity {
         setContentView(R.layout.activity_others);
         Intent intent=getIntent();
         type=intent.getStringExtra("type");
+
+
+        if(type.matches("Books"))
+        {
+            brand.setHint("Author");
+            model.setHint("Title");
+        }
+
+        brand=findViewById(R.id.brand);
         model=findViewById(R.id.model);
         progressDialog= new ProgressDialog(this);
         sellinPrice=findViewById(R.id.sellingPrice);

@@ -11,7 +11,7 @@ import android.view.MenuItem;
 import androidx.appcompat.app.AppCompatActivity;
 
 import com.sagar.betaversion.AdCategory.electronics;
-import com.sagar.betaversion.AdCategory.others;
+import com.sagar.betaversion.AdCategory.otherAds;
 import com.sagar.betaversion.AdCategory.vehicle;
 
 import java.util.ArrayList;
@@ -50,7 +50,7 @@ public class newAdActivity extends AppCompatActivity {
                 }
                 else
                 {
-                    Intent intent=new Intent(getApplicationContext(), others.class);
+                    Intent intent=new Intent(getApplicationContext(), otherAds.class);
                     intent.putExtra("type",categories.get(i));
                     startActivity(intent);
                 }

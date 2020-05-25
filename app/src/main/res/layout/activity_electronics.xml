@@ -6,7 +6,7 @@
     android:layout_height="match_parent"
     tools:context=".AdCategory.electronics">
 
-        <LinearLayout
+        <!--<LinearLayout
             android:id="@+id/linearLayout2"
             android:layout_width="221dp"
             android:layout_height="359dp"
@@ -64,10 +64,77 @@
                 android:hint="Description"
                 android:inputType="textPersonName" />
 
+        </LinearLayout>-->
+    <LinearLayout
+        android:id="@+id/linearLayout2"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="25dp"
+        android:layout_marginHorizontal="70dp"
+        android:orientation="vertical"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal">
+
+            <EditText
+                android:id="@+id/brand"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:ems="10"
+                android:hint="Brand"
+                android:inputType="textPersonName" />
+
+            <EditText
+                android:id="@+id/model"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:ems="10"
+                android:hint="Model"
+                android:inputType="textPersonName" />
         </LinearLayout>
 
 
-        <ImageView
+        <EditText
+            android:id="@+id/purchaseDate"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:ems="10"
+            android:inputType="date"
+            android:hint="Date of Purchase" />
+
+
+        <EditText
+            android:id="@+id/sellingPrice"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:ems="10"
+            android:hint="Selling Price"
+            android:inputType="number" />
+
+
+        <EditText
+            android:id="@+id/description"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:ems="10"
+            android:hint="Description"
+            android:inputType="textMultiLine" />
+
+    </LinearLayout>
+
+
+
+    <ImageView
             android:id="@+id/img2"
             android:layout_width="86dp"
             android:layout_height="81dp"
@@ -80,7 +147,7 @@
             app:layout_constraintTop_toBottomOf="@+id/UploadImageButton"
             app:srcCompat="@drawable/ic_launcher_foreground" />
 
-        <ImageView
+    <ImageView
             android:id="@+id/img1"
             android:layout_width="86dp"
             android:layout_height="81dp"
@@ -94,7 +161,7 @@
             app:layout_constraintTop_toTopOf="@+id/img2"
             app:srcCompat="@drawable/ic_launcher_foreground" />
 
-        <ImageView
+    <ImageView
             android:id="@+id/img3"
             android:layout_width="86dp"
             android:layout_height="81dp"
@@ -108,18 +175,18 @@
             app:layout_constraintVertical_bias="0.0"
             app:srcCompat="@drawable/ic_launcher_foreground" />
 
-        <Button
-            android:id="@+id/postButton"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="12dp"
-            android:onClick="post"
-            android:text="Post"
-            app:layout_constraintEnd_toEndOf="@+id/img2"
-            app:layout_constraintStart_toStartOf="@+id/img2"
-            app:layout_constraintTop_toBottomOf="@+id/img2" />
+    <Button
+        android:id="@+id/postButton"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:onClick="post"
+        android:layout_marginBottom="20dp"
+        android:text="Post"
+        app:layout_constraintEnd_toEndOf="@+id/img2"
+        app:layout_constraintStart_toStartOf="@+id/img2"
+        app:layout_constraintBottom_toBottomOf="parent" />
 
-        <Button
+    <Button
             android:id="@+id/UploadImageButton"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
@@ -130,7 +197,7 @@
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/linearLayout2" />
 
-        <TextView
+    <TextView
             android:id="@+id/textView8"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"

@@ -9,9 +9,9 @@ import java.util.List;
 public class ElectronicsAd {
     String id;
     String user_id;
+    String brand;
     String model;
     String date_of_purchase;
-    String insurance;
     String description;
     int img_count;
     String sellingPrice;
@@ -30,16 +30,16 @@ public class ElectronicsAd {
         return user_id;
     }
 
+    public String getBrand() {
+        return brand;
+    }
+
     public String getModel() {
         return model;
     }
 
     public String getDate_of_purchase() {
         return date_of_purchase;
-    }
-
-    public String getInsurance() {
-        return insurance;
     }
 
     public String getDescription() {
@@ -62,12 +62,12 @@ public class ElectronicsAd {
         return fileExtension;
     }
 
-    public ElectronicsAd(String id, String user_id, String model, String date_of_purchase, String insurance, String description, String sellingPrice) {
+    public ElectronicsAd(String id, String user_id,String brand, String model, String date_of_purchase, String description, String sellingPrice) {
         this.id = id;
         this.user_id = user_id;
+        this.brand=brand;
         this.model = model;
         this.date_of_purchase = date_of_purchase;
-        this.insurance = insurance;
         this.description = description;
         this.sellingPrice=sellingPrice;
 
@@ -82,16 +82,16 @@ public class ElectronicsAd {
         this.user_id = user_id;
     }
 
+    public void setBrand(String brand) {
+        this.brand = brand;
+    }
+
     public void setModel(String model) {
         this.model = model;
     }
 
     public void setDate_of_purchase(String date_of_purchase) {
         this.date_of_purchase = date_of_purchase;
-    }
-
-    public void setInsurance(String insurance) {
-        this.insurance = insurance;
     }
 
     public void setDescription(String description) {

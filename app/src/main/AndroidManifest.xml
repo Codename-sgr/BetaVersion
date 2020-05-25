@@ -14,24 +14,24 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.MaterialComponents.DayNight.DarkActionBar">
         <activity android:name=".AdCategory.myAdActivity"></activity>
-        <activity android:name=".FinalProductView" />
-        <activity android:name=".ListAd" />
-        <activity android:name=".BetaVersion" />
-        <activity android:name=".AdCategory.others" />
-        <activity android:name=".AdCategory.electronics" />
-        <activity android:name=".AdCategory.vehicle" />
-        <activity android:name=".newAdActivity" />
-        <activity android:name=".LoginActivity">
+        <activity android:name=".FinalProductView" android:screenOrientation="nosensor"/>
+        <activity android:name=".ListAd" android:screenOrientation="nosensor"/>
+        <activity android:name=".BetaVersion" android:screenOrientation="nosensor"/>
+        <activity android:name=".AdCategory.otherAds" android:screenOrientation="nosensor"/>
+        <activity android:name=".AdCategory.electronics" android:screenOrientation="nosensor"/>
+        <activity android:name=".AdCategory.vehicle" android:screenOrientation="nosensor"/>
+        <activity android:name=".newAdActivity" android:screenOrientation="nosensor"/>
+        <activity android:name=".LoginActivity" android:screenOrientation="nosensor">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <activity android:name=".SignupActivity" />
-        <activity android:name=".MainActivity" />
-        <activity android:name=".myAccount" />
-        <activity android:name=".profile" />
+        <activity android:name=".SignupActivity" android:screenOrientation="nosensor"/>
+        <activity android:name=".MainActivity" android:screenOrientation="nosensor"/>
+        <activity android:name=".myAccount" android:screenOrientation="nosensor"/>
+        <activity android:name=".profile" android:screenOrientation="nosensor"/>
     </application>
 
 </manifest>

@@ -4,7 +4,9 @@ public class SportsAd
 {
     String id;
     String user_id;
-    String item;
+    String brand;
+    String model;
+    String doP;
     String description;
     String sellingPrice;
     int img_count;
@@ -14,10 +16,12 @@ public class SportsAd
 
     }
 
-    public SportsAd(String id, String user_id, String item, String description, String sellingPrice) {
+    public SportsAd(String id, String user_id, String brand,String model,String doP, String description, String sellingPrice) {
         this.id = id;
         this.user_id = user_id;
-        this.item = item;
+        this.brand = brand;
+        this.model=model;
+        this.doP=doP;
         this.description = description;
         this.sellingPrice = sellingPrice;
     }
@@ -38,14 +42,29 @@ public class SportsAd
         this.user_id = user_id;
     }
 
-    public String getItem() {
-        return item;
+    public String getBrand() {
+        return brand;
     }
 
-    public void setItem(String item) {
-        this.item = item;
+    public void setBrand(String brand) {
+        this.brand = brand;
     }
 
+    public String getModel() {
+        return model;
+    }
+
+    public void setModel(String model) {
+        this.model = model;
+    }
+
+    public String getDoP() {
+        return doP;
+    }
+
+    public void setDoP(String doP) {
+        this.doP = doP;
+    }
 
     public String getDescription() {
         return description;
