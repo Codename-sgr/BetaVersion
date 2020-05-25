@@ -59,7 +59,7 @@ public class otherAds extends AppCompatActivity {
             booksAd.setImg_count(count);
 
             for(int i=0;i<count;i++) {
-                final StorageReference ref = imageStorageRef.child(user_id + "/" + ad_id + "/" + Integer.toString(i) + ".jpg");
+                final StorageReference ref = imageStorageRef.child(user_id + "/" + ad_id + "/" + (i) + ".jpg");
                 UploadTask uploadTask = ref.putBytes(ImageArray.get(i));
                 final int finalI = i;
                 uploadTask.addOnSuccessListener(new OnSuccessListener<UploadTask.TaskSnapshot>() {
@@ -103,7 +103,7 @@ public class otherAds extends AppCompatActivity {
             databaseAd.child(ad_id).setValue(furnitureAd);
             for(int i=0;i<count;i++)
             {
-                final StorageReference ref=imageStorageRef.child(user_id+"/"+ad_id+"/"+ Integer.toString(i) +".jpg");
+                final StorageReference ref=imageStorageRef.child(user_id+"/"+ad_id+"/"+ (i) +".jpg");
 
                 UploadTask uploadTask = ref.putBytes(ImageArray.get(i));
                 final int finalI = i;
@@ -149,7 +149,7 @@ public class otherAds extends AppCompatActivity {
 
             for(int i=0;i<count;i++)
             {
-                final StorageReference ref=imageStorageRef.child(user_id+"/"+ad_id+"/"+ Integer.toString(i) +".jpg");
+                final StorageReference ref=imageStorageRef.child(user_id+"/"+ad_id+"/"+ (i) +".jpg");
 
                 UploadTask uploadTask = ref.putBytes(ImageArray.get(i));
                 final int finalI = i;
@@ -273,12 +273,6 @@ public class otherAds extends AppCompatActivity {
         type=intent.getStringExtra("type");
 
 
-        if(type.matches("Books"))
-        {
-            brand.setHint("Author");
-            model.setHint("Title");
-        }
-
         brand=findViewById(R.id.brand);
         model=findViewById(R.id.model);
         progressDialog= new ProgressDialog(this);
@@ -293,6 +287,12 @@ public class otherAds extends AppCompatActivity {
         FirebaseUser user =mAuth.getCurrentUser();
         user_id=user.getUid();
         userAd=FirebaseDatabase.getInstance().getReference("UserAd").child(user_id).child(type+"Id");
+
+        if(type.matches("Books"))
+        {
+            brand.setHint("Author");
+            model.setHint("Title");
+        }
 
     }
 
