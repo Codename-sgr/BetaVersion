@@ -85,20 +85,33 @@ public class vehicle extends AppCompatActivity {
             final StorageReference ref=imageStorageRef.child(user_id+"/"+ad_id+"/"+ Integer.toString(i) +".jpg");
             UploadTask uploadTask = ref.putBytes(ImageArray.get(i));
             final int finalI = i;
+
             uploadTask.addOnSuccessListener(new OnSuccessListener<UploadTask.TaskSnapshot>() {
                 @Override
                 public void onSuccess(UploadTask.TaskSnapshot taskSnapshot) {
+                    ref.getDownloadUrl().addOnSuccessListener(new OnSuccessListener<Uri>() {
+                        @Override
+                        public void onSuccess(Uri uri) {
+                            if(finalI==0)
+                                vehicleAd.setImg1(uri.toString());
+                            if(finalI==1)
+                                vehicleAd.setImg2(uri.toString());
+                            if(finalI==2)
+                                vehicleAd.setImg3(uri.toString());
+                            if(finalI ==count-1)
+                            {
+                                progressDialog.dismiss();
+                                databaseAd.child(ad_id).setValue(vehicleAd);
+                                userAd.child(ad_id).setValue(true);
+                                Toast.makeText(vehicle.this,"Ad Posted Successfully",Toast.LENGTH_SHORT).show();
+                                Intent intent=new Intent(getApplicationContext(), MainActivity.class);
+                                startActivity(intent);
+                                finish();
+                            }
+                        }
+                    });
 
-                    if(finalI ==count-1)
-                    {
-                        progressDialog.dismiss();
-                        databaseAd.child(ad_id).setValue(vehicleAd);
-                        userAd.child(ad_id).setValue(true);
-                        Toast.makeText(vehicle.this,"Ad Posted Successfully",Toast.LENGTH_SHORT).show();
-                        Intent intent=new Intent(getApplicationContext(), MainActivity.class);
-                        startActivity(intent);
-                        finish();
-                    }
+
                 }
             }).addOnFailureListener(new OnFailureListener() {
                 @Override

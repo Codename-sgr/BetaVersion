@@ -103,22 +103,7 @@ public class ListAd extends AppCompatActivity {
                             arrayList.add(vehicleAd);
                         }
 
-                        // TODO: handle the post
-                        storageReference.child(vehicleAd.getUser_id()+"/"+vehicleAd.getId()+"/0.jpg")
-                                .getDownloadUrl()
-                                .addOnSuccessListener(new OnSuccessListener<Uri>() {
 
-                                    @Override
-                                    public void onSuccess(Uri uri) {
-
-                                    }
-                                }).addOnFailureListener(new OnFailureListener() {
-                            @Override
-                            public void onFailure(@NonNull Exception exception) {
-                                // Handle any errors
-                                Toast.makeText(ListAd.this, "HELLOOO,,youve failed", Toast.LENGTH_SHORT).show();
-                            }
-                        });
                     }
                     Log.i("bbb", String.valueOf(listAdModelList.size()));
                     for (listAdModel s:listAdModelList){
