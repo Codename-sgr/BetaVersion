@@ -116,9 +116,6 @@ public class ListAd extends AppCompatActivity {
                     recyclerView.setAdapter(listAdAdapter);
                     listAdAdapter.notifyDataSetChanged();
 
-
-
-
                 }
 
 
@@ -128,7 +125,7 @@ public class ListAd extends AppCompatActivity {
                 }
             });
 
-            for (int i=0;i<arrayList.size();i++)
+            /*for (int i=0;i<arrayList.size();i++)
             listAdModelList.add(new listAdModel(arrayList.get(i).getModel(),arrayList.get(i).getBrand(),arrayList.get(i).getSellingPrice(),arrayList.get(i).getImg1()));
 
             Log.i("bbb", String.valueOf(listAdModelList.size()));
@@ -138,27 +135,138 @@ public class ListAd extends AppCompatActivity {
 
             listAdAdapter listAdAdapter=new listAdAdapter(listAdModelList);
             recyclerView.setAdapter(listAdAdapter);
-            listAdAdapter.notifyDataSetChanged();
-
-
-
-
-
+            listAdAdapter.notifyDataSetChanged();*/
             /*int n=arrayList.size();
             Log.i("arrayList counttttttttttttttt",Integer.toString(n));
 
             List<listAdModel> listAdModelList=new ArrayList<>();
-            *//*listAdModelList.add(new listAdModel("a","bwag",1));
+
+            /*listAdModelList.add(new listAdModel("a","bwag",1));
             listAdModelList.add(new listAdModel("b","tutyb",31));
             listAdModelList.add(new listAdModel("af","btvf",14));
             listAdModelList.add(new listAdModel("asf","bBT",123));
             listAdModelList.add(new listAdModel("aasf","bwe",123));
             listAdModelList.add(new listAdModel("afdga","baweg",15));
-            listAdModelList.add(new listAdModel("aagwg","baweg",17));*//*
+            listAdModelList.add(new listAdModel("aagwg","baweg",17))
+
 
             for (int i=0;i<arrayList.size();i++)
                 listAdModelList.add(new listAdModel(arrayList.get(i).getModel(),arrayList.get(i).getBrand(),arrayList.get(i).getSellingPrice()));*/
 
+        }
+        else if(type.matches("Electronic"))
+        {
+            final List<listAdModel> listAdModelList=new ArrayList<>();
+            final ArrayList<ElectronicsAd> arrayList= new ArrayList<>();
+            databaseReference.addValueEventListener(new ValueEventListener() {
+                @Override
+                public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+                    for (DataSnapshot vehicleSnapShot: dataSnapshot.getChildren()) {
+                        final ElectronicsAd Ad=vehicleSnapShot.getValue(ElectronicsAd.class);
+                        if(Ad.isStatus() && !Ad.getUser_id().matches(Uid))
+                        {
+                            Log.i("arrayList",dataSnapshot.getKey()+ " user Id "+Ad.getUser_id()+" my user "+Uid);
+                            arrayList.add(Ad);
+                        }
+                    }
+                    Log.i("QQQQ", String.valueOf(arrayList.size()));
+
+                    for (int i=0;i<arrayList.size();i++)
+                        listAdModelList.add(new listAdModel(arrayList.get(i).getModel(),arrayList.get(i).getBrand(),arrayList.get(i).getSellingPrice(),arrayList.get(i).getImg1()));
+
+                    Log.i("bbb", String.valueOf(listAdModelList.size()));
+                    for (listAdModel s:listAdModelList){
+                        Log.i("AAA",s.getProdBrand()+s.getProdModel()+s.getProdPrice()+s.getProdImg());
+                    }
+
+                    listAdAdapter listAdAdapter=new listAdAdapter(listAdModelList);
+                    recyclerView.setAdapter(listAdAdapter);
+                    listAdAdapter.notifyDataSetChanged();
+
+                }
+
+
+                @Override
+                public void onCancelled(@NonNull DatabaseError databaseError) {
+
+                }
+            });
+        }
+        else if(type.matches("Books"))
+        {
+            final List<listAdModel> listAdModelList=new ArrayList<>();
+            final ArrayList<BooksAd> arrayList= new ArrayList<>();
+            databaseReference.addValueEventListener(new ValueEventListener() {
+                @Override
+                public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+                    for (DataSnapshot vehicleSnapShot: dataSnapshot.getChildren()) {
+                        final BooksAd Ad=vehicleSnapShot.getValue(BooksAd.class);
+                        if(Ad.isStatus() && !Ad.getUser_id().matches(Uid))
+                        {
+                            Log.i("arrayList",dataSnapshot.getKey()+ " user Id "+Ad.getUser_id()+" my user "+Uid);
+                            arrayList.add(Ad);
+                        }
+                    }
+                    Log.i("QQQQ", String.valueOf(arrayList.size()));
+
+                    for (int i=0;i<arrayList.size();i++)
+                        listAdModelList.add(new listAdModel(arrayList.get(i).getModel(),arrayList.get(i).getBrand(),arrayList.get(i).getSellingPrice(),arrayList.get(i).getImg1()));
+
+                    Log.i("bbb", String.valueOf(listAdModelList.size()));
+                    for (listAdModel s:listAdModelList){
+                        Log.i("AAA",s.getProdBrand()+s.getProdModel()+s.getProdPrice()+s.getProdImg());
+                    }
+
+                    listAdAdapter listAdAdapter=new listAdAdapter(listAdModelList);
+                    recyclerView.setAdapter(listAdAdapter);
+                    listAdAdapter.notifyDataSetChanged();
+
+                }
+
+
+                @Override
+                public void onCancelled(@NonNull DatabaseError databaseError) {
+
+                }
+            });
+        }
+        else if(type.matches("Miscellaneous"))
+        {
+            final List<listAdModel> listAdModelList=new ArrayList<>();
+            final ArrayList<MiscAd> arrayList= new ArrayList<>();
+            databaseReference.addValueEventListener(new ValueEventListener() {
+                @Override
+                public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+                    for (DataSnapshot vehicleSnapShot: dataSnapshot.getChildren()) {
+                        final MiscAd Ad=vehicleSnapShot.getValue(MiscAd.class);
+                        if(Ad.isStatus() && !Ad.getUser_id().matches(Uid))
+                        {
+                            Log.i("arrayList",dataSnapshot.getKey()+ " user Id "+Ad.getUser_id()+" my user "+Uid);
+                            arrayList.add(Ad);
+                        }
+                    }
+                    Log.i("QQQQ", String.valueOf(arrayList.size()));
+
+                    for (int i=0;i<arrayList.size();i++)
+                        listAdModelList.add(new listAdModel(arrayList.get(i).getModel(),arrayList.get(i).getBrand(),arrayList.get(i).getSellingPrice(),arrayList.get(i).getImg1()));
+
+                    Log.i("bbb", String.valueOf(listAdModelList.size()));
+                    for (listAdModel s:listAdModelList){
+                        Log.i("AAA",s.getProdBrand()+s.getProdModel()+s.getProdPrice()+s.getProdImg());
+                    }
+
+                    listAdAdapter listAdAdapter=new listAdAdapter(listAdModelList);
+                    recyclerView.setAdapter(listAdAdapter);
+                    listAdAdapter.notifyDataSetChanged();
+
+                }
+
+
+                @Override
+                public void onCancelled(@NonNull DatabaseError databaseError) {
+
+                }
+            });
 
         }
         /*{
@@ -256,7 +364,7 @@ public class ListAd extends AppCompatActivity {
             VehicleAdapter.notifyDataSetChanged();
             recyclerView.setAdapter(VehicleAdapter);
         }*/
-        else if(type.matches("Electronic"))
+        /*else if(type.matches("Electronic"))
         {
             FirebaseRecyclerOptions<ElectronicsAd> options=new FirebaseRecyclerOptions.Builder<ElectronicsAd>()
                     .setQuery(databaseReference,ElectronicsAd.class)
@@ -435,7 +543,7 @@ public class ListAd extends AppCompatActivity {
             SportsAdapter.startListening();
             SportsAdapter.notifyDataSetChanged();
             recyclerView.setAdapter(SportsAdapter);
-        }
+        }*/
 
         else {
             Toast.makeText(ListAd.this,"Tapped "+type,Toast.LENGTH_SHORT).show();

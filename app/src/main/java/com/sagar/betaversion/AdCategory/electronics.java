@@ -62,7 +62,6 @@ public class electronics extends AppCompatActivity {
         final int count=ImageUri.size();
         electronicsAd.setImg_count(count);
         final int[] flag = {0};
-        final int[] c = {0};
 
 
         for(int i=0;i<count;i++)
@@ -74,17 +73,29 @@ public class electronics extends AppCompatActivity {
             uploadTask.addOnSuccessListener(new OnSuccessListener<UploadTask.TaskSnapshot>() {
                 @Override
                 public void onSuccess(UploadTask.TaskSnapshot taskSnapshot) {
-                    c[0]++;
-                    if(finalI ==count-1)
-                    {
-                        progressDialog.dismiss();
-                        userAd.child(ad_id).setValue(true);
-                        databaseAd.child(ad_id).setValue(electronicsAd);
-                        Toast.makeText(electronics.this,"Ad Posted Successfully",Toast.LENGTH_SHORT).show();
-                        Intent intent=new Intent(getApplicationContext(), MainActivity.class);
-                        startActivity(intent);
-                        finish();
-                    }
+                    ref.getDownloadUrl().addOnSuccessListener(new OnSuccessListener<Uri>() {
+                        @Override
+                        public void onSuccess(Uri uri) {
+                            if(finalI==0)
+                                electronicsAd.setImg1(uri.toString());
+                            if(finalI==1)
+                                electronicsAd.setImg2(uri.toString());
+                            if(finalI==2)
+                                electronicsAd.setImg3(uri.toString());
+                            if(finalI ==count-1)
+                            {
+                                progressDialog.dismiss();
+                                userAd.child(ad_id).setValue(true);
+                                databaseAd.child(ad_id).setValue(electronicsAd);
+                                Toast.makeText(electronics.this,"Ad Posted Successfully",Toast.LENGTH_SHORT).show();
+                                Intent intent=new Intent(getApplicationContext(), MainActivity.class);
+                                startActivity(intent);
+                                finish();
+                            }
+                        }
+                    });
+
+
                 }
             }).addOnFailureListener(new OnFailureListener() {
                 @Override

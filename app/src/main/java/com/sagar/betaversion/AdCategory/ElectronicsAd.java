@@ -11,7 +11,7 @@ public class ElectronicsAd {
     String user_id;
     String brand;
     String model;
-    String date_of_purchase;
+    String date_of_purchase,img1,img2,img3;
     String description;
     int img_count;
     int sellingPrice;
@@ -70,6 +70,30 @@ public class ElectronicsAd {
         this.sellingPrice=sellingPrice;
 
         this.status=true;
+    }
+
+    public String getImg1() {
+        return img1;
+    }
+
+    public void setImg1(String img1) {
+        this.img1 = img1;
+    }
+
+    public String getImg2() {
+        return img2;
+    }
+
+    public void setImg2(String img2) {
+        this.img2 = img2;
+    }
+
+    public String getImg3() {
+        return img3;
+    }
+
+    public void setImg3(String img3) {
+        this.img3 = img3;
     }
 
     public void setId(String id) {

@@ -71,17 +71,28 @@ public class otherAds extends AppCompatActivity {
                 uploadTask.addOnSuccessListener(new OnSuccessListener<UploadTask.TaskSnapshot>() {
                     @Override
                     public void onSuccess(UploadTask.TaskSnapshot taskSnapshot) {
+                        ref.getDownloadUrl().addOnSuccessListener(new OnSuccessListener<Uri>() {
+                            @Override
+                            public void onSuccess(Uri uri) {
+                                if(finalI==0)
+                                    booksAd.setImg1(uri.toString());
+                                if(finalI==1)
+                                    booksAd.setImg2(uri.toString());
+                                if(finalI==2)
+                                    booksAd.setImg3(uri.toString());
+                                if(finalI ==count-1)
+                                {
+                                    progressDialog.dismiss();
+                                    databaseAd.child(ad_id).setValue(booksAd);
+                                    userAd.child(ad_id).setValue(true);
+                                    Toast.makeText(otherAds.this,"Ad Posted Successfully",Toast.LENGTH_SHORT).show();
+                                    Intent intent=new Intent(getApplicationContext(),MainActivity.class);
+                                    startActivity(intent);
+                                    finish();
+                                }
+                            }
+                        });
 
-                        if(finalI ==count-1)
-                        {
-                            progressDialog.dismiss();
-                            databaseAd.child(ad_id).setValue(booksAd);
-                            userAd.child(ad_id).setValue(true);
-                            Toast.makeText(otherAds.this,"Ad Posted Successfully",Toast.LENGTH_SHORT).show();
-                            Intent intent=new Intent(getApplicationContext(),MainActivity.class);
-                            startActivity(intent);
-                            finish();
-                        }
                     }
                 }).addOnFailureListener(new OnFailureListener() {
                     @Override
@@ -123,17 +134,28 @@ public class otherAds extends AppCompatActivity {
                 uploadTask.addOnSuccessListener(new OnSuccessListener<UploadTask.TaskSnapshot>() {
                     @Override
                     public void onSuccess(UploadTask.TaskSnapshot taskSnapshot) {
+                        ref.getDownloadUrl().addOnSuccessListener(new OnSuccessListener<Uri>() {
+                            @Override
+                            public void onSuccess(Uri uri) {
+                                if(finalI==0)
+                                    Ad.setImg1(uri.toString());
+                                if(finalI==1)
+                                    Ad.setImg2(uri.toString());
+                                if(finalI==2)
+                                    Ad.setImg3(uri.toString());
+                                if(finalI ==count-1)
+                                {
+                                    progressDialog.dismiss();
+                                    userAd.child(ad_id).setValue(true);
+                                    databaseAd.child(ad_id).setValue(Ad);
+                                    Toast.makeText(otherAds.this,"Ad Posted Successfully",Toast.LENGTH_SHORT).show();
+                                    Intent intent=new Intent(getApplicationContext(),MainActivity.class);
+                                    startActivity(intent);
+                                    finish();
+                                }
+                            }
+                        });
 
-                        if(finalI ==count-1)
-                        {
-                            progressDialog.dismiss();
-                            userAd.child(ad_id).setValue(true);
-                            databaseAd.child(ad_id).setValue(Ad);
-                            Toast.makeText(otherAds.this,"Ad Posted Successfully",Toast.LENGTH_SHORT).show();
-                            Intent intent=new Intent(getApplicationContext(),MainActivity.class);
-                            startActivity(intent);
-                            finish();
-                        }
                     }
                 }).addOnFailureListener(new OnFailureListener() {
                     @Override
