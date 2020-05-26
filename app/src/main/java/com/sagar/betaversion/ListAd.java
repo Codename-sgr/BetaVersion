@@ -90,7 +90,6 @@ public class ListAd extends AppCompatActivity {
         if(type.matches("Vehicle"))
         {
             final List<listAdModel> listAdModelList=new ArrayList<>();
-            listAdModelList.add(new listAdModel("b","tutyb",31,null));
             final ArrayList<VehicleAd> arrayList= new ArrayList<>();
             databaseReference.addValueEventListener(new ValueEventListener() {
                 @Override
@@ -102,28 +101,44 @@ public class ListAd extends AppCompatActivity {
                             Log.i("arrayList",dataSnapshot.getKey()+ " user Id "+vehicleAd.getUser_id()+" my user "+Uid);
                             arrayList.add(vehicleAd);
                         }
-
-
                     }
+                    Log.i("QQQQ", String.valueOf(arrayList.size()));
+
+                    for (int i=0;i<arrayList.size();i++)
+                        listAdModelList.add(new listAdModel(arrayList.get(i).getModel(),arrayList.get(i).getBrand(),arrayList.get(i).getSellingPrice(),arrayList.get(i).getImg1()));
+
                     Log.i("bbb", String.valueOf(listAdModelList.size()));
                     for (listAdModel s:listAdModelList){
                         Log.i("AAA",s.getProdBrand()+s.getProdModel()+s.getProdPrice()+s.getProdImg());
                     }
 
-                    for (int i=0;i<arrayList.size();i++)
-                        listAdModelList.add(new listAdModel(arrayList.get(i).getModel(),arrayList.get(i).getBrand(),arrayList.get(i).getSellingPrice(),null));
-
                     listAdAdapter listAdAdapter=new listAdAdapter(listAdModelList);
                     recyclerView.setAdapter(listAdAdapter);
                     listAdAdapter.notifyDataSetChanged();
 
+
+
+
                 }
+
 
                 @Override
                 public void onCancelled(@NonNull DatabaseError databaseError) {
 
                 }
             });
+
+            for (int i=0;i<arrayList.size();i++)
+            listAdModelList.add(new listAdModel(arrayList.get(i).getModel(),arrayList.get(i).getBrand(),arrayList.get(i).getSellingPrice(),arrayList.get(i).getImg1()));
+
+            Log.i("bbb", String.valueOf(listAdModelList.size()));
+            for (listAdModel s:listAdModelList){
+                Log.i("AAA",s.getProdBrand()+s.getProdModel()+s.getProdPrice()+s.getProdImg());
+            }
+
+            listAdAdapter listAdAdapter=new listAdAdapter(listAdModelList);
+            recyclerView.setAdapter(listAdAdapter);
+            listAdAdapter.notifyDataSetChanged();
 
 
 
