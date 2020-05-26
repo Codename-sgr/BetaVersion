@@ -27,6 +27,7 @@ import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.ValueEventListener;
 import com.google.firebase.storage.FirebaseStorage;
 import com.google.firebase.storage.StorageReference;
 import com.sagar.betaversion.AdCategory.BooksAd;
@@ -90,52 +91,35 @@ public class ListAd extends AppCompatActivity {
 
             //STARTS HERE CHECK THIS BRO
             final ArrayList<VehicleAd> arrayList= new ArrayList<>();
-            ChildEventListener childEventListener = new ChildEventListener() {
+            databaseReference.addValueEventListener(new ValueEventListener() {
                 @Override
-                public void onChildAdded(@NonNull DataSnapshot dataSnapshot, @Nullable String s) {
+                public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+                    for (DataSnapshot vehicleSnapShot: dataSnapshot.getChildren()) {
+                        VehicleAd vehicleAd=vehicleSnapShot.getValue(VehicleAd.class);
+                        if(vehicleAd.isStatus() && !vehicleAd.getUser_id().matches(Uid))
+                        {
+                            Log.i("arrayList",dataSnapshot.getKey()+ " user Id "+vehicleAd.getUser_id()+" my user "+Uid);
+                            arrayList.add(vehicleAd);
+                        }
 
-                    VehicleAd vehicleAd=dataSnapshot.getValue(VehicleAd.class);
-                    if(vehicleAd.isStatus() && vehicleAd.getUser_id()!=Uid)
+                        // TODO: handle the post
+                    }
+                    int n=arrayList.size();
+                    Log.i("arrayList count",Integer.toString(n));
+
+                    for(int i=0;i<n;i++)
                     {
-                        Log.i("arrayList",dataSnapshot.getKey());
-                        arrayList.add(vehicleAd);
+                        Log.i("arrayList check",Integer.toString(arrayList.get(i).getSellingPrice()));
                     }
 
                 }
-
-
-                @Override
-                public void onChildChanged(@NonNull DataSnapshot dataSnapshot, @Nullable String s) {
-                    VehicleAd vehicleAd=dataSnapshot.getValue(VehicleAd.class);
-                    arrayList.remove(vehicleAd);
-                    if(vehicleAd.isStatus() && vehicleAd.getUser_id()!=Uid)
-                    {
-                        Log.i("arrayList",dataSnapshot.getKey());
-                        arrayList.add(vehicleAd);
-                    }
-
-                }
-
-                @Override
-                public void onChildRemoved(@NonNull DataSnapshot dataSnapshot) {
-                    VehicleAd vehicleAd=dataSnapshot.getValue(VehicleAd.class);
-                    arrayList.remove(vehicleAd);
-                }
-
-                @Override
-                public void onChildMoved(@NonNull DataSnapshot dataSnapshot, @Nullable String s) {
-
-                }
-
 
                 @Override
                 public void onCancelled(@NonNull DatabaseError databaseError) {
-                    Toast.makeText(ListAd.this,"Database Error try again!!",Toast.LENGTH_SHORT).show();
+
                 }
-            };
-            //ENDS HERE BAAKI CODE ME KCH CHANGES NAHI HAI RECYCLERVIEW ME YE ARRAYLIST DAAL DENA
-            databaseReference.orderByKey();
-            databaseReference.addChildEventListener(childEventListener);
+            });
+
             FirebaseRecyclerOptions<VehicleAd> options=new FirebaseRecyclerOptions.Builder<VehicleAd>()
                     .setQuery(databaseReference,VehicleAd.class)
                     .build();
