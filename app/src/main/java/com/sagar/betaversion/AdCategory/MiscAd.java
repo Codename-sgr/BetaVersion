@@ -24,6 +24,7 @@ public class MiscAd
         this.date_of_purchase=date_of_purchase;
         this.description = description;
         this.sellingPrice = sellingPrice;
+        this.status=true;
     }
 
     public String getId() {

@@ -63,9 +63,10 @@ public class otherAds extends AppCompatActivity {
                                                 Integer.parseInt(sellinPrice.getText().toString()));
             final int count=ImageUri.size();
             booksAd.setImg_count(count);
+            for(int i=0;i<count;i++)
+            {
+                final StorageReference ref=imageStorageRef.child(user_id+"/"+ad_id+"/"+ (i) +".jpg");
 
-            for(int i=0;i<count;i++) {
-                final StorageReference ref = imageStorageRef.child(user_id + "/" + ad_id + "/" + (i) + ".jpg");
                 UploadTask uploadTask = ref.putBytes(ImageArray.get(i));
                 final int finalI = i;
                 uploadTask.addOnSuccessListener(new OnSuccessListener<UploadTask.TaskSnapshot>() {
@@ -83,8 +84,8 @@ public class otherAds extends AppCompatActivity {
                                 if(finalI ==count-1)
                                 {
                                     progressDialog.dismiss();
-                                    databaseAd.child(ad_id).setValue(booksAd);
                                     userAd.child(ad_id).setValue(true);
+                                    databaseAd.child(ad_id).setValue(booksAd);
                                     Toast.makeText(otherAds.this,"Ad Posted Successfully",Toast.LENGTH_SHORT).show();
                                     Intent intent=new Intent(getApplicationContext(),MainActivity.class);
                                     startActivity(intent);
@@ -100,6 +101,8 @@ public class otherAds extends AppCompatActivity {
                         flag[0] =1;
                     }
                 });
+
+
             }
 
 
