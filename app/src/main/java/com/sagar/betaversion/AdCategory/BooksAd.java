@@ -5,7 +5,7 @@ public class BooksAd {
     String user_id;
     String brand;// Author
     String model;// Title
-    String doP;
+    String date_of_purchase;
     String description;
     int sellingPrice;
     int img_count;
@@ -14,12 +14,12 @@ public class BooksAd {
     {
 
     }
-    public BooksAd(String id, String user_id, String brand,String model,String doP, String description, int sellingPrice) {
+    public BooksAd(String id, String user_id, String brand,String model,String date_of_purchase, String description, int sellingPrice) {
         this.id = id;
         this.user_id = user_id;
         this.brand=brand;
         this.model=model;
-        this.doP=doP;
+        this.date_of_purchase=date_of_purchase;
         this.description = description;
         this.sellingPrice = sellingPrice;
         this.status=true;
@@ -58,12 +58,12 @@ public class BooksAd {
         this.model = model;
     }
 
-    public String getDoP() {
-        return doP;
+    public String getDate_of_purchase() {
+        return date_of_purchase;
     }
 
-    public void setDoP(String doP) {
-        this.doP = doP;
+    public void setDate_of_purchase(String date_of_purchase) {
+        this.date_of_purchase = date_of_purchase;
     }
 
     public String getDescription() {

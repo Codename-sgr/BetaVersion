@@ -6,7 +6,7 @@ public class MiscAd
     String user_id;
     String brand;//item
     String model;
-    String doP;
+    String date_of_purchase;
     String description;
     int sellingPrice;
     int img_count;
@@ -16,12 +16,12 @@ public class MiscAd
 
     }
 
-    public MiscAd(String id, String user_id, String brand, String model, String doP, String description, int sellingPrice) {
+    public MiscAd(String id, String user_id, String brand, String model, String date_of_purchase, String description, int sellingPrice) {
         this.id = id;
         this.user_id = user_id;
         this.brand = brand;
         this.model=model;
-        this.doP=doP;
+        this.date_of_purchase=date_of_purchase;
         this.description = description;
         this.sellingPrice = sellingPrice;
     }
@@ -58,12 +58,12 @@ public class MiscAd
         this.model = model;
     }
 
-    public String getDoP() {
-        return doP;
+    public String getDate_of_purchase() {
+        return date_of_purchase;
     }
 
-    public void setDoP(String doP) {
-        this.doP = doP;
+    public void setDate_of_purchase(String date_of_purchase) {
+        this.date_of_purchase = date_of_purchase;
     }
 
     public String getDescription() {

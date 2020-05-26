@@ -35,7 +35,7 @@ import com.sagar.betaversion.R;
 
 public class otherAds extends AppCompatActivity {
     String type;
-    EditText brand,model,purchaseDate,sellinPrice,description;
+    EditText brand,model,date_of_purchase,sellinPrice,description;
     FirebaseAuth mAuth;
     ImageView img1,img2,img3;
     ProgressDialog progressDialog;
@@ -58,7 +58,7 @@ public class otherAds extends AppCompatActivity {
                                                 user_id,
                                                 brand.getText().toString(),
                                                 model.getText().toString(),
-                                                purchaseDate.getText().toString(),
+                                                date_of_purchase.getText().toString(),
                                                 description.getText().toString(),
                                                 Integer.parseInt(sellinPrice.getText().toString()));
             final int count=ImageUri.size();
@@ -108,7 +108,7 @@ public class otherAds extends AppCompatActivity {
                     user_id,
                     brand.getText().toString(),
                     model.getText().toString(),
-                    purchaseDate.getText().toString(),
+                    date_of_purchase.getText().toString(),
                     description.getText().toString(),
                     Integer.parseInt(sellinPrice.getText().toString()));
             final int count=ImageUri.size();
@@ -242,6 +242,7 @@ public class otherAds extends AppCompatActivity {
 
         brand=findViewById(R.id.brand);
         model=findViewById(R.id.model);
+        date_of_purchase=findViewById(R.id.purchaseDate);
         progressDialog= new ProgressDialog(this);
         sellinPrice=findViewById(R.id.sellingPrice);
         description=findViewById(R.id.description);

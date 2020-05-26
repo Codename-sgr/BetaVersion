@@ -38,6 +38,7 @@ import com.sagar.betaversion.AdCategory.VehicleAd;
 import com.squareup.picasso.Picasso;
 
 import java.util.ArrayList;
+import java.util.List;
 
 public class ListAd extends AppCompatActivity {
      RecyclerView recyclerView;
@@ -88,6 +89,79 @@ public class ListAd extends AppCompatActivity {
 
         if(type.matches("Vehicle"))
         {
+            final List<listAdModel> listAdModelList=new ArrayList<>();
+            listAdModelList.add(new listAdModel("b","tutyb",31,null));
+            final ArrayList<VehicleAd> arrayList= new ArrayList<>();
+            databaseReference.addValueEventListener(new ValueEventListener() {
+                @Override
+                public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+                    for (DataSnapshot vehicleSnapShot: dataSnapshot.getChildren()) {
+                        final VehicleAd vehicleAd=vehicleSnapShot.getValue(VehicleAd.class);
+                        if(vehicleAd.isStatus() && !vehicleAd.getUser_id().matches(Uid))
+                        {
+                            Log.i("arrayList",dataSnapshot.getKey()+ " user Id "+vehicleAd.getUser_id()+" my user "+Uid);
+                            arrayList.add(vehicleAd);
+                        }
+
+                        // TODO: handle the post
+                        storageReference.child(vehicleAd.getUser_id()+"/"+vehicleAd.getId()+"/0.jpg")
+                                .getDownloadUrl()
+                                .addOnSuccessListener(new OnSuccessListener<Uri>() {
+
+                                    @Override
+                                    public void onSuccess(Uri uri) {
+
+                                    }
+                                }).addOnFailureListener(new OnFailureListener() {
+                            @Override
+                            public void onFailure(@NonNull Exception exception) {
+                                // Handle any errors
+                                Toast.makeText(ListAd.this, "HELLOOO,,youve failed", Toast.LENGTH_SHORT).show();
+                            }
+                        });
+                    }
+                    Log.i("bbb", String.valueOf(listAdModelList.size()));
+                    for (listAdModel s:listAdModelList){
+                        Log.i("AAA",s.getProdBrand()+s.getProdModel()+s.getProdPrice()+s.getProdImg());
+                    }
+
+                    for (int i=0;i<arrayList.size();i++)
+                        listAdModelList.add(new listAdModel(arrayList.get(i).getModel(),arrayList.get(i).getBrand(),arrayList.get(i).getSellingPrice(),null));
+
+                    listAdAdapter listAdAdapter=new listAdAdapter(listAdModelList);
+                    recyclerView.setAdapter(listAdAdapter);
+                    listAdAdapter.notifyDataSetChanged();
+
+                }
+
+                @Override
+                public void onCancelled(@NonNull DatabaseError databaseError) {
+
+                }
+            });
+
+
+
+
+
+            /*int n=arrayList.size();
+            Log.i("arrayList counttttttttttttttt",Integer.toString(n));
+
+            List<listAdModel> listAdModelList=new ArrayList<>();
+            *//*listAdModelList.add(new listAdModel("a","bwag",1));
+            listAdModelList.add(new listAdModel("b","tutyb",31));
+            listAdModelList.add(new listAdModel("af","btvf",14));
+            listAdModelList.add(new listAdModel("asf","bBT",123));
+            listAdModelList.add(new listAdModel("aasf","bwe",123));
+            listAdModelList.add(new listAdModel("afdga","baweg",15));
+            listAdModelList.add(new listAdModel("aagwg","baweg",17));*//*
+
+            for (int i=0;i<arrayList.size();i++)
+                listAdModelList.add(new listAdModel(arrayList.get(i).getModel(),arrayList.get(i).getBrand(),arrayList.get(i).getSellingPrice()));*/
+
+
+        }
+        /*{
 
             //STARTS HERE CHECK THIS BRO
             final ArrayList<VehicleAd> arrayList= new ArrayList<>();
@@ -181,7 +255,7 @@ public class ListAd extends AppCompatActivity {
             VehicleAdapter.startListening();
             VehicleAdapter.notifyDataSetChanged();
             recyclerView.setAdapter(VehicleAdapter);
-        }
+        }*/
         else if(type.matches("Electronic"))
         {
             FirebaseRecyclerOptions<ElectronicsAd> options=new FirebaseRecyclerOptions.Builder<ElectronicsAd>()
