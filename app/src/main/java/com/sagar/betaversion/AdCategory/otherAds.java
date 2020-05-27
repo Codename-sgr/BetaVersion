@@ -54,7 +54,7 @@ public class otherAds extends AppCompatActivity {
         final int[] flag = {0};
         if(type.matches("Books"))
         {
-            final BooksAd booksAd= new BooksAd(ad_id,
+            final BooksAd Ad= new BooksAd(ad_id,
                                                 user_id,
                                                 brand.getText().toString(),
                                                 model.getText().toString(),
@@ -62,13 +62,13 @@ public class otherAds extends AppCompatActivity {
                                                 description.getText().toString(),
                                                 Integer.parseInt(sellinPrice.getText().toString()));
             final int count=ImageUri.size();
-            booksAd.setImg_count(count);
+            Ad.setImg_count(count);
             for(int i=0;i<count;i++)
             {
-                final StorageReference ref=imageStorageRef.child(user_id+"/"+ad_id+"/"+ (i) +".jpg");
-
+                final StorageReference ref=imageStorageRef.child(user_id+"/"+ad_id+"/"+ Integer.toString(i) +".jpg");
                 UploadTask uploadTask = ref.putBytes(ImageArray.get(i));
                 final int finalI = i;
+
                 uploadTask.addOnSuccessListener(new OnSuccessListener<UploadTask.TaskSnapshot>() {
                     @Override
                     public void onSuccess(UploadTask.TaskSnapshot taskSnapshot) {
@@ -76,23 +76,24 @@ public class otherAds extends AppCompatActivity {
                             @Override
                             public void onSuccess(Uri uri) {
                                 if(finalI==0)
-                                    booksAd.setImg1(uri.toString());
+                                    Ad.setImg1(uri.toString());
                                 if(finalI==1)
-                                    booksAd.setImg2(uri.toString());
+                                    Ad.setImg2(uri.toString());
                                 if(finalI==2)
-                                    booksAd.setImg3(uri.toString());
+                                    Ad.setImg3(uri.toString());
                                 if(finalI ==count-1)
                                 {
                                     progressDialog.dismiss();
+                                    databaseAd.child(ad_id).setValue(Ad);
                                     userAd.child(ad_id).setValue(true);
-                                    databaseAd.child(ad_id).setValue(booksAd);
                                     Toast.makeText(otherAds.this,"Ad Posted Successfully",Toast.LENGTH_SHORT).show();
-                                    Intent intent=new Intent(getApplicationContext(),MainActivity.class);
+                                    Intent intent=new Intent(getApplicationContext(), MainActivity.class);
                                     startActivity(intent);
                                     finish();
                                 }
                             }
                         });
+
 
                     }
                 }).addOnFailureListener(new OnFailureListener() {
