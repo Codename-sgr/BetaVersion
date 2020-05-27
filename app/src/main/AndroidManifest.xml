@@ -13,25 +13,53 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/Theme.MaterialComponents.DayNight.DarkActionBar">
-        <activity android:name=".AdCategory.myAdActivity"></activity>
-        <activity android:name=".FinalProductView" android:screenOrientation="nosensor"/>
-        <activity android:name=".ListAd" android:screenOrientation="nosensor"/>
-        <activity android:name=".BetaVersion" android:screenOrientation="nosensor"/>
-        <activity android:name=".AdCategory.otherAds" android:screenOrientation="nosensor"/>
-        <activity android:name=".AdCategory.electronics" android:screenOrientation="nosensor"/>
-        <activity android:name=".AdCategory.vehicle" android:screenOrientation="nosensor"/>
-        <activity android:name=".newAdActivity" android:screenOrientation="nosensor"/>
-        <activity android:name=".LoginActivity" android:screenOrientation="nosensor">
+        <activity android:name=".myAds.myMisc"></activity>
+        <activity android:name=".myAds.myBooks" />
+        <activity android:name=".myAds.myElectronic" />
+        <activity android:name=".myAds.myVehicle" />
+        <activity android:name=".myAds.myAdActivity" />
+        <activity
+            android:name=".FinalProductView"
+            android:screenOrientation="nosensor" />
+        <activity
+            android:name=".ListAd"
+            android:screenOrientation="nosensor" />
+        <activity
+            android:name=".BetaVersion"
+            android:screenOrientation="nosensor" />
+        <activity
+            android:name=".AdCategory.otherAds"
+            android:screenOrientation="nosensor" />
+        <activity
+            android:name=".AdCategory.electronics"
+            android:screenOrientation="nosensor" />
+        <activity
+            android:name=".AdCategory.vehicle"
+            android:screenOrientation="nosensor" />
+        <activity
+            android:name=".newAdActivity"
+            android:screenOrientation="nosensor" />
+        <activity
+            android:name=".LoginActivity"
+            android:screenOrientation="nosensor">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <activity android:name=".SignupActivity" android:screenOrientation="nosensor"/>
-        <activity android:name=".MainActivity" android:screenOrientation="nosensor"/>
-        <activity android:name=".myAccount" android:screenOrientation="nosensor"/>
-        <activity android:name=".profile" android:screenOrientation="nosensor"/>
+        <activity
+            android:name=".SignupActivity"
+            android:screenOrientation="nosensor" />
+        <activity
+            android:name=".MainActivity"
+            android:screenOrientation="nosensor" />
+        <activity
+            android:name=".myAccount"
+            android:screenOrientation="nosensor" />
+        <activity
+            android:name=".profile"
+            android:screenOrientation="nosensor" />
     </application>
 
 </manifest>
