@@ -69,6 +69,10 @@ public class myElectronic extends AppCompatActivity {
                              listAdModelList.add(adModel);
                              c[0]++;
                              Log.i("Array", Long.toString(c[0]));
+                             if(c[0]==count[0])
+                             {
+                                 //CODE HERE
+                             }
                          }
                          @Override
                          public void onCancelled(@NonNull DatabaseError databaseError) {
