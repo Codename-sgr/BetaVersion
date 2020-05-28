@@ -32,6 +32,7 @@ import com.google.firebase.database.Query;
 import com.google.firebase.database.ValueEventListener;
 import com.google.firebase.storage.FirebaseStorage;
 import com.google.firebase.storage.StorageReference;
+import com.sagar.betaversion.AdCategory.ElectronicsAd;
 import com.sagar.betaversion.AdCategory.VehicleAd;
 import com.squareup.picasso.Picasso;
 
@@ -90,6 +91,7 @@ public class FinalProductView extends AppCompatActivity {
         databaseReference.addListenerForSingleValueEvent(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+
                 VehicleAd itemDetails=dataSnapshot.getValue(VehicleAd.class);
                 pBrand=itemDetails.getBrand();
                 pModel=itemDetails.getModel();

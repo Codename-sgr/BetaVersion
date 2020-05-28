@@ -15,11 +15,21 @@ import com.sagar.betaversion.R;
 import java.util.ArrayList;
 
 public class myAdActivity extends AppCompatActivity {
+
     ArrayList<String> categories= new ArrayList<>();
+    String type;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_my_books);
+
+
+        if (getSupportActionBar()!=null){
+            getSupportActionBar().setTitle("My Ads");
+            getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+        }
+
         categories.add("Vehicle");
         categories.add("Electronic");
         categories.add("Books");
@@ -34,20 +44,25 @@ public class myAdActivity extends AppCompatActivity {
             public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
                 if(i==0)
                 {
-                    startActivity(new Intent(getApplicationContext(), myVehicle.class));
+                    startActivity(new Intent(getApplicationContext(), myVehicle.class).putExtra("type","VehicleAd"));
+
                 }
                 else if(i==1)
                 {
-                    startActivity(new Intent(getApplicationContext(), myElectronic.class));
+                    startActivity(new Intent(getApplicationContext(), myElectronic.class).putExtra("type","ElectronicsAd"));
+
                 }
                 else if(i==2)
                 {
-                    startActivity(new Intent(getApplicationContext(), myBooks.class));
+                    startActivity(new Intent(getApplicationContext(), myBooks.class).putExtra("type","BooksAd"));
+
                 }
                 else
                 {
-                    startActivity(new Intent(getApplicationContext(), myMisc.class));
+                    startActivity(new Intent(getApplicationContext(), myMisc.class).putExtra("type","MiscAd"));
+
                 }
+
 
             }
         });

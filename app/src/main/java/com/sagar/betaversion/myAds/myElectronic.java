@@ -2,7 +2,10 @@ package com.sagar.betaversion.myAds;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
 
+import android.content.Intent;
 import android.icu.text.Edits;
 import android.os.Bundle;
 import android.util.Log;
@@ -17,15 +20,21 @@ import com.google.firebase.database.Query;
 import com.google.firebase.database.ValueEventListener;
 import com.sagar.betaversion.AdCategory.ElectronicsAd;
 import com.sagar.betaversion.AdCategory.VehicleAd;
+import com.sagar.betaversion.FinalProductView;
+import com.sagar.betaversion.ListAd;
 import com.sagar.betaversion.R;
+import com.sagar.betaversion.RecViewItemClickListener;
+import com.sagar.betaversion.listAdAdapter;
 import com.sagar.betaversion.listAdModel;
 
 import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
 
-public class myElectronic extends AppCompatActivity {
-    String Uid;
+public class myElectronic extends AppCompatActivity implements RecViewItemClickListener {
+
+    RecyclerView recyclerView;
+    String Uid,type;
     DatabaseReference userAd;
     ArrayList<ElectronicsAd> arrayList=new ArrayList<>();
     FirebaseDatabase firebaseDatabase;
@@ -34,6 +43,17 @@ public class myElectronic extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_my_electronic);
+
+        recyclerView=findViewById(R.id.AdListRecyclerView);
+        recyclerView.setHasFixedSize(true);
+        LinearLayoutManager layoutManager=new LinearLayoutManager(this);
+        layoutManager.setReverseLayout(true);
+        layoutManager.setStackFromEnd(true);
+        recyclerView.setLayoutManager(layoutManager);
+
+        Intent intent=getIntent();
+        type=intent.getStringExtra("type");
+
         FirebaseAuth mAuth=FirebaseAuth.getInstance();
         FirebaseUser firebaseUser=mAuth.getCurrentUser();
         Uid=firebaseUser.getUid();
@@ -58,21 +78,29 @@ public class myElectronic extends AppCompatActivity {
                      reference.addValueEventListener(new ValueEventListener() {
                          @Override
                          public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
-                             Log.i("Array", dataSnapshot.getValue(ElectronicsAd.class).getImg1());
+                             Log.i("Array1", " hello  "+dataSnapshot.getValue(ElectronicsAd.class).getImg1());
                              String model=dataSnapshot.getValue(ElectronicsAd.class).getModel();
                              String brand=dataSnapshot.getValue(ElectronicsAd.class).getBrand();
                              int price=dataSnapshot.getValue(ElectronicsAd.class).getSellingPrice();
                              String img1=dataSnapshot.getValue(ElectronicsAd.class).getImg1();
                              String ad_id=dataSnapshot.getValue(ElectronicsAd.class).getId();
                              listAdModel adModel=new listAdModel(model,brand,price,img1,ad_id);
-
+                             Log.i("INFO",model+brand+(price)+img1+ad_id);
                              listAdModelList.add(adModel);
                              c[0]++;
                              Log.i("Array", Long.toString(c[0]));
                              if(c[0]==count[0])
                              {
                                  //CODE HERE
+                                 Log.i("INFO",model+brand+(price)+img1+ad_id);
+                                 listAdAdapter listAdAdapter=new listAdAdapter(listAdModelList, myElectronic.this);
+                                 recyclerView.setAdapter(listAdAdapter);
+                                 listAdAdapter.notifyDataSetChanged();
+
                              }
+
+
+
                          }
                          @Override
                          public void onCancelled(@NonNull DatabaseError databaseError) {
@@ -89,5 +117,13 @@ public class myElectronic extends AppCompatActivity {
             }
         });
 
+    }
+
+    @Override
+    public void onItemClickListener(int position, String adId) {
+        Intent intent=new Intent(getApplicationContext(), FinalProductView.class);
+        intent.putExtra("type",type);
+        intent.putExtra("adId",adId);
+        startActivity(intent);
     }
 }

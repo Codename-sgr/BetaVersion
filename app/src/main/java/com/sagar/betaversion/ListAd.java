@@ -79,7 +79,10 @@ public class ListAd extends AppCompatActivity implements RecViewItemClickListene
 
         recyclerView=findViewById(R.id.AdListRecyclerView);
         recyclerView.setHasFixedSize(true);
-        recyclerView.setLayoutManager(new LinearLayoutManager(this));
+        LinearLayoutManager layoutManager=new LinearLayoutManager(this);
+        layoutManager.setReverseLayout(true);
+        layoutManager.setStackFromEnd(true);
+        recyclerView.setLayoutManager(layoutManager);
 
         showList();
 
@@ -121,7 +124,6 @@ public class ListAd extends AppCompatActivity implements RecViewItemClickListene
         }
         else if(type.matches("Electronic"))
         {
-            final List<listAdModel> listAdModelList=new ArrayList<>();
             final ArrayList<ElectronicsAd> arrayList= new ArrayList<>();
             databaseReference.addValueEventListener(new ValueEventListener() {
                 @Override
@@ -134,15 +136,8 @@ public class ListAd extends AppCompatActivity implements RecViewItemClickListene
                             arrayList.add(Ad);
                         }
                     }
-                    Log.i("QQQQ", String.valueOf(arrayList.size()));
-
                     for (int i=0;i<arrayList.size();i++)
                         listAdModelList.add(new listAdModel(arrayList.get(i).getModel(),arrayList.get(i).getBrand(),arrayList.get(i).getSellingPrice(),arrayList.get(i).getImg1(),arrayList.get(i).getId()));
-
-                    Log.i("bbb", String.valueOf(listAdModelList.size()));
-                    for (listAdModel s:listAdModelList){
-                        Log.i("AAA",s.getProdBrand()+s.getProdModel()+s.getProdPrice()+s.getProdImg());
-                    }
 
                     listAdAdapter listAdAdapter=new listAdAdapter(listAdModelList,ListAd.this);
                     recyclerView.setAdapter(listAdAdapter);
@@ -159,7 +154,7 @@ public class ListAd extends AppCompatActivity implements RecViewItemClickListene
         }
         else if(type.matches("Books"))
         {
-            final List<listAdModel> listAdModelList=new ArrayList<>();
+
             final ArrayList<BooksAd> arrayList= new ArrayList<>();
             databaseReference.addValueEventListener(new ValueEventListener() {
                 @Override
@@ -172,15 +167,8 @@ public class ListAd extends AppCompatActivity implements RecViewItemClickListene
                             arrayList.add(Ad);
                         }
                     }
-                    Log.i("QQQQ", String.valueOf(arrayList.size()));
-
                     for (int i=0;i<arrayList.size();i++)
                         listAdModelList.add(new listAdModel(arrayList.get(i).getModel(),arrayList.get(i).getBrand(),arrayList.get(i).getSellingPrice(),arrayList.get(i).getImg1(),arrayList.get(i).getId()));
-
-                    Log.i("bbb", String.valueOf(listAdModelList.size()));
-                    for (listAdModel s:listAdModelList){
-                        Log.i("AAA",s.getProdBrand()+s.getProdModel()+s.getProdPrice()+s.getProdImg());
-                    }
 
                     listAdAdapter listAdAdapter=new listAdAdapter(listAdModelList,ListAd.this);
                     recyclerView.setAdapter(listAdAdapter);
@@ -210,15 +198,8 @@ public class ListAd extends AppCompatActivity implements RecViewItemClickListene
                             arrayList.add(Ad);
                         }
                     }
-                    Log.i("QQQQ", String.valueOf(arrayList.size()));
-
                     for (int i=0;i<arrayList.size();i++)
                         listAdModelList.add(new listAdModel(arrayList.get(i).getModel(),arrayList.get(i).getBrand(),arrayList.get(i).getSellingPrice(),arrayList.get(i).getImg1(),arrayList.get(i).getId()));
-
-                    Log.i("bbb", String.valueOf(listAdModelList.size()));
-                    for (listAdModel s:listAdModelList){
-                        Log.i("AAA",s.getProdBrand()+s.getProdModel()+s.getProdPrice()+s.getProdImg());
-                    }
 
                     listAdAdapter listAdAdapter=new listAdAdapter(listAdModelList,ListAd.this);
                     recyclerView.setAdapter(listAdAdapter);
@@ -511,11 +492,9 @@ public class ListAd extends AppCompatActivity implements RecViewItemClickListene
             recyclerView.setAdapter(SportsAdapter);
         }*/
 
-
         else {
             Toast.makeText(ListAd.this,"Tapped "+type,Toast.LENGTH_SHORT).show();
         }
-
 
     }
 
