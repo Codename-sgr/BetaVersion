@@ -16,6 +16,7 @@
         android:padding="5dp">
 
         <LinearLayout
+            android:id="@+id/linearLayout4"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:orientation="horizontal"
@@ -40,8 +41,8 @@
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:layout_weight="1"
-                android:paddingHorizontal="12dp"
-                android:orientation="vertical">
+                android:orientation="vertical"
+                android:paddingHorizontal="12dp">
 
                 <TextView
                     android:id="@+id/AdProdModel"
@@ -79,8 +80,8 @@
                         android:layout_height="match_parent"
                         android:layout_gravity="fill"
                         android:layout_weight="0"
-                        android:text="Rs. "
                         android:gravity="bottom"
+                        android:text="Rs. "
                         android:textSize="16sp" />
 
                     <TextView
@@ -88,11 +89,21 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_weight="1"
-                        android:text="9999"
                         android:gravity="start"
+                        android:text="9999"
                         android:textSize="30sp" />
 
                 </LinearLayout>
+                <TextView
+                    android:id="@+id/AdProdId"
+                    android:layout_width="wrap_content"
+                    android:layout_height="0dp"
+                    android:layout_marginTop="8dp"
+                    android:layout_gravity="end"
+                    android:layout_weight="1"
+                    android:textSize="10sp"
+                    android:text=""
+                    />
 
 
             </LinearLayout>

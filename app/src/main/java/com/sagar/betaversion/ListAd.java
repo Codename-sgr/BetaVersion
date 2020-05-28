@@ -40,18 +40,19 @@ import com.squareup.picasso.Picasso;
 import java.util.ArrayList;
 import java.util.List;
 
-public class ListAd extends AppCompatActivity {
+public class ListAd extends AppCompatActivity implements RecViewItemClickListener{
      RecyclerView recyclerView;
-     FirebaseRecyclerAdapter<VehicleAd, listAdRecViewAdapter> VehicleAdapter;
+/*     FirebaseRecyclerAdapter<VehicleAd, listAdRecViewAdapter> VehicleAdapter;
      FirebaseRecyclerAdapter<ElectronicsAd, listAdRecViewAdapter> ElectronicAdapter;
      FirebaseRecyclerAdapter<MiscAd, listAdRecViewAdapter> SportsAdapter;
-     FirebaseRecyclerAdapter<BooksAd, listAdRecViewAdapter> BooksAdapter;
-
+     FirebaseRecyclerAdapter<BooksAd, listAdRecViewAdapter> BooksAdapter;*/
      FirebaseDatabase database;
      DatabaseReference databaseReference;
      StorageReference storageReference;
      String type;
      String Uid;
+
+    List<listAdModel> listAdModelList=new ArrayList<>();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -59,14 +60,12 @@ public class ListAd extends AppCompatActivity {
         setContentView(R.layout.activity_list_ad);
 
         Intent intent=getIntent();
+        type=intent.getStringExtra("type");
 
         if (getSupportActionBar()!=null){
-            getSupportActionBar().setTitle(intent.getStringExtra("type")+" Ads");
+            getSupportActionBar().setTitle(intent.getStringExtra(type+" Ads"));
             getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         }
-
-
-        type=intent.getStringExtra("type");
 
 
         database= FirebaseDatabase.getInstance();
@@ -75,7 +74,8 @@ public class ListAd extends AppCompatActivity {
         FirebaseAuth mAuth= FirebaseAuth.getInstance();
         FirebaseUser user =mAuth.getCurrentUser();
         Uid=user.getUid();
-        databaseReference.keepSynced(true);
+//      databaseReference.keepSynced(true);
+
 
         recyclerView=findViewById(R.id.AdListRecyclerView);
         recyclerView.setHasFixedSize(true);
@@ -89,7 +89,7 @@ public class ListAd extends AppCompatActivity {
 
         if(type.matches("Vehicle"))
         {
-            final List<listAdModel> listAdModelList=new ArrayList<>();
+
             final ArrayList<VehicleAd> arrayList= new ArrayList<>();
             databaseReference.addValueEventListener(new ValueEventListener() {
                 @Override
@@ -102,56 +102,21 @@ public class ListAd extends AppCompatActivity {
                             arrayList.add(vehicleAd);
                         }
                     }
-                    Log.i("QQQQ", String.valueOf(arrayList.size()));
 
                     for (int i=0;i<arrayList.size();i++)
-                        listAdModelList.add(new listAdModel(arrayList.get(i).getModel(),arrayList.get(i).getBrand(),arrayList.get(i).getSellingPrice(),arrayList.get(i).getImg1()));
+                        listAdModelList.add(new listAdModel(arrayList.get(i).getModel(),arrayList.get(i).getBrand(),arrayList.get(i).getSellingPrice(),arrayList.get(i).getImg1(),arrayList.get(i).getId()));
 
-                    Log.i("bbb", String.valueOf(listAdModelList.size()));
-                    for (listAdModel s:listAdModelList){
-                        Log.i("AAA",s.getProdBrand()+s.getProdModel()+s.getProdPrice()+s.getProdImg());
-                    }
-
-                    listAdAdapter listAdAdapter=new listAdAdapter(listAdModelList);
+                    listAdAdapter listAdAdapter=new listAdAdapter(listAdModelList,ListAd.this);
                     recyclerView.setAdapter(listAdAdapter);
                     listAdAdapter.notifyDataSetChanged();
 
                 }
-
 
                 @Override
                 public void onCancelled(@NonNull DatabaseError databaseError) {
 
                 }
             });
-
-            /*for (int i=0;i<arrayList.size();i++)
-            listAdModelList.add(new listAdModel(arrayList.get(i).getModel(),arrayList.get(i).getBrand(),arrayList.get(i).getSellingPrice(),arrayList.get(i).getImg1()));
-
-            Log.i("bbb", String.valueOf(listAdModelList.size()));
-            for (listAdModel s:listAdModelList){
-                Log.i("AAA",s.getProdBrand()+s.getProdModel()+s.getProdPrice()+s.getProdImg());
-            }
-
-            listAdAdapter listAdAdapter=new listAdAdapter(listAdModelList);
-            recyclerView.setAdapter(listAdAdapter);
-            listAdAdapter.notifyDataSetChanged();*/
-            /*int n=arrayList.size();
-            Log.i("arrayList counttttttttttttttt",Integer.toString(n));
-
-            List<listAdModel> listAdModelList=new ArrayList<>();
-
-            /*listAdModelList.add(new listAdModel("a","bwag",1));
-            listAdModelList.add(new listAdModel("b","tutyb",31));
-            listAdModelList.add(new listAdModel("af","btvf",14));
-            listAdModelList.add(new listAdModel("asf","bBT",123));
-            listAdModelList.add(new listAdModel("aasf","bwe",123));
-            listAdModelList.add(new listAdModel("afdga","baweg",15));
-            listAdModelList.add(new listAdModel("aagwg","baweg",17))
-
-
-            for (int i=0;i<arrayList.size();i++)
-                listAdModelList.add(new listAdModel(arrayList.get(i).getModel(),arrayList.get(i).getBrand(),arrayList.get(i).getSellingPrice()));*/
 
         }
         else if(type.matches("Electronic"))
@@ -172,14 +137,14 @@ public class ListAd extends AppCompatActivity {
                     Log.i("QQQQ", String.valueOf(arrayList.size()));
 
                     for (int i=0;i<arrayList.size();i++)
-                        listAdModelList.add(new listAdModel(arrayList.get(i).getModel(),arrayList.get(i).getBrand(),arrayList.get(i).getSellingPrice(),arrayList.get(i).getImg1()));
+                        listAdModelList.add(new listAdModel(arrayList.get(i).getModel(),arrayList.get(i).getBrand(),arrayList.get(i).getSellingPrice(),arrayList.get(i).getImg1(),arrayList.get(i).getId()));
 
                     Log.i("bbb", String.valueOf(listAdModelList.size()));
                     for (listAdModel s:listAdModelList){
                         Log.i("AAA",s.getProdBrand()+s.getProdModel()+s.getProdPrice()+s.getProdImg());
                     }
 
-                    listAdAdapter listAdAdapter=new listAdAdapter(listAdModelList);
+                    listAdAdapter listAdAdapter=new listAdAdapter(listAdModelList,ListAd.this);
                     recyclerView.setAdapter(listAdAdapter);
                     listAdAdapter.notifyDataSetChanged();
 
@@ -210,14 +175,14 @@ public class ListAd extends AppCompatActivity {
                     Log.i("QQQQ", String.valueOf(arrayList.size()));
 
                     for (int i=0;i<arrayList.size();i++)
-                        listAdModelList.add(new listAdModel(arrayList.get(i).getModel(),arrayList.get(i).getBrand(),arrayList.get(i).getSellingPrice(),arrayList.get(i).getImg1()));
+                        listAdModelList.add(new listAdModel(arrayList.get(i).getModel(),arrayList.get(i).getBrand(),arrayList.get(i).getSellingPrice(),arrayList.get(i).getImg1(),arrayList.get(i).getId()));
 
                     Log.i("bbb", String.valueOf(listAdModelList.size()));
                     for (listAdModel s:listAdModelList){
                         Log.i("AAA",s.getProdBrand()+s.getProdModel()+s.getProdPrice()+s.getProdImg());
                     }
 
-                    listAdAdapter listAdAdapter=new listAdAdapter(listAdModelList);
+                    listAdAdapter listAdAdapter=new listAdAdapter(listAdModelList,ListAd.this);
                     recyclerView.setAdapter(listAdAdapter);
                     listAdAdapter.notifyDataSetChanged();
 
@@ -248,14 +213,14 @@ public class ListAd extends AppCompatActivity {
                     Log.i("QQQQ", String.valueOf(arrayList.size()));
 
                     for (int i=0;i<arrayList.size();i++)
-                        listAdModelList.add(new listAdModel(arrayList.get(i).getModel(),arrayList.get(i).getBrand(),arrayList.get(i).getSellingPrice(),arrayList.get(i).getImg1()));
+                        listAdModelList.add(new listAdModel(arrayList.get(i).getModel(),arrayList.get(i).getBrand(),arrayList.get(i).getSellingPrice(),arrayList.get(i).getImg1(),arrayList.get(i).getId()));
 
                     Log.i("bbb", String.valueOf(listAdModelList.size()));
                     for (listAdModel s:listAdModelList){
                         Log.i("AAA",s.getProdBrand()+s.getProdModel()+s.getProdPrice()+s.getProdImg());
                     }
 
-                    listAdAdapter listAdAdapter=new listAdAdapter(listAdModelList);
+                    listAdAdapter listAdAdapter=new listAdAdapter(listAdModelList,ListAd.this);
                     recyclerView.setAdapter(listAdAdapter);
                     listAdAdapter.notifyDataSetChanged();
 
@@ -269,6 +234,7 @@ public class ListAd extends AppCompatActivity {
             });
 
         }
+
         /*{
 
             //STARTS HERE CHECK THIS BRO
@@ -545,9 +511,11 @@ public class ListAd extends AppCompatActivity {
             recyclerView.setAdapter(SportsAdapter);
         }*/
 
+
         else {
             Toast.makeText(ListAd.this,"Tapped "+type,Toast.LENGTH_SHORT).show();
         }
+
 
     }
 
@@ -558,5 +526,14 @@ public class ListAd extends AppCompatActivity {
             return true;
         }
     return super.onOptionsItemSelected(item);}
+
+    @Override
+    public void onItemClickListener(int position,String adId) {
+        Intent intent=new Intent(getApplicationContext(),FinalProductView.class);
+        intent.putExtra("type",type);
+        intent.putExtra("adId",adId);
+        startActivity(intent);
+
+    }
 
 }

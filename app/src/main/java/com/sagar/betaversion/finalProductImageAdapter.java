@@ -17,9 +17,9 @@ import java.util.List;
 
 public class finalProductImageAdapter extends PagerAdapter {
     private Context context;
-    private String[] productImageUrls;
+    private List<String> productImageUrls;
 
-    finalProductImageAdapter(Context context, String[] productImageUrls) {
+    finalProductImageAdapter(Context context, List<String> productImageUrls) {
         this.context=context;
         this.productImageUrls=productImageUrls;
     }
@@ -29,7 +29,7 @@ public class finalProductImageAdapter extends PagerAdapter {
     public Object instantiateItem(@NonNull ViewGroup container,int position){
         ImageView finalProdImage=new ImageView(context);
         Picasso.get()
-                .load(productImageUrls[position])
+                .load(productImageUrls.get(position))
                 .fit().centerCrop().into(finalProdImage);
         container.addView(finalProdImage);
         /*finalProdImage.setImageResource(productImageUrls.get(position));
@@ -43,7 +43,7 @@ public class finalProductImageAdapter extends PagerAdapter {
     }
 
     public int getCount() {
-        return productImageUrls.length;
+        return productImageUrls.size();
     }
 
     @Override
