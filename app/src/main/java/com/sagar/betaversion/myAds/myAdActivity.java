@@ -19,7 +19,7 @@ public class myAdActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_my_ad);
+        setContentView(R.layout.activity_my_books);
         categories.add("Vehicle");
         categories.add("Electronic");
         categories.add("Books");

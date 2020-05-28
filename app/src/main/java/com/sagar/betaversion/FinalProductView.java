@@ -24,9 +24,12 @@ import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.gms.tasks.Task;
 import com.google.android.material.tabs.TabLayout;
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.Query;
+import com.google.firebase.database.ValueEventListener;
 import com.google.firebase.storage.FirebaseStorage;
 import com.google.firebase.storage.StorageReference;
 import com.sagar.betaversion.AdCategory.VehicleAd;
@@ -50,11 +53,14 @@ public class FinalProductView extends AppCompatActivity {
     RecyclerView recyclerView;
     FirebaseDatabase database;
     DatabaseReference databaseReference;
-    StorageReference storageReference;
-    private finalProdDescRecViewAdapter finalProdDescRecViewAdapter;
+
+
     int image_count=2;
     /*ImageView prodImg;*/
-    TextView prodBrand,prodModel,prodPrice,prodMillege,prodDop,prodDesc;
+    TextView prodBrand,prodModel,prodPrice;
+
+    String pBrand,pModel,pPurchaseDate,pDesc,pImg1,pImg2,pImg3;
+    int pPrice,pKmsDriven,pMileage,pImgCount;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -65,94 +71,90 @@ public class FinalProductView extends AppCompatActivity {
         viewpagerIndicator=findViewById(R.id.finalImgTabLayout);
 
         final Intent intent=getIntent();
+        String type=intent.getStringExtra("type");
+        final String adId=intent.getStringExtra("adId");
         if(getSupportActionBar()!=null){
-            getSupportActionBar().setTitle(intent.getStringExtra("prodName"));
+            getSupportActionBar().setDisplayShowHomeEnabled(true);
             getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         }
 
-
-        //prodImg=findViewById(R.id.prodImageView);
         prodBrand=findViewById(R.id.prodBrand);
         prodModel=findViewById(R.id.productModel);
         prodPrice=findViewById(R.id.priceTextView);
-        /*prodMillege=findViewById(R.id.prodMillege);
-        prodDop=findViewById(R.id.prodDop);
-        prodDesc=findViewById(R.id.prodDesc);*/
 
-
-        String type=intent.getStringExtra("type");
         database=FirebaseDatabase.getInstance();
-        databaseReference=database.getReference(type+"Ad");
-        storageReference= FirebaseStorage.getInstance().getReference(type+"Image");
-        image_count=intent.getIntExtra("img_count",2);
-        final String[] imageUrls= new String[image_count];
-        String user_id=intent.getStringExtra("user_id");
-        String ad_id=intent.getStringExtra("ad_id");
+        databaseReference=database.getReference(type+"Ad").child(adId);
 
-        Log.i("work",Integer.toString(image_count));
+//        storageReference= FirebaseStorage.getInstance().getReference(type+"Image");
 
-        for(int i = 0; i<image_count; i++){
-            final int finalI = i;
-            storageReference.child(user_id+"/"+ad_id+"/"+i+".jpg")
-                    .getDownloadUrl()
-                    .addOnSuccessListener(new OnSuccessListener<Uri>() {
-                        @Override
-                        public void onSuccess(Uri uri) {
-                            imageUrls[finalI]=uri.toString();
-                            Log.i("work shivam",uri.toString());
-                            if(finalI==image_count-1)
-                            {
-                                finalProductImageAdapter finalProductImageAdapter=new finalProductImageAdapter(FinalProductView.this,imageUrls);
-                                prodImageViewPager.setAdapter(finalProductImageAdapter);
+        databaseReference.addListenerForSingleValueEvent(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+                VehicleAd itemDetails=dataSnapshot.getValue(VehicleAd.class);
+                pBrand=itemDetails.getBrand();
+                pModel=itemDetails.getModel();
+                pPrice=itemDetails.getSellingPrice();
+                pDesc=itemDetails.getDescription();
+                pKmsDriven=itemDetails.getKmsDriven();
+                pMileage=itemDetails.getMilege();
+                pPurchaseDate=itemDetails.getDate_of_purchase();
+                pImgCount=itemDetails.getImg_count();
+                pImg1=itemDetails.getImg1();
+                pImg2=itemDetails.getImg2();
+                pImg3=itemDetails.getImg3();
 
-                                viewpagerIndicator.setupWithViewPager(prodImageViewPager,true);
-                            }
+//FOR IMAGE IN VIEW PAGER
+                List<String> imageURLs=new ArrayList<>();
+                if(pImg1!=null)
+                    imageURLs.add(pImg1);
+                if(pImg2!=null)
+                    imageURLs.add(pImg2);
+                if(pImg3!=null)
+                    imageURLs.add(pImg3);
 
-                        }
-                    });
-        }
+                finalProductImageAdapter finalProductImageAdapter=new finalProductImageAdapter(FinalProductView.this,imageURLs);
+                prodImageViewPager.setAdapter(finalProductImageAdapter);
+                viewpagerIndicator.setupWithViewPager(prodImageViewPager,true);
 
-        /*Uri uri=intent.getData();
-        //Picasso.get().load(uri).into(prodImg);*/
+//FOR DETAILS
+                 prodBrand.setText(pBrand);
+                 prodModel.setText(pModel);
+                 prodPrice.setText(Integer.toString(pPrice));
+
+//FOR SPECIFICATIONS
+                recyclerView=findViewById(R.id.finalProdDescRV);
+                recyclerView.setHasFixedSize(true);
+                recyclerView.setLayoutManager(new LinearLayoutManager(FinalProductView.this));
+                List<finalProdSpecificationModel> finalProdSpecificationModelList=new ArrayList<>();
+                if(pBrand!=null)
+                    finalProdSpecificationModelList.add(new finalProdSpecificationModel("Brand: ",pBrand));
+                if(pModel!=null)
+                    finalProdSpecificationModelList.add(new finalProdSpecificationModel("Model: ",pModel));
+                if(pPurchaseDate!=null)
+                    finalProdSpecificationModelList.add(new finalProdSpecificationModel("Date of Purchase: ",pPurchaseDate));
+                if(String.valueOf(pMileage)!=null)
+                    finalProdSpecificationModelList.add(new finalProdSpecificationModel("Mileage: ",Integer.toString(pMileage)));
+                if(Integer.toString(pKmsDriven)!=null)
+                    finalProdSpecificationModelList.add(new finalProdSpecificationModel("Kms Driven: ",Integer.toString(pKmsDriven)));
+                if(pDesc!=null)
+                    finalProdSpecificationModelList.add(new finalProdSpecificationModel("Note: ",pDesc));
+                if(adId!=null)
+                    finalProdSpecificationModelList.add(new finalProdSpecificationModel("AD ID: ",adId));
+
+                Log.i("Info",Integer.toString(finalProdSpecificationModelList.size()));
+                finalProdDescRecViewAdapter finalProdDescRecViewAdapter=new finalProdDescRecViewAdapter(finalProdSpecificationModelList);
+                recyclerView.setAdapter(finalProdDescRecViewAdapter);
+                finalProdDescRecViewAdapter.notifyDataSetChanged();
+
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError databaseError) {
+
+            }
+        });
 
 
-        recyclerView=findViewById(R.id.finalProdDescRV);
-        recyclerView.setHasFixedSize(true);
-        recyclerView.setLayoutManager(new LinearLayoutManager(this));
-
-        /*Map<String, Object> mp = new HashMap<>();
-        mp.put("spec1",intent.getStringExtra("prodMilege"));
-        mp.put("spec2",intent.getStringExtra("prodDOP"));
-        mp.put("spec3",intent.getStringExtra("prodDesc"));*/
-
-
-        List<finalProdSpecificationModel> finalProdSpecificationModelList=new ArrayList<>();
-
-        if(intent.getStringExtra("prodBrand")!=null)
-            finalProdSpecificationModelList.add(new finalProdSpecificationModel("Brand: ",intent.getStringExtra("prodBrand")));
-        if(intent.getStringExtra("prodModel")!=null)
-            finalProdSpecificationModelList.add(new finalProdSpecificationModel("Model: ",intent.getStringExtra("prodModel")));
-        if(intent.getStringExtra("prodDOP")!=null)
-            finalProdSpecificationModelList.add(new finalProdSpecificationModel("Date of Purchase: ",intent.getStringExtra("prodDOP")));
-        if(intent.getStringExtra("prodMilege")!=null)
-            finalProdSpecificationModelList.add(new finalProdSpecificationModel("Mileage: ",intent.getStringExtra("prodMilege")));
-        if(intent.getStringExtra("prodKmsDriven")!=null)
-            finalProdSpecificationModelList.add(new finalProdSpecificationModel("Kms Driven: ",intent.getStringExtra("prodKmsDriven")));
-        if(intent.getStringExtra("prodDesc")!=null)
-            finalProdSpecificationModelList.add(new finalProdSpecificationModel("Note: ",intent.getStringExtra("prodDesc")));
-        if(intent.getStringExtra("ad_id")!=null)
-            finalProdSpecificationModelList.add(new finalProdSpecificationModel("AD ID: ",intent.getStringExtra("ad_id")));
-
-
-
-        finalProdDescRecViewAdapter finalProdDescRecViewAdapter=new finalProdDescRecViewAdapter(finalProdSpecificationModelList);
-        recyclerView.setAdapter(finalProdDescRecViewAdapter);
-        finalProdDescRecViewAdapter.notifyDataSetChanged();
-
-
-        prodModel.setText(intent.getStringExtra("prodModel"));
-        prodBrand.setText(intent.getStringExtra("prodBrand"));
-        prodPrice.setText(intent.getStringExtra("prodPrice"));
 
     }
 
