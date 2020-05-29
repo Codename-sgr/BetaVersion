@@ -12,7 +12,9 @@ import android.widget.Toast;
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
 import com.squareup.picasso.Picasso;
 
@@ -84,7 +86,7 @@ public class listAdAdapter extends RecyclerView.Adapter<listAdAdapter.ViewHolder
 
 
         }
-        public void setAdProdct(String adBrand, String adModel, int adPrice, String adImg,String adId){
+        public void setAdProdct(String adBrand, String adModel, int adPrice, String adImg, final String adId){
             adProductBrand.setText(adBrand);
             adProductModel.setText(adModel);
             adProductPrice.setText(String.valueOf(adPrice));
@@ -103,7 +105,9 @@ public class listAdAdapter extends RecyclerView.Adapter<listAdAdapter.ViewHolder
             adDelete.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
-
+                    Task<Void> ref= FirebaseDatabase.getInstance().getReference().child("UserAd")
+                            .child(Uid).child(type+"Id").child(adId).removeValue();
+                    Task<Void> q=FirebaseDatabase.getInstance().getReference().child(type+"Ad").child(adId).removeValue();
                     //CODE HERE *********************************************************************************
                     Toast.makeText(itemView.getContext(), "Delete "+type+"  "+ Uid, Toast.LENGTH_SHORT).show();
                 }
