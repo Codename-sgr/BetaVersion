@@ -98,8 +98,6 @@ public class vehicle extends AppCompatActivity {
                 Toast.makeText(vehicle.this,"Retry!",Toast.LENGTH_SHORT).show();
             }
         });
-
-
     }
     public void post(View view)
     {
@@ -115,15 +113,9 @@ public class vehicle extends AppCompatActivity {
         vsellinPrice=Integer.parseInt(sellinPrice.getText().toString());
         vpurchaseDate=purchaseDate.getText().toString();
         final VehicleAd vehicleAd= new VehicleAd(ad_id,user_id,vbrand,vmodel,vpurchaseDate,vkmsDriven,vmilege,vsellinPrice,vdescription);
-
         final int count=ImageUri.size();
         vehicleAd.setImg_count(count);
         uploadAd(0,vehicleAd,count);
-
-
-        //String url=urlTask.toString();
-
-
     }
     public void ChooseImage(View view)
    {
@@ -198,7 +190,6 @@ public class vehicle extends AppCompatActivity {
 
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_vehicle);
-
         brand=findViewById(R.id.brand);
         model=findViewById(R.id.model);
         progressDialog=new ProgressDialog(this);
@@ -216,8 +207,6 @@ public class vehicle extends AppCompatActivity {
         FirebaseUser user =mAuth.getCurrentUser();
         user_id=user.getUid();
         userAd=FirebaseDatabase.getInstance().getReference("UserAd").child(user_id).child("VehicleId");
-
-
     }
 
 

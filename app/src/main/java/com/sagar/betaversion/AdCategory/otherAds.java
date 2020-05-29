@@ -45,6 +45,86 @@ public class otherAds extends AppCompatActivity {
     ArrayList<byte[]> ImageArray=new ArrayList<>();
     private static final int IMAGE_REQUEST=1;
     StorageReference imageStorageRef;
+    public void uploadAd(final int i, final BooksAd electronicsAd, final int count) {
+        if(i==count)
+        {
+            progressDialog.dismiss();
+            databaseAd.child(ad_id).setValue(electronicsAd);
+            userAd.child(ad_id).setValue(true);
+            Toast.makeText(otherAds.this,"Ad Posted Successfully",Toast.LENGTH_SHORT).show();
+            Intent intent=new Intent(getApplicationContext(), MainActivity.class);
+            startActivity(intent);
+            finish();
+            return;
+        }
+        final int[] flag = {0};
+        final StorageReference ref = imageStorageRef.child(user_id + "/" + ad_id + "/"+i+".jpg");
+        UploadTask uploadTask = ref.putBytes(ImageArray.get(i));
+        uploadTask.addOnSuccessListener(new OnSuccessListener<UploadTask.TaskSnapshot>() {
+            @Override
+            public void onSuccess(UploadTask.TaskSnapshot taskSnapshot) {
+                ref.getDownloadUrl().addOnSuccessListener(new OnSuccessListener<Uri>() {
+                    @Override
+                    public void onSuccess(Uri uri) {
+                        if(i==0)
+                            electronicsAd.setImg1(uri.toString());
+                        if(i==1)
+                            electronicsAd.setImg2(uri.toString());
+                        if(i==2)
+                            electronicsAd.setImg3(uri.toString());
+                        uploadAd(i+1,electronicsAd,count);
+                        return;
+                    }
+                });
+            }
+        }).addOnFailureListener(new OnFailureListener() {
+            @Override
+            public void onFailure(@NonNull Exception e) {
+                Toast.makeText(otherAds.this,"Retry!",Toast.LENGTH_SHORT).show();
+                return;
+            }
+        });
+    }
+    public void uploadAdMisc(final int i, final MiscAd electronicsAd, final int count) {
+        if(i==count)
+        {
+            progressDialog.dismiss();
+            databaseAd.child(ad_id).setValue(electronicsAd);
+            userAd.child(ad_id).setValue(true);
+            Toast.makeText(otherAds.this,"Ad Posted Successfully",Toast.LENGTH_SHORT).show();
+            Intent intent=new Intent(getApplicationContext(), MainActivity.class);
+            startActivity(intent);
+            finish();
+            return;
+        }
+        final int[] flag = {0};
+        final StorageReference ref = imageStorageRef.child(user_id + "/" + ad_id + "/"+i+".jpg");
+        UploadTask uploadTask = ref.putBytes(ImageArray.get(i));
+        uploadTask.addOnSuccessListener(new OnSuccessListener<UploadTask.TaskSnapshot>() {
+            @Override
+            public void onSuccess(UploadTask.TaskSnapshot taskSnapshot) {
+                ref.getDownloadUrl().addOnSuccessListener(new OnSuccessListener<Uri>() {
+                    @Override
+                    public void onSuccess(Uri uri) {
+                        if(i==0)
+                            electronicsAd.setImg1(uri.toString());
+                        if(i==1)
+                            electronicsAd.setImg2(uri.toString());
+                        if(i==2)
+                            electronicsAd.setImg3(uri.toString());
+                        uploadAdMisc(i+1,electronicsAd,count);
+                        return;
+                    }
+                });
+            }
+        }).addOnFailureListener(new OnFailureListener() {
+            @Override
+            public void onFailure(@NonNull Exception e) {
+                Toast.makeText(otherAds.this,"Retry!",Toast.LENGTH_SHORT).show();
+                return;
+            }
+        });
+    }
     public void post(View view)
     {
         progressDialog.setMessage("Uploading Ad, Please wait!");
@@ -63,133 +143,22 @@ public class otherAds extends AppCompatActivity {
                                                 Integer.parseInt(sellinPrice.getText().toString()));
             final int count=ImageUri.size();
             Ad.setImg_count(count);
-            for(int i=0;i<count;i++)
-            {
-                final StorageReference ref=imageStorageRef.child(user_id+"/"+ad_id+"/"+ Integer.toString(i) +".jpg");
-                UploadTask uploadTask = ref.putBytes(ImageArray.get(i));
-                final int finalI = i;
-
-                uploadTask.addOnSuccessListener(new OnSuccessListener<UploadTask.TaskSnapshot>() {
-                    @Override
-                    public void onSuccess(UploadTask.TaskSnapshot taskSnapshot) {
-                        ref.getDownloadUrl().addOnSuccessListener(new OnSuccessListener<Uri>() {
-                            @Override
-                            public void onSuccess(Uri uri) {
-                                if(finalI==0)
-                                    Ad.setImg1(uri.toString());
-                                if(finalI==1)
-                                    Ad.setImg2(uri.toString());
-                                if(finalI==2)
-                                    Ad.setImg3(uri.toString());
-                                if(finalI ==count-1)
-                                {
-                                    progressDialog.dismiss();
-                                    databaseAd.child(ad_id).setValue(Ad);
-                                    userAd.child(ad_id).setValue(true);
-                                    Toast.makeText(otherAds.this,"Ad Posted Successfully",Toast.LENGTH_SHORT).show();
-                                    Intent intent=new Intent(getApplicationContext(), MainActivity.class);
-                                    startActivity(intent);
-                                    finish();
-                                }
-                            }
-                        });
-
-
-                    }
-                }).addOnFailureListener(new OnFailureListener() {
-                    @Override
-                    public void onFailure(@NonNull Exception e) {
-                        flag[0] =1;
-                    }
-                });
-
-
-            }
-
-
-            if(flag[0]==1) {
-
-                Toast.makeText(otherAds.this,"Retry!",Toast.LENGTH_SHORT).show();
-                Intent intent=new Intent(getApplicationContext(),MainActivity.class);
-                startActivity(intent);
-                finish();
-            }
-
+            uploadAd(0,Ad,count);
         }
 
-        else if(type.matches("Miscellaneous"))
-        {
-            final MiscAd Ad= new MiscAd(ad_id,
+        else if(type.matches("Miscellaneous")) {
+            final MiscAd Ad = new MiscAd(ad_id,
                     user_id,
                     brand.getText().toString(),
                     model.getText().toString(),
                     date_of_purchase.getText().toString(),
                     description.getText().toString(),
                     Integer.parseInt(sellinPrice.getText().toString()));
-            final int count=ImageUri.size();
+            final int count = ImageUri.size();
             Ad.setImg_count(count);
-
-            for(int i=0;i<count;i++)
-            {
-                final StorageReference ref=imageStorageRef.child(user_id+"/"+ad_id+"/"+ (i) +".jpg");
-
-                UploadTask uploadTask = ref.putBytes(ImageArray.get(i));
-                final int finalI = i;
-                uploadTask.addOnSuccessListener(new OnSuccessListener<UploadTask.TaskSnapshot>() {
-                    @Override
-                    public void onSuccess(UploadTask.TaskSnapshot taskSnapshot) {
-                        ref.getDownloadUrl().addOnSuccessListener(new OnSuccessListener<Uri>() {
-                            @Override
-                            public void onSuccess(Uri uri) {
-                                if(finalI==0)
-                                    Ad.setImg1(uri.toString());
-                                if(finalI==1)
-                                    Ad.setImg2(uri.toString());
-                                if(finalI==2)
-                                    Ad.setImg3(uri.toString());
-                                if(finalI ==count-1)
-                                {
-                                    progressDialog.dismiss();
-                                    userAd.child(ad_id).setValue(true);
-                                    databaseAd.child(ad_id).setValue(Ad);
-                                    Toast.makeText(otherAds.this,"Ad Posted Successfully",Toast.LENGTH_SHORT).show();
-                                    Intent intent=new Intent(getApplicationContext(),MainActivity.class);
-                                    startActivity(intent);
-                                    finish();
-                                }
-                            }
-                        });
-
-                    }
-                }).addOnFailureListener(new OnFailureListener() {
-                    @Override
-                    public void onFailure(@NonNull Exception e) {
-                        flag[0] =1;
-                    }
-                });
-
-
-            }
-
-
-            if(flag[0]==1) {
-
-                Toast.makeText(this,"Retry!",Toast.LENGTH_SHORT).show();
-                Intent intent=new Intent(getApplicationContext(),MainActivity.class);
-                startActivity(intent);
-                finish();
-            }
+            uploadAdMisc(0,Ad,count);
 
         }
-        else{
-            Toast.makeText(otherAds.this,type,Toast.LENGTH_SHORT).show();
-            Intent intent=new Intent(getApplicationContext(), MainActivity.class);
-            startActivity(intent);
-        }
-        /*if(flag[0]==0)
-        {
-            Toast.makeText(others.this,"Ad Posted Successfully",Toast.LENGTH_SHORT).show();
-        }*/
 
     }
     public void ChooseImage(View view)

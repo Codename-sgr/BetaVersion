@@ -54,9 +54,48 @@ public class electronics extends AppCompatActivity {
     DatabaseReference databaseAd,userAd;
     ProgressDialog progressDialog;
     String user_id, ad_id;
-    Uri uri;
     private static final int IMAGE_REQUEST=1;
     StorageReference imageStorageRef;
+    public void uploadAd(final int i, final ElectronicsAd electronicsAd, final int count) {
+        if(i==count)
+        {
+            progressDialog.dismiss();
+            databaseAd.child(ad_id).setValue(electronicsAd);
+            userAd.child(ad_id).setValue(true);
+            Toast.makeText(electronics.this,"Ad Posted Successfully",Toast.LENGTH_SHORT).show();
+            Intent intent=new Intent(getApplicationContext(), MainActivity.class);
+            startActivity(intent);
+            finish();
+            return;
+        }
+        final int[] flag = {0};
+        final StorageReference ref = imageStorageRef.child(user_id + "/" + ad_id + "/"+i+".jpg");
+        UploadTask uploadTask = ref.putBytes(ImageArray.get(i));
+        uploadTask.addOnSuccessListener(new OnSuccessListener<UploadTask.TaskSnapshot>() {
+            @Override
+            public void onSuccess(UploadTask.TaskSnapshot taskSnapshot) {
+                ref.getDownloadUrl().addOnSuccessListener(new OnSuccessListener<Uri>() {
+                    @Override
+                    public void onSuccess(Uri uri) {
+                        if(i==0)
+                            electronicsAd.setImg1(uri.toString());
+                        if(i==1)
+                            electronicsAd.setImg2(uri.toString());
+                        if(i==2)
+                            electronicsAd.setImg3(uri.toString());
+                        uploadAd(i+1,electronicsAd,count);
+                        return;
+                    }
+                });
+            }
+        }).addOnFailureListener(new OnFailureListener() {
+            @Override
+            public void onFailure(@NonNull Exception e) {
+                Toast.makeText(electronics.this,"Retry!",Toast.LENGTH_SHORT).show();
+                return;
+            }
+        });
+    }
     public void post(View view)
     {
         progressDialog.setMessage("Uploading Ad, Please wait!");
@@ -72,63 +111,7 @@ public class electronics extends AppCompatActivity {
                                                             ,Integer.parseInt(sellingPrice.getText().toString()));
         final int count=ImageUri.size();
         electronicsAd.setImg_count(count);
-        final int[] flag = {0};
-
-
-        for(int i=0;i<count;i++)
-        {
-            final StorageReference ref=imageStorageRef.child(user_id+"/"+ad_id+"/"+ i +".jpg");
-
-            UploadTask uploadTask = ref.putBytes(ImageArray.get(i));
-            final int finalI = i;
-            uploadTask.addOnSuccessListener(new OnSuccessListener<UploadTask.TaskSnapshot>() {
-                @Override
-                public void onSuccess(UploadTask.TaskSnapshot taskSnapshot) {
-                    ref.getDownloadUrl().addOnSuccessListener(new OnSuccessListener<Uri>() {
-                        @Override
-                        public void onSuccess(Uri uri) {
-                            if(finalI==0)
-                                electronicsAd.setImg1(uri.toString());
-                            if(finalI==1)
-                                electronicsAd.setImg2(uri.toString());
-                            if(finalI==2)
-                                electronicsAd.setImg3(uri.toString());
-                            if(finalI ==count-1)
-                            {
-                                progressDialog.dismiss();
-                                userAd.child(ad_id).setValue(true);
-                                databaseAd.child(ad_id).setValue(electronicsAd);
-                                Toast.makeText(electronics.this,"Ad Posted Successfully",Toast.LENGTH_SHORT).show();
-                                Intent intent=new Intent(getApplicationContext(), MainActivity.class);
-                                startActivity(intent);
-                                finish();
-                            }
-                        }
-                    });
-
-
-                }
-            }).addOnFailureListener(new OnFailureListener() {
-                @Override
-                public void onFailure(@NonNull Exception e) {
-                    flag[0] =1;
-                }
-            });
-
-
-        }
-
-
-        if(flag[0]==1) {
-
-            Toast.makeText(electronics.this,"Retry!",Toast.LENGTH_SHORT).show();
-            Intent intent=new Intent(getApplicationContext(),MainActivity.class);
-            startActivity(intent);
-            finish();
-        }
-
-
-
+        uploadAd(0,electronicsAd,count);
 
     }
     public void ChooseImage(View view)
