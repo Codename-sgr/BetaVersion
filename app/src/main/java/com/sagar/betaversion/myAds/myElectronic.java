@@ -93,7 +93,7 @@ public class myElectronic extends AppCompatActivity implements RecViewItemClickL
                              {
                                  //CODE HERE
                                  Log.i("INFO",model+brand+(price)+img1+ad_id);
-                                 listAdAdapter listAdAdapter=new listAdAdapter(listAdModelList, myElectronic.this);
+                                 listAdAdapter listAdAdapter=new listAdAdapter(listAdModelList, myElectronic.this,false);
                                  recyclerView.setAdapter(listAdAdapter);
                                  listAdAdapter.notifyDataSetChanged();
 
