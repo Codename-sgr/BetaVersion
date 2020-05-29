@@ -60,7 +60,47 @@ public class vehicle extends AppCompatActivity {
     StorageReference imageStorageRef;
 
 
+    public void uploadAd(final int i, final VehicleAd vehicleAd, final int count) {
+        if(i==count)
+        {
+            progressDialog.dismiss();
+            databaseAd.child(ad_id).setValue(vehicleAd);
+            userAd.child(ad_id).setValue(true);
+            Toast.makeText(vehicle.this,"Ad Posted Successfully",Toast.LENGTH_SHORT).show();
+            Intent intent=new Intent(getApplicationContext(), MainActivity.class);
+            startActivity(intent);
+            finish();
+            return;
+        }
+        final int[] flag = {0};
+        final StorageReference ref = imageStorageRef.child(user_id + "/" + ad_id + "/"+i+".jpg");
+        UploadTask uploadTask = ref.putBytes(ImageArray.get(i));
+        uploadTask.addOnSuccessListener(new OnSuccessListener<UploadTask.TaskSnapshot>() {
+            @Override
+            public void onSuccess(UploadTask.TaskSnapshot taskSnapshot) {
+                ref.getDownloadUrl().addOnSuccessListener(new OnSuccessListener<Uri>() {
+                    @Override
+                    public void onSuccess(Uri uri) {
+                        if(i==0)
+                            vehicleAd.setImg1(uri.toString());
+                        if(i==1)
+                            vehicleAd.setImg2(uri.toString());
+                        if(i==2)
+                            vehicleAd.setImg3(uri.toString());
+                        uploadAd(i+1,vehicleAd,count);
+                        return;
+                    }
+                });
+            }
+        }).addOnFailureListener(new OnFailureListener() {
+            @Override
+            public void onFailure(@NonNull Exception e) {
+                Toast.makeText(vehicle.this,"Retry!",Toast.LENGTH_SHORT).show();
+            }
+        });
 
+
+    }
     public void post(View view)
     {
         progressDialog.setMessage("Uploading Ad, Please wait!");
@@ -78,57 +118,8 @@ public class vehicle extends AppCompatActivity {
 
         final int count=ImageUri.size();
         vehicleAd.setImg_count(count);
+        uploadAd(0,vehicleAd,count);
 
-        final int[] flag = {0};
-        for(int i=0;i<count;i++)
-        {
-            final StorageReference ref=imageStorageRef.child(user_id+"/"+ad_id+"/"+ (i) +".jpg");
-            UploadTask uploadTask = ref.putBytes(ImageArray.get(i));
-            final int finalI = i;
-
-            uploadTask.addOnSuccessListener(new OnSuccessListener<UploadTask.TaskSnapshot>() {
-                @Override
-                public void onSuccess(UploadTask.TaskSnapshot taskSnapshot) {
-                    ref.getDownloadUrl().addOnSuccessListener(new OnSuccessListener<Uri>() {
-                        @Override
-                        public void onSuccess(Uri uri) {
-                            if(finalI==0)
-                                vehicleAd.setImg1(uri.toString());
-                            if(finalI==1)
-                                vehicleAd.setImg2(uri.toString());
-                            if(finalI==2)
-                                vehicleAd.setImg3(uri.toString());
-                            if(finalI ==count-1)
-                            {
-                                progressDialog.dismiss();
-                                databaseAd.child(ad_id).setValue(vehicleAd);
-                                userAd.child(ad_id).setValue(true);
-                                Toast.makeText(vehicle.this,"Ad Posted Successfully",Toast.LENGTH_SHORT).show();
-                                Intent intent=new Intent(getApplicationContext(), MainActivity.class);
-                                startActivity(intent);
-                                finish();
-                            }
-                        }
-                    });
-
-
-                }
-            }).addOnFailureListener(new OnFailureListener() {
-                @Override
-                public void onFailure(@NonNull Exception e) {
-                    flag[0] =1;
-                }
-            });
-
-
-        }
-        if(flag[0]==1) {
-
-            Toast.makeText(vehicle.this,"Retry!",Toast.LENGTH_SHORT).show();
-            Intent intent=new Intent(getApplicationContext(),MainActivity.class);
-            startActivity(intent);
-            finish();
-        }
 
         //String url=urlTask.toString();
 
