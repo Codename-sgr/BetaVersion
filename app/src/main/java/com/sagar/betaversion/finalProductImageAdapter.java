@@ -30,7 +30,7 @@ public class finalProductImageAdapter extends PagerAdapter {
         ImageView finalProdImage=new ImageView(context);
         Picasso.get()
                 .load(productImageUrls.get(position))
-                .fit().centerCrop().into(finalProdImage);
+                .into(finalProdImage);
         container.addView(finalProdImage);
         /*finalProdImage.setImageResource(productImageUrls.get(position));
         container.addView(finalProdImage,0);*/

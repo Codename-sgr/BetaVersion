@@ -74,19 +74,18 @@ public class FinalProductView extends AppCompatActivity {
         final Intent intent=getIntent();
         String type=intent.getStringExtra("type");
         final String adId=intent.getStringExtra("adId");
-        if(getSupportActionBar()!=null){
-            getSupportActionBar().setDisplayShowHomeEnabled(true);
-            getSupportActionBar().setDisplayHomeAsUpEnabled(true);
-        }
 
         prodBrand=findViewById(R.id.prodBrand);
         prodModel=findViewById(R.id.productModel);
         prodPrice=findViewById(R.id.priceTextView);
 
+        Log.i("TYPE",""+type);
+        Log.i("ADID",""+adId);
+
         database=FirebaseDatabase.getInstance();
         databaseReference=database.getReference(type+"Ad").child(adId);
 
-//        storageReference= FirebaseStorage.getInstance().getReference(type+"Image");
+//      storageReference= FirebaseStorage.getInstance().getReference(type+"Image");
 
         databaseReference.addListenerForSingleValueEvent(new ValueEventListener() {
             @Override
@@ -134,14 +133,13 @@ public class FinalProductView extends AppCompatActivity {
                     finalProdSpecificationModelList.add(new finalProdSpecificationModel("Model: ",pModel));
                 if(pPurchaseDate!=null)
                     finalProdSpecificationModelList.add(new finalProdSpecificationModel("Date of Purchase: ",pPurchaseDate));
-                if(String.valueOf(pMileage)!=null)
+                if(pMileage!=0)
                     finalProdSpecificationModelList.add(new finalProdSpecificationModel("Mileage: ",Integer.toString(pMileage)));
-                if(Integer.toString(pKmsDriven)!=null)
+                if(pKmsDriven!=0)
                     finalProdSpecificationModelList.add(new finalProdSpecificationModel("Kms Driven: ",Integer.toString(pKmsDriven)));
                 if(pDesc!=null)
                     finalProdSpecificationModelList.add(new finalProdSpecificationModel("Note: ",pDesc));
-                if(adId!=null)
-                    finalProdSpecificationModelList.add(new finalProdSpecificationModel("AD ID: ",adId));
+                finalProdSpecificationModelList.add(new finalProdSpecificationModel("AD ID: ",adId));
 
                 Log.i("Info",Integer.toString(finalProdSpecificationModelList.size()));
                 finalProdDescRecViewAdapter finalProdDescRecViewAdapter=new finalProdDescRecViewAdapter(finalProdSpecificationModelList);
@@ -156,7 +154,10 @@ public class FinalProductView extends AppCompatActivity {
             }
         });
 
-
+        if(getSupportActionBar()!=null){
+            getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+            getSupportActionBar().setTitle(pModel);
+        }
 
     }
 

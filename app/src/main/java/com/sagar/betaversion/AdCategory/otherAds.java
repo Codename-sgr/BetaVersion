@@ -192,9 +192,10 @@ public class otherAds extends AppCompatActivity {
                         try {
                             Uri imageUri = data.getClipData().getItemAt(i).getUri();
                             Bitmap bitmap = MediaStore.Images.Media.getBitmap(this.getContentResolver(), imageUri);
-                            Bitmap bitmap1=Bitmap.createScaledBitmap(bitmap,720,1020,false);
+                            int nh = (int) ( bitmap.getHeight() * (512.0 / bitmap.getWidth()) );
+                            Bitmap scaled = Bitmap.createScaledBitmap(bitmap, 512, nh, true);
                             ByteArrayOutputStream stream = new ByteArrayOutputStream();
-                            bitmap1.compress(Bitmap.CompressFormat.WEBP,20, stream);
+                            scaled.compress(Bitmap.CompressFormat.JPEG,50, stream);
                             byte[] byteArray = stream.toByteArray();
                             if(i==0)
                             {

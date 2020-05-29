@@ -147,13 +147,10 @@ public class electronics extends AppCompatActivity {
                         try {
                             Uri imageUri = data.getClipData().getItemAt(i).getUri();
                             Bitmap bitmap = MediaStore.Images.Media.getBitmap(this.getContentResolver(), imageUri);
-
                             int nh = (int) ( bitmap.getHeight() * (512.0 / bitmap.getWidth()) );
                             Bitmap scaled = Bitmap.createScaledBitmap(bitmap, 512, nh, true);
-
-//                            Bitmap bitmap1=Bitmap.createScaledBitmap(bitmap,1080,720,true);
                             ByteArrayOutputStream stream = new ByteArrayOutputStream();
-                            scaled.compress(Bitmap.CompressFormat.JPEG,70, stream);
+                            scaled.compress(Bitmap.CompressFormat.JPEG,50, stream);
                             byte[] byteArray = stream.toByteArray();
 
 //                            Bitmap bitmapImage = BitmapFactory.decodeFile(imageUri.toString());
@@ -217,7 +214,7 @@ public class electronics extends AppCompatActivity {
 
     }
 
-    public String compressImage(String imageUri) {
+    /*public String compressImage(String imageUri) {
 
         String filePath = getRealPathFromURI(imageUri);
         Bitmap scaledBitmap = null;
@@ -375,5 +372,5 @@ public class electronics extends AppCompatActivity {
         }
 
         return inSampleSize;
-    }
+    }*/
 }

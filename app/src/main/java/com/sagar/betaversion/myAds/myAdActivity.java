@@ -17,12 +17,12 @@ import java.util.ArrayList;
 public class myAdActivity extends AppCompatActivity {
 
     ArrayList<String> categories= new ArrayList<>();
-    String type;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_my_books);
+        setContentView(R.layout.activity_my_ads);
 
 
         if (getSupportActionBar()!=null){
@@ -44,22 +44,22 @@ public class myAdActivity extends AppCompatActivity {
             public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
                 if(i==0)
                 {
-                    startActivity(new Intent(getApplicationContext(), myVehicle.class).putExtra("type","VehicleAd"));
+                    startActivity(new Intent(getApplicationContext(), myVehicle.class).putExtra("type","Vehicle"));
 
                 }
                 else if(i==1)
                 {
-                    startActivity(new Intent(getApplicationContext(), myElectronic.class).putExtra("type","ElectronicsAd"));
+                    startActivity(new Intent(getApplicationContext(), myElectronic.class).putExtra("type","Electronic"));
 
                 }
                 else if(i==2)
                 {
-                    startActivity(new Intent(getApplicationContext(), myBooks.class).putExtra("type","BooksAd"));
+                    startActivity(new Intent(getApplicationContext(), myBooks.class).putExtra("type","Books"));
 
                 }
                 else
                 {
-                    startActivity(new Intent(getApplicationContext(), myMisc.class).putExtra("type","MiscAd"));
+                    startActivity(new Intent(getApplicationContext(), myMisc.class).putExtra("type","Miscellaneous"));
 
                 }
 
