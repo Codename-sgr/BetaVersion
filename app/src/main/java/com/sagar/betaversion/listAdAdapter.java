@@ -99,6 +99,8 @@ public class listAdAdapter extends RecyclerView.Adapter<listAdAdapter.ViewHolder
             adDelete.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
+
+                    //CODE HERE *********************************************************************************
                     Toast.makeText(itemView.getContext(), "Delete", Toast.LENGTH_SHORT).show();
                 }
             });
