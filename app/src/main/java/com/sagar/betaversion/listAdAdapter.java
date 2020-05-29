@@ -12,6 +12,7 @@ import android.widget.Toast;
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.database.ValueEventListener;
 import com.squareup.picasso.Picasso;
 
@@ -22,11 +23,14 @@ public class listAdAdapter extends RecyclerView.Adapter<listAdAdapter.ViewHolder
     private List<listAdModel> listAdModelList;
     private RecViewItemClickListener recViewItemClickListener;
     private Boolean listAd;
+    private  String type;
+    private FirebaseAuth firebaseAuth=FirebaseAuth.getInstance();
 
-    public listAdAdapter(List<listAdModel> listAdModelList,RecViewItemClickListener recViewItemClickListener,Boolean listAd) {
+    public listAdAdapter(List<listAdModel> listAdModelList,RecViewItemClickListener recViewItemClickListener,Boolean listAd,String type) {
         this.listAdModelList = listAdModelList;
         this.recViewItemClickListener=recViewItemClickListener;
         this.listAd=listAd;
+        this.type=type;
     }
 
 
@@ -101,7 +105,7 @@ public class listAdAdapter extends RecyclerView.Adapter<listAdAdapter.ViewHolder
                 public void onClick(View v) {
 
                     //CODE HERE *********************************************************************************
-                    Toast.makeText(itemView.getContext(), "Delete", Toast.LENGTH_SHORT).show();
+                    Toast.makeText(itemView.getContext(), "Delete "+type+"  "+ firebaseAuth.getCurrentUser().getUid(), Toast.LENGTH_SHORT).show();
                 }
             });
 
