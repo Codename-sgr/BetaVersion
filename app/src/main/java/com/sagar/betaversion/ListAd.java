@@ -109,7 +109,7 @@ public class ListAd extends AppCompatActivity implements RecViewItemClickListene
                     for (int i=0;i<arrayList.size();i++)
                         listAdModelList.add(new listAdModel(arrayList.get(i).getModel(),arrayList.get(i).getBrand(),arrayList.get(i).getSellingPrice(),arrayList.get(i).getImg1(),arrayList.get(i).getId()));
 
-                    listAdAdapter listAdAdapter=new listAdAdapter(listAdModelList,ListAd.this,true,type);
+                    listAdAdapter listAdAdapter=new listAdAdapter(listAdModelList,ListAd.this,true,type,Uid);
                     recyclerView.setAdapter(listAdAdapter);
                     listAdAdapter.notifyDataSetChanged();
 
@@ -139,7 +139,7 @@ public class ListAd extends AppCompatActivity implements RecViewItemClickListene
                     for (int i=0;i<arrayList.size();i++)
                         listAdModelList.add(new listAdModel(arrayList.get(i).getModel(),arrayList.get(i).getBrand(),arrayList.get(i).getSellingPrice(),arrayList.get(i).getImg1(),arrayList.get(i).getId()));
 
-                    listAdAdapter listAdAdapter=new listAdAdapter(listAdModelList,ListAd.this,true,type);
+                    listAdAdapter listAdAdapter=new listAdAdapter(listAdModelList,ListAd.this,true,type,Uid);
                     recyclerView.setAdapter(listAdAdapter);
                     listAdAdapter.notifyDataSetChanged();
 
@@ -170,7 +170,7 @@ public class ListAd extends AppCompatActivity implements RecViewItemClickListene
                     for (int i=0;i<arrayList.size();i++)
                         listAdModelList.add(new listAdModel(arrayList.get(i).getModel(),arrayList.get(i).getBrand(),arrayList.get(i).getSellingPrice(),arrayList.get(i).getImg1(),arrayList.get(i).getId()));
 
-                    listAdAdapter listAdAdapter=new listAdAdapter(listAdModelList,ListAd.this,true,type);
+                    listAdAdapter listAdAdapter=new listAdAdapter(listAdModelList,ListAd.this,true,type,Uid);
                     recyclerView.setAdapter(listAdAdapter);
                     listAdAdapter.notifyDataSetChanged();
 
@@ -201,7 +201,7 @@ public class ListAd extends AppCompatActivity implements RecViewItemClickListene
                     for (int i=0;i<arrayList.size();i++)
                         listAdModelList.add(new listAdModel(arrayList.get(i).getModel(),arrayList.get(i).getBrand(),arrayList.get(i).getSellingPrice(),arrayList.get(i).getImg1(),arrayList.get(i).getId()));
 
-                    listAdAdapter listAdAdapter=new listAdAdapter(listAdModelList,ListAd.this,true,type);
+                    listAdAdapter listAdAdapter=new listAdAdapter(listAdModelList,ListAd.this,true,type,Uid);
                     recyclerView.setAdapter(listAdAdapter);
                     listAdAdapter.notifyDataSetChanged();
 

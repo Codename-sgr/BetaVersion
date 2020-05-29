@@ -23,14 +23,14 @@ public class listAdAdapter extends RecyclerView.Adapter<listAdAdapter.ViewHolder
     private List<listAdModel> listAdModelList;
     private RecViewItemClickListener recViewItemClickListener;
     private Boolean listAd;
-    private  String type;
-    private FirebaseAuth firebaseAuth=FirebaseAuth.getInstance();
+    private  String type,Uid;
 
-    public listAdAdapter(List<listAdModel> listAdModelList,RecViewItemClickListener recViewItemClickListener,Boolean listAd,String type) {
+    public listAdAdapter(List<listAdModel> listAdModelList,RecViewItemClickListener recViewItemClickListener,Boolean listAd,String type,String Uid) {
         this.listAdModelList = listAdModelList;
         this.recViewItemClickListener=recViewItemClickListener;
         this.listAd=listAd;
         this.type=type;
+        this.Uid=Uid;
     }
 
 
@@ -105,7 +105,7 @@ public class listAdAdapter extends RecyclerView.Adapter<listAdAdapter.ViewHolder
                 public void onClick(View v) {
 
                     //CODE HERE *********************************************************************************
-                    Toast.makeText(itemView.getContext(), "Delete "+type+"  "+ firebaseAuth.getCurrentUser().getUid(), Toast.LENGTH_SHORT).show();
+                    Toast.makeText(itemView.getContext(), "Delete "+type+"  "+ Uid, Toast.LENGTH_SHORT).show();
                 }
             });
 
