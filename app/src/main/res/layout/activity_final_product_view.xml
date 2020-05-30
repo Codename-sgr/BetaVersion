@@ -71,12 +71,12 @@
             app:layout_constraintStart_toStartOf="parent" />
 
         <Button
-            android:id="@+id/interestedBtn"
+            android:id="@+id/contactBtn"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginHorizontal="20dp"
             android:layout_weight="1"
-            android:text="Interested"
+            android:text="Contact"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toEndOf="@+id/wishlistBtn" />
