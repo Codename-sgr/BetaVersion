@@ -158,14 +158,7 @@ public class FinalProductView extends AppCompatActivity {
                 finalProdDescRecViewAdapter finalProdDescRecViewAdapter=new finalProdDescRecViewAdapter(finalProdSpecificationModelList);
                 recyclerView.setAdapter(finalProdDescRecViewAdapter);
                 finalProdDescRecViewAdapter.notifyDataSetChanged();
-                contactBtn.setOnClickListener(new View.OnClickListener() {
-                    @Override
-                    public void onClick(View v) {
-                        checkForSmsPermission();
 
-
-                    }
-                });
             }
 
             @Override
@@ -178,6 +171,14 @@ public class FinalProductView extends AppCompatActivity {
             getSupportActionBar().setDisplayHomeAsUpEnabled(true);
             getSupportActionBar().setTitle(pModel);
         }
+        contactBtn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                checkForSmsPermission();
+
+
+            }
+        });
 
     }
     public  void message()
@@ -191,26 +192,9 @@ public class FinalProductView extends AppCompatActivity {
                 {
                     smsNumber=dataSnapshot.getValue(User.class).getMobile();
                     email=dataSnapshot.getValue(User.class).getEmail();
-                    if(smsNumber!=null)
-                    {
-                        String newNumber = String.format("smsto: %s",smsNumber);
-                        Log.i("User",smsNumber);
-                        Intent smsIntent = new Intent(Intent.ACTION_SENDTO);
-                        smsIntent.setData(Uri.parse(newNumber));
-                        smsIntent.putExtra("sms_body", "I want to bye your product.");
-                        startActivity(smsIntent);
-
-                    }
-                    else
-                    {
-                        sendEmail(email);
-                        //Toast.makeText(FinalProductView.this,"Using Email Instead",Toast.LENGTH_SHORT).show();
-                    }
+                    sendEmail(email);
 
                 }
-
-
-
 
             }
 

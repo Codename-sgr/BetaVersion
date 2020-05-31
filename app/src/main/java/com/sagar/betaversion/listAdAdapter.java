@@ -96,7 +96,7 @@ public class listAdAdapter extends RecyclerView.Adapter<listAdAdapter.ViewHolder
             adProductModel.setText(adModel);
             adProductPrice.setText(String.valueOf(adPrice));
             Picasso.get().load(adImg).into(adProductImg);
-            adProductId.setText(Integer.toString(position));
+            adProductId.setText(adId);
 
             if(listAd){
                 adWishlist.setVisibility(View.VISIBLE);
