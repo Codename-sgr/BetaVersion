@@ -73,35 +73,25 @@ public class myVehicle extends AppCompatActivity implements RecViewItemClickList
         userAd.addListenerForSingleValueEvent(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
-                Log.i("Array","yessssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssss");
+
                 for (DataSnapshot vehicleSnapShot: dataSnapshot.getChildren()) {
-                    Log.i("Array","aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa");
                     final VehicleAd vehicleAd=vehicleSnapShot.getValue(VehicleAd.class);
-                    Log.i("Array","bbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbb");
                     if(vehicleAd.getUser_id().matches(Uid))
                     {
-                        Log.i("Array","cccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccc");
-                        Log.i("arrayList",dataSnapshot.getKey()+ " user Id "+vehicleAd.getId()+" my user "+Uid);
                         arrayList.add(vehicleAd);
                     }
-                    Log.i("Array","ddddddddddddddddddddddddddddddddddddddddddddddddd");
                 }
                 if(arrayList.size()==0){
                     recyclerView.setVisibility(View.INVISIBLE);
                     noAds.setVisibility(View.VISIBLE);
                 }
 
-                Log.i("Array","eeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeee");
-
                 for (int i = 0; i<arrayList.size(); i++)
                     listAdModelList.add(new listAdModel(arrayList.get(i).getModel(),arrayList.get(i).getBrand(),arrayList.get(i).getSellingPrice(),arrayList.get(i).getImg1(),arrayList.get(i).getId()));
 
-                Log.i("arrayList", String.valueOf(arrayList.size()));
-                //HERE YOU HAVE YOUR ARRAYLIST
                 listAdAdapter=new listAdAdapter(listAdModelList,myVehicle.this,false,type,Uid,myVehicle.this.getClass().getSimpleName());
                 recyclerView.setAdapter(listAdAdapter);
                 listAdAdapter.notifyDataSetChanged();
-                Log.i("Array","ffffffffffffffffffffffffffffffffffffffffffffffffffffffffff");
 
             }
 

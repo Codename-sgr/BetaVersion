@@ -73,25 +73,17 @@ public class myMisc extends AppCompatActivity implements RecViewItemClickListene
         userAd.addListenerForSingleValueEvent(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
-                Log.i("Array","yessssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssss");
                 for (DataSnapshot vehicleSnapShot: dataSnapshot.getChildren()) {
-                    Log.i("Array","aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa");
                     final MiscAd miscAd=vehicleSnapShot.getValue(MiscAd.class);
-                    Log.i("Array","bbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbb");
                     if(miscAd.getUser_id().matches(Uid))
                     {
-                        Log.i("Array","cccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccc");
-                        Log.i("arrayList",dataSnapshot.getKey()+ " user Id "+miscAd.getId()+" my user "+Uid);
                         arrayList.add(miscAd);
                     }
-                    Log.i("Array","ddddddddddddddddddddddddddddddddddddddddddddddddd");
                 }
                 if(arrayList.size()==0){
                     recyclerView.setVisibility(View.INVISIBLE);
                     noAds.setVisibility(View.VISIBLE);
                 }
-
-                Log.i("Array","eeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeee");
 
                 for (int i = 0; i<arrayList.size(); i++)
                     listAdModelList.add(new listAdModel(arrayList.get(i).getModel(),arrayList.get(i).getBrand(),arrayList.get(i).getSellingPrice(),arrayList.get(i).getImg1(),arrayList.get(i).getId()));
@@ -101,7 +93,7 @@ public class myMisc extends AppCompatActivity implements RecViewItemClickListene
                 listAdAdapter=new listAdAdapter(listAdModelList,myMisc.this,false,type,Uid,myMisc.this.getClass().getSimpleName());
                 recyclerView.setAdapter(listAdAdapter);
                 listAdAdapter.notifyDataSetChanged();
-                Log.i("Array","ffffffffffffffffffffffffffffffffffffffffffffffffffffffffff");
+
 
             }
 

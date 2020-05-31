@@ -14,6 +14,7 @@ import android.view.LayoutInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.firebase.ui.database.FirebaseRecyclerAdapter;
@@ -42,10 +43,7 @@ import java.util.List;
 
 public class ListAd extends AppCompatActivity implements RecViewItemClickListener{
      RecyclerView recyclerView;
-/*     FirebaseRecyclerAdapter<VehicleAd, listAdRecViewAdapter> VehicleAdapter;
-     FirebaseRecyclerAdapter<ElectronicsAd, listAdRecViewAdapter> ElectronicAdapter;
-     FirebaseRecyclerAdapter<MiscAd, listAdRecViewAdapter> SportsAdapter;
-     FirebaseRecyclerAdapter<BooksAd, listAdRecViewAdapter> BooksAdapter;*/
+     TextView noAds;
      FirebaseDatabase database;
      DatabaseReference databaseReference;
      StorageReference storageReference;
@@ -76,7 +74,7 @@ public class ListAd extends AppCompatActivity implements RecViewItemClickListene
         Uid=user.getUid();
 //      databaseReference.keepSynced(true);
 
-
+        noAds=findViewById(R.id.noAdsTV);
         recyclerView=findViewById(R.id.AdListRecyclerView);
         recyclerView.setHasFixedSize(true);
         LinearLayoutManager layoutManager=new LinearLayoutManager(this);
@@ -104,6 +102,11 @@ public class ListAd extends AppCompatActivity implements RecViewItemClickListene
                             Log.i("arrayList",dataSnapshot.getKey()+ " user Id "+vehicleAd.getUser_id()+" my user "+Uid);
                             arrayList.add(vehicleAd);
                         }
+                    }
+
+                    if(arrayList.size()==0){
+                        recyclerView.setVisibility(View.INVISIBLE);
+                        noAds.setVisibility(View.VISIBLE);
                     }
 
                     for (int i=0;i<arrayList.size();i++)
@@ -138,6 +141,11 @@ public class ListAd extends AppCompatActivity implements RecViewItemClickListene
                         }
                     }
 
+                    if(arrayList.size()==0){
+                        recyclerView.setVisibility(View.INVISIBLE);
+                        noAds.setVisibility(View.VISIBLE);
+                    }
+
                     for (int i=0;i<arrayList.size();i++)
                         listAdModelList.add(new listAdModel(arrayList.get(i).getModel(),arrayList.get(i).getBrand(),arrayList.get(i).getSellingPrice(),arrayList.get(i).getImg1(),arrayList.get(i).getId()));
 
@@ -166,6 +174,11 @@ public class ListAd extends AppCompatActivity implements RecViewItemClickListene
                             Log.i("arrayList",dataSnapshot.getKey()+ " user Id "+Ad.getUser_id()+" my user "+Uid);
                             arrayList.add(Ad);
                         }
+
+                        if(arrayList.size()==0){
+                            recyclerView.setVisibility(View.INVISIBLE);
+                            noAds.setVisibility(View.VISIBLE);
+                        }
                     }
                     for (int i=0;i<arrayList.size();i++)
                         listAdModelList.add(new listAdModel(arrayList.get(i).getModel(),arrayList.get(i).getBrand(),arrayList.get(i).getSellingPrice(),arrayList.get(i).getImg1(),arrayList.get(i).getId()));
@@ -193,6 +206,11 @@ public class ListAd extends AppCompatActivity implements RecViewItemClickListene
                         {
                             Log.i("arrayList",dataSnapshot.getKey()+ " user Id "+Ad.getUser_id()+" my user "+Uid);
                             arrayList.add(Ad);
+                        }
+
+                        if(arrayList.size()==0){
+                            recyclerView.setVisibility(View.INVISIBLE);
+                            noAds.setVisibility(View.VISIBLE);
                         }
                     }
                     for (int i=0;i<arrayList.size();i++)

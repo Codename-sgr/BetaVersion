@@ -1,8 +1,6 @@
 package com.sagar.betaversion;
 
 
-import android.app.Activity;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -10,10 +8,10 @@ import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
+
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
-import com.google.android.gms.common.internal.safeparcel.SafeParcelable;
 import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.database.FirebaseDatabase;
@@ -91,7 +89,7 @@ public class listAdAdapter extends RecyclerView.Adapter<listAdAdapter.ViewHolder
 
 
         }
-        void setAdProdct(String adBrand, String adModel, int adPrice, String adImg, final String adId, final int position){
+        void setAdProdct(final String adBrand, String adModel, int adPrice, String adImg, final String adId, final int position){
             adProductBrand.setText(adBrand);
             adProductModel.setText(adModel);
             adProductPrice.setText(String.valueOf(adPrice));
@@ -99,7 +97,7 @@ public class listAdAdapter extends RecyclerView.Adapter<listAdAdapter.ViewHolder
             adProductId.setText(adId);
 
             if(listAd){
-                adWishlist.setVisibility(View.VISIBLE);
+                adWishlist.setVisibility(View.INVISIBLE);
                 adDelete.setVisibility(View.INVISIBLE);
             }
             else{
@@ -110,9 +108,6 @@ public class listAdAdapter extends RecyclerView.Adapter<listAdAdapter.ViewHolder
             adDelete.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
-                    Log.i("BEFORE",""+(position));
-                    Log.i("BEFORE",""+listAdModelList.size());
-//                    Log.i("BEFORE",""+listAdModelList.get(position));
                     Task t1=FirebaseDatabase.getInstance().getReference().child("UserAd")
                             .child(Uid).child(type+"Id").child(adId).removeValue().addOnSuccessListener(new OnSuccessListener<Void>() {
                                 @Override
@@ -122,24 +117,24 @@ public class listAdAdapter extends RecyclerView.Adapter<listAdAdapter.ViewHolder
                                         public void onSuccess(Void aVoid) {
                                             switch (activity) {
                                                 case "ListAd":
-                                                    ListAd.listAdAdapter.notifyItemRemoved(position);
                                                     listAdModelList.remove(position);
+                                                    ListAd.listAdAdapter.notifyDataSetChanged();
                                                     break;
                                                 case "myElectronic":
-                                                    myElectronic.listAdAdapter.notifyItemRemoved(position);
                                                     listAdModelList.remove(position);
+                                                    myElectronic.listAdAdapter.notifyDataSetChanged();
                                                     break;
                                                 case "myMisc":
-                                                    myMisc.listAdAdapter.notifyItemRemoved(position);
                                                     listAdModelList.remove(position);
+                                                    myMisc.listAdAdapter.notifyDataSetChanged();
                                                     break;
                                                 case "myVehicle":
-                                                    myVehicle.listAdAdapter.notifyItemRemoved(position);
                                                     listAdModelList.remove(position);
+                                                    myVehicle.listAdAdapter.notifyDataSetChanged();
                                                     break;
                                                 case "myBooks":
-                                                    myBooks.listAdAdapter.notifyItemRemoved(position);
                                                     listAdModelList.remove(position);
+                                                    myBooks.listAdAdapter.notifyDataSetChanged();
                                                     break;
 
                                             }
@@ -147,7 +142,6 @@ public class listAdAdapter extends RecyclerView.Adapter<listAdAdapter.ViewHolder
                                     });
                                 }
                             });
-                    //CODE HERE *****************************************************************************
                 }
             });
 

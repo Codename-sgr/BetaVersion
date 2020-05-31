@@ -1,10 +1,5 @@
 package com.sagar.betaversion.myAds;
 
-import androidx.annotation.NonNull;
-import androidx.appcompat.app.AppCompatActivity;
-import androidx.recyclerview.widget.LinearLayoutManager;
-import androidx.recyclerview.widget.RecyclerView;
-
 import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
@@ -12,13 +7,17 @@ import android.view.MenuItem;
 import android.view.View;
 import android.widget.TextView;
 
+import androidx.annotation.NonNull;
+import androidx.appcompat.app.AppCompatActivity;
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
+
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
-import com.google.firebase.database.Query;
 import com.google.firebase.database.ValueEventListener;
 import com.sagar.betaversion.AdCategory.BooksAd;
 import com.sagar.betaversion.FinalProductView;
@@ -28,7 +27,6 @@ import com.sagar.betaversion.listAdAdapter;
 import com.sagar.betaversion.listAdModel;
 
 import java.util.ArrayList;
-import java.util.Iterator;
 import java.util.List;
 
 public class myBooks extends AppCompatActivity implements RecViewItemClickListener {
@@ -73,35 +71,28 @@ public class myBooks extends AppCompatActivity implements RecViewItemClickListen
         userAd.addListenerForSingleValueEvent(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
-                Log.i("Array","yessssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssss");
+
                 for (DataSnapshot vehicleSnapShot: dataSnapshot.getChildren()) {
-                    Log.i("Array","aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa");
+
                     final BooksAd booksAd=vehicleSnapShot.getValue(BooksAd.class);
-                    Log.i("Array","bbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbb");
+
                     if(booksAd.getUser_id().matches(Uid))
                     {
-                        Log.i("Array","cccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccc");
                         Log.i("arrayList",dataSnapshot.getKey()+ " user Id "+booksAd.getId()+" my user "+Uid);
                         arrayList.add(booksAd);
                     }
-                    Log.i("Array","ddddddddddddddddddddddddddddddddddddddddddddddddd");
+
                 }
                 if(arrayList.size()==0){
                     recyclerView.setVisibility(View.INVISIBLE);
                     noAds.setVisibility(View.VISIBLE);
                 }
-
-                Log.i("Array","eeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeee");
-
                 for (int i = 0; i<arrayList.size(); i++)
                     listAdModelList.add(new listAdModel(arrayList.get(i).getModel(),arrayList.get(i).getBrand(),arrayList.get(i).getSellingPrice(),arrayList.get(i).getImg1(),arrayList.get(i).getId()));
 
-                Log.i("arrayList", String.valueOf(arrayList.size()));
-                //HERE YOU HAVE YOUR ARRAYLIST
                 listAdAdapter=new listAdAdapter(listAdModelList,myBooks.this,false,type,Uid,myBooks.this.getClass().getSimpleName());
                 recyclerView.setAdapter(listAdAdapter);
                 listAdAdapter.notifyDataSetChanged();
-                Log.i("Array","ffffffffffffffffffffffffffffffffffffffffffffffffffffffffff");
 
             }
 
