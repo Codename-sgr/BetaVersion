@@ -236,6 +236,11 @@ public class otherAds extends AppCompatActivity {
         Intent intent=getIntent();
         type=intent.getStringExtra("type");
 
+        if (getSupportActionBar()!=null){
+            getSupportActionBar().setTitle("NEW AD - "+type);
+            getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+        }
+
 
         brand=findViewById(R.id.brand);
         model=findViewById(R.id.model);

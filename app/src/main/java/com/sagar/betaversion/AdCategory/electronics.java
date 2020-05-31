@@ -196,6 +196,11 @@ public class electronics extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_electronics);
 
+        if (getSupportActionBar()!=null){
+            getSupportActionBar().setTitle("NEW AD - Electronic");
+            getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+        }
+
         brand=findViewById(R.id.brand);
         model=findViewById(R.id.model);
         purchaseDate=findViewById(R.id.purchaseDate);

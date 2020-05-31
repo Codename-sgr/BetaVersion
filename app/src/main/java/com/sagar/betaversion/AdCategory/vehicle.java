@@ -190,6 +190,12 @@ public class vehicle extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_vehicle);
+
+        if (getSupportActionBar()!=null){
+            getSupportActionBar().setTitle("NEW AD - Vehicle");
+            getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+        }
+
         brand=findViewById(R.id.brand);
         model=findViewById(R.id.model);
         progressDialog=new ProgressDialog(this);

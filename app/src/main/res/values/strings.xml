@@ -4,4 +4,5 @@
     <string name="Password">Password</string>
     <string name="mobile_number">Mobile Number</string>
     <string name="username">Username</string>
+    <string name="home_second">Home Second</string>
 </resources>
