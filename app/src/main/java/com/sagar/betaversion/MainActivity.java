@@ -116,6 +116,7 @@ public class MainActivity extends AppCompatActivity {
         electronicAds = findViewById(R.id.electronicsButton);
         bookAds = findViewById(R.id.booksButton);
 
+
         final Intent intent = new Intent(getApplicationContext(), ListAd.class);
         vehicleAds.setOnClickListener(new View.OnClickListener() {
             @Override

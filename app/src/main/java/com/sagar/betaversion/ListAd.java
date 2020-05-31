@@ -51,8 +51,8 @@ public class ListAd extends AppCompatActivity implements RecViewItemClickListene
      StorageReference storageReference;
      String type;
      String Uid;
-
-    List<listAdModel> listAdModelList=new ArrayList<>();
+     List<listAdModel> listAdModelList=new ArrayList<>();
+    public static listAdAdapter listAdAdapter;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -80,8 +80,8 @@ public class ListAd extends AppCompatActivity implements RecViewItemClickListene
         recyclerView=findViewById(R.id.AdListRecyclerView);
         recyclerView.setHasFixedSize(true);
         LinearLayoutManager layoutManager=new LinearLayoutManager(this);
-        layoutManager.setReverseLayout(true);
-        layoutManager.setStackFromEnd(true);
+        /*layoutManager.setReverseLayout(true);
+        layoutManager.setStackFromEnd(true);*/
         recyclerView.setLayoutManager(layoutManager);
 
         showList();
@@ -92,11 +92,11 @@ public class ListAd extends AppCompatActivity implements RecViewItemClickListene
 
         if(type.matches("Vehicle"))
         {
-
             final ArrayList<VehicleAd> arrayList= new ArrayList<>();
-            databaseReference.addValueEventListener(new ValueEventListener() {
+            databaseReference.addListenerForSingleValueEvent(new ValueEventListener() {
                 @Override
                 public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+
                     for (DataSnapshot vehicleSnapShot: dataSnapshot.getChildren()) {
                         final VehicleAd vehicleAd=vehicleSnapShot.getValue(VehicleAd.class);
                         if(vehicleAd.isStatus() && !vehicleAd.getUser_id().matches(Uid))
@@ -108,10 +108,11 @@ public class ListAd extends AppCompatActivity implements RecViewItemClickListene
 
                     for (int i=0;i<arrayList.size();i++)
                         listAdModelList.add(new listAdModel(arrayList.get(i).getModel(),arrayList.get(i).getBrand(),arrayList.get(i).getSellingPrice(),arrayList.get(i).getImg1(),arrayList.get(i).getId()));
+                    arrayList.clear();
 
-                    listAdAdapter listAdAdapter=new listAdAdapter(listAdModelList,ListAd.this,true,type,Uid);
+
+                    listAdAdapter=new listAdAdapter(listAdModelList,ListAd.this,true,type,Uid,getLocalClassName());
                     recyclerView.setAdapter(listAdAdapter);
-                    listAdAdapter.notifyDataSetChanged();
 
                 }
 
@@ -125,7 +126,7 @@ public class ListAd extends AppCompatActivity implements RecViewItemClickListene
         else if(type.matches("Electronic"))
         {
             final ArrayList<ElectronicsAd> arrayList= new ArrayList<>();
-            databaseReference.addValueEventListener(new ValueEventListener() {
+            databaseReference.addListenerForSingleValueEvent(new ValueEventListener() {
                 @Override
                 public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
                     for (DataSnapshot vehicleSnapShot: dataSnapshot.getChildren()) {
@@ -136,15 +137,15 @@ public class ListAd extends AppCompatActivity implements RecViewItemClickListene
                             arrayList.add(Ad);
                         }
                     }
+
                     for (int i=0;i<arrayList.size();i++)
                         listAdModelList.add(new listAdModel(arrayList.get(i).getModel(),arrayList.get(i).getBrand(),arrayList.get(i).getSellingPrice(),arrayList.get(i).getImg1(),arrayList.get(i).getId()));
 
-                    listAdAdapter listAdAdapter=new listAdAdapter(listAdModelList,ListAd.this,true,type,Uid);
+                    listAdAdapter listAdAdapter=new listAdAdapter(listAdModelList,ListAd.this,true,type,Uid,getLocalClassName());
                     recyclerView.setAdapter(listAdAdapter);
                     listAdAdapter.notifyDataSetChanged();
 
                 }
-
 
                 @Override
                 public void onCancelled(@NonNull DatabaseError databaseError) {
@@ -154,9 +155,8 @@ public class ListAd extends AppCompatActivity implements RecViewItemClickListene
         }
         else if(type.matches("Books"))
         {
-
             final ArrayList<BooksAd> arrayList= new ArrayList<>();
-            databaseReference.addValueEventListener(new ValueEventListener() {
+            databaseReference.addListenerForSingleValueEvent(new ValueEventListener() {
                 @Override
                 public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
                     for (DataSnapshot vehicleSnapShot: dataSnapshot.getChildren()) {
@@ -170,12 +170,10 @@ public class ListAd extends AppCompatActivity implements RecViewItemClickListene
                     for (int i=0;i<arrayList.size();i++)
                         listAdModelList.add(new listAdModel(arrayList.get(i).getModel(),arrayList.get(i).getBrand(),arrayList.get(i).getSellingPrice(),arrayList.get(i).getImg1(),arrayList.get(i).getId()));
 
-                    listAdAdapter listAdAdapter=new listAdAdapter(listAdModelList,ListAd.this,true,type,Uid);
+                    listAdAdapter listAdAdapter=new listAdAdapter(listAdModelList,ListAd.this,true,type,Uid,getLocalClassName());
                     recyclerView.setAdapter(listAdAdapter);
                     listAdAdapter.notifyDataSetChanged();
-
                 }
-
 
                 @Override
                 public void onCancelled(@NonNull DatabaseError databaseError) {
@@ -185,9 +183,8 @@ public class ListAd extends AppCompatActivity implements RecViewItemClickListene
         }
         else if(type.matches("Miscellaneous"))
         {
-            final List<listAdModel> listAdModelList=new ArrayList<>();
             final ArrayList<MiscAd> arrayList= new ArrayList<>();
-            databaseReference.addValueEventListener(new ValueEventListener() {
+            databaseReference.addListenerForSingleValueEvent(new ValueEventListener() {
                 @Override
                 public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
                     for (DataSnapshot vehicleSnapShot: dataSnapshot.getChildren()) {
@@ -201,24 +198,25 @@ public class ListAd extends AppCompatActivity implements RecViewItemClickListene
                     for (int i=0;i<arrayList.size();i++)
                         listAdModelList.add(new listAdModel(arrayList.get(i).getModel(),arrayList.get(i).getBrand(),arrayList.get(i).getSellingPrice(),arrayList.get(i).getImg1(),arrayList.get(i).getId()));
 
-                    listAdAdapter listAdAdapter=new listAdAdapter(listAdModelList,ListAd.this,true,type,Uid);
+                    listAdAdapter listAdAdapter=new listAdAdapter(listAdModelList,ListAd.this,true,type,Uid,getLocalClassName());
                     recyclerView.setAdapter(listAdAdapter);
                     listAdAdapter.notifyDataSetChanged();
-
                 }
-
 
                 @Override
                 public void onCancelled(@NonNull DatabaseError databaseError) {
 
                 }
             });
-
         }
         else
             {
             Toast.makeText(ListAd.this,"Tapped "+type,Toast.LENGTH_SHORT).show();
         }
+
+
+
+
 
     }
 
