@@ -14,6 +14,7 @@ import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.appcompat.widget.Toolbar;
 import androidx.core.app.ActivityCompat;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
@@ -25,7 +26,6 @@ import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
-import com.sagar.betaversion.AdCategory.VehicleAd;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -54,6 +54,9 @@ public class FinalProductView extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_final_product_view);
+
+        Toolbar toolbar = findViewById(R.id.toolbar);
+        setSupportActionBar(toolbar);
 
         prodImageViewPager=findViewById(R.id.viewPagerImage);
         viewpagerIndicator=findViewById(R.id.finalImgTabLayout);
@@ -91,7 +94,7 @@ public class FinalProductView extends AppCompatActivity {
                 pUserID=itemDetails.getUser_id();
 
 //FOR IMAGE IN VIEW PAGER
-                List<String> imageURLs=new ArrayList<>();
+                final ArrayList<String> imageURLs=new ArrayList<>();
                 if(pImg1!=null)
                     imageURLs.add(pImg1);
                 if(pImg2!=null)
@@ -130,6 +133,7 @@ public class FinalProductView extends AppCompatActivity {
                 finalProdDescRecViewAdapter finalProdDescRecViewAdapter=new finalProdDescRecViewAdapter(finalProdSpecificationModelList);
                 recyclerView.setAdapter(finalProdDescRecViewAdapter);
                 finalProdDescRecViewAdapter.notifyDataSetChanged();
+
 
             }
 

@@ -1,15 +1,16 @@
-package com.sagar.betaversion.AdCategory;
+package com.sagar.betaversion;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.appcompat.widget.Toolbar;
 
-import android.app.ProgressDialog;
 import android.content.Intent;
 import android.graphics.Bitmap;
 import android.net.Uri;
 import android.os.Bundle;
 import android.provider.MediaStore;
+import android.view.MenuItem;
 import android.view.View;
 import android.widget.EditText;
 import android.widget.ImageView;
@@ -24,21 +25,19 @@ import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.storage.FirebaseStorage;
 import com.google.firebase.storage.StorageReference;
 import com.google.firebase.storage.UploadTask;
-import com.sagar.betaversion.MainActivity;
 import com.squareup.picasso.Picasso;
 
 import java.io.ByteArrayOutputStream;
 import java.io.IOException;
 import java.util.ArrayList;
 
-import com.sagar.betaversion.R;
-
 public class otherAds extends AppCompatActivity {
+
+    LoadingDialog loadingDialog;
     String type;
     EditText brand,model,date_of_purchase,sellinPrice,description;
     FirebaseAuth mAuth;
     ImageView img1,img2,img3;
-    ProgressDialog progressDialog;
     ArrayList<Uri> ImageUri= new ArrayList<>();
     DatabaseReference databaseAd,userAd;
     String user_id, ad_id;
@@ -48,7 +47,7 @@ public class otherAds extends AppCompatActivity {
     public void uploadAd(final int i, final BooksAd electronicsAd, final int count) {
         if(i==count)
         {
-            progressDialog.dismiss();
+            loadingDialog.dismissDialog();
             databaseAd.child(ad_id).setValue(electronicsAd);
             userAd.child(ad_id).setValue(true);
             Toast.makeText(otherAds.this,"Ad Posted Successfully",Toast.LENGTH_SHORT).show();
@@ -88,7 +87,7 @@ public class otherAds extends AppCompatActivity {
     public void uploadAdMisc(final int i, final MiscAd electronicsAd, final int count) {
         if(i==count)
         {
-            progressDialog.dismiss();
+            loadingDialog.dismissDialog();
             databaseAd.child(ad_id).setValue(electronicsAd);
             userAd.child(ad_id).setValue(true);
             Toast.makeText(otherAds.this,"Ad Posted Successfully",Toast.LENGTH_SHORT).show();
@@ -127,8 +126,7 @@ public class otherAds extends AppCompatActivity {
     }
     public void post(View view)
     {
-        progressDialog.setMessage("Uploading Ad, Please wait!");
-        progressDialog.show();
+        loadingDialog.startLoadingDialog();
 
         ad_id=databaseAd.push().getKey();
         final int[] flag = {0};
@@ -236,16 +234,20 @@ public class otherAds extends AppCompatActivity {
         Intent intent=getIntent();
         type=intent.getStringExtra("type");
 
+        Toolbar toolbar = findViewById(R.id.toolbar);
+        setSupportActionBar(toolbar);
+
         if (getSupportActionBar()!=null){
             getSupportActionBar().setTitle("NEW AD - "+type);
             getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         }
 
+        loadingDialog=new LoadingDialog(this);
 
         brand=findViewById(R.id.brand);
         model=findViewById(R.id.model);
         date_of_purchase=findViewById(R.id.purchaseDate);
-        progressDialog= new ProgressDialog(this);
+
         sellinPrice=findViewById(R.id.sellingPrice);
         description=findViewById(R.id.description);
         img1=findViewById(R.id.img1);
@@ -270,6 +272,15 @@ public class otherAds extends AppCompatActivity {
             model.setHint("Brand");
         }
 
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        if (item.getItemId() == android.R.id.home) {
+            onBackPressed();
+            return true;
+        }
+        return super.onOptionsItemSelected(item);
     }
 
 }

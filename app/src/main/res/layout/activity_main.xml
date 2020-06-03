@@ -1,232 +1,25 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<androidx.drawerlayout.widget.DrawerLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
-    android:id="@+id/relativeLayout"
+    android:id="@+id/drawer_layout"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:fitsSystemWindows="true"
     tools:context=".MainActivity">
 
+    <include layout="@layout/app_bar_main"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"/>
 
-    <GridLayout
-        android:id="@+id/categories"
+    <com.google.android.material.navigation.NavigationView
+        android:id="@+id/nav_view"
         android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="3dp"
-        android:layout_marginBottom="10dp"
-        android:columnCount="2"
-        android:rowCount="3"
-        app:layout_constraintBottom_toTopOf="@+id/navigation"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent">
+        android:layout_height="match_parent"
+        android:layout_gravity="start"
+        android:fitsSystemWindows="true"
+        app:headerLayout="@layout/nav_header_main"
+        app:menu="@menu/main_drawer"/>
 
-
-        <ImageButton
-            android:id="@+id/vehicleButton"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_row="0"
-            android:layout_column="0"
-            android:layout_margin="17dp"
-            android:background="@null"
-            android:tag="Vehicle"
-            app:srcCompat="@drawable/ic_android_black" />
-
-        <ImageButton
-            android:id="@+id/furnitureButton"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_row="1"
-            android:layout_column="1"
-            android:layout_gravity="center_horizontal"
-            android:layout_margin="17dp"
-            android:background="@null"
-            android:tag="Furniture"
-            app:srcCompat="@drawable/ic_android_black" />
-
-        <ImageButton
-            android:id="@+id/electronicsButton"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_row="0"
-            android:layout_column="1"
-            android:layout_gravity="center_horizontal"
-            android:layout_margin="17dp"
-            android:background="@null"
-            android:tag="Electronics"
-            app:srcCompat="@drawable/ic_android_black" />
-
-        <ImageButton
-            android:id="@+id/booksButton"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_row="1"
-            android:layout_column="0"
-            android:layout_gravity="center_horizontal"
-            android:layout_margin="17dp"
-            android:background="@null"
-            android:tag="Books"
-            app:srcCompat="@drawable/ic_android_black" />
-
-        <ImageButton
-            android:id="@+id/sportsButton"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_row="2"
-            android:layout_column="0"
-            android:layout_gravity="center_horizontal"
-            android:layout_margin="17dp"
-            android:background="@null"
-            android:tag="Sports"
-            app:srcCompat="@drawable/ic_android_black" />
-
-        <ImageButton
-            android:id="@+id/miscButton"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_row="02"
-            android:layout_column="1"
-            android:layout_gravity="center_horizontal"
-            android:layout_margin="17dp"
-            android:background="@null"
-            android:tag="6"
-            app:srcCompat="@drawable/ic_android_black" />
-
-        <TextView
-            android:id="@+id/textView1"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_row="0"
-            android:layout_column="0"
-            android:layout_gravity="center|bottom"
-            android:text="Vehicle" />
-
-        <TextView
-            android:id="@+id/textView2"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_row="0"
-            android:layout_column="1"
-            android:layout_gravity="center|bottom"
-            android:text="Electronics" />
-
-        <TextView
-            android:id="@+id/textView3"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_row="1"
-            android:layout_column="0"
-            android:layout_gravity="center|bottom"
-            android:text="Books" />
-
-        <TextView
-            android:id="@+id/textView4"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_row="1"
-            android:layout_column="1"
-            android:layout_gravity="center|bottom"
-            android:text="Furniture" />
-
-        <TextView
-            android:id="@+id/textView5"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_row="2"
-            android:layout_column="0"
-            android:layout_gravity="center|bottom"
-            android:text="Sports" />
-
-        <TextView
-            android:id="@+id/textView6"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_row="2"
-            android:layout_column="1"
-            android:layout_gravity="center|bottom"
-            android:text="Misc" />
-
-    </GridLayout>
-
-
-    <GridLayout
-        android:id="@+id/navigation"
-        android:layout_width="316dp"
-        android:layout_height="111dp"
-        android:layout_marginHorizontal="30dp"
-        android:layout_marginBottom="10dp"
-        android:columnCount="5"
-        android:rowCount="1"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent">
-
-        <ImageButton
-            android:id="@+id/myAdButton"
-            android:layout_width="0dp"
-            android:layout_height="50dp"
-            android:layout_row="0"
-            android:layout_column="0"
-            android:layout_columnWeight="1"
-            android:layout_marginTop="25dp"
-            android:layout_gravity="center_vertical"
-            android:background="@null"
-            android:src="@drawable/chat_logo" />
-
-        <ImageButton
-            android:id="@+id/newAdButton"
-            android:layout_width="0dp"
-            android:layout_height="100dp"
-            android:layout_row="0"
-            android:layout_column="1"
-            android:layout_columnWeight="2"
-            android:layout_marginTop="5dp"
-            android:background="@null"
-            app:srcCompat="@drawable/pos_ad_logo" />
-
-
-        <ImageButton
-            android:id="@+id/myAccountButton"
-            android:layout_width="0dp"
-            android:layout_height="50dp"
-            android:layout_row="0"
-            android:layout_column="2"
-            android:layout_columnWeight="1"
-            android:layout_marginTop="25dp"
-            android:layout_gravity="center_vertical"
-            android:background="@null"
-            android:src="@drawable/myaccount_logo" />
-
-        <TextView
-            android:id="@+id/textViewMyAd"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_row="0"
-            android:layout_column="0"
-            android:layout_gravity="center|bottom"
-            android:text="MyAd" />
-
-        <TextView
-            android:id="@+id/textViewPostAd"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_row="0"
-            android:layout_column="1"
-            android:layout_gravity="center|bottom"
-            android:text="Post Ad" />
-
-        <TextView
-            android:id="@+id/textViewAcc"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_row="0"
-            android:layout_column="2"
-            android:layout_gravity="center|bottom"
-            android:text="My Account" />
-
-    </GridLayout>
-
-
-</androidx.constraintlayout.widget.ConstraintLayout>
+</androidx.drawerlayout.widget.DrawerLayout>
 

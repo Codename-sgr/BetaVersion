@@ -1,4 +1,4 @@
-package com.sagar.betaversion.AdCategory;
+package com.sagar.betaversion;
 
 import android.net.Uri;
 

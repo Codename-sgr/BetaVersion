@@ -1,11 +1,13 @@
 package com.sagar.betaversion;
 
 import android.content.Context;
+import android.content.Intent;
 import android.media.Image;
 import android.net.Uri;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
+import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.viewpager.widget.PagerAdapter;
@@ -17,9 +19,9 @@ import java.util.List;
 
 public class finalProductImageAdapter extends PagerAdapter {
     private Context context;
-    private List<String> productImageUrls;
+    private ArrayList<String> productImageUrls;
 
-    finalProductImageAdapter(Context context, List<String> productImageUrls) {
+    finalProductImageAdapter(Context context, ArrayList<String> productImageUrls) {
         this.context=context;
         this.productImageUrls=productImageUrls;
     }
@@ -32,8 +34,17 @@ public class finalProductImageAdapter extends PagerAdapter {
                 .load(productImageUrls.get(position))
                 .into(finalProdImage);
         container.addView(finalProdImage);
-        /*finalProdImage.setImageResource(productImageUrls.get(position));
-        container.addView(finalProdImage,0);*/
+
+        finalProdImage.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent i=new Intent(context,FinalImagePreview.class);
+                i.putStringArrayListExtra("img",productImageUrls);
+                context.startActivity(i);
+            }
+        });
+
+
         return finalProdImage;
     }
 
@@ -50,4 +61,6 @@ public class finalProductImageAdapter extends PagerAdapter {
     public boolean isViewFromObject(@NonNull View view, @NonNull Object object) {
         return view==object;
     }
+
+
 }

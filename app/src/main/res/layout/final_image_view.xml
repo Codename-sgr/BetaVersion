@@ -9,7 +9,8 @@
     <androidx.viewpager.widget.ViewPager
         android:id="@+id/viewPagerImage"
         android:layout_width="match_parent"
-        android:layout_height="270dp"
+        android:layout_height="250dp"
+        android:padding="10dp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
@@ -18,7 +19,7 @@
     <com.google.android.material.tabs.TabLayout
         android:id="@+id/finalImgTabLayout"
         android:layout_width="wrap_content"
-        android:layout_height="25dp"
+        android:layout_height="18dp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@id/viewPagerImage"
@@ -64,7 +65,7 @@
         android:layout_marginStart="16dp"
         android:layout_marginTop="8dp"
         android:text="Rs. "
-        android:textSize="28sp"
+        android:textSize="22sp"
         android:textStyle="bold"
         app:layout_constraintBottom_toBottomOf="@+id/priceTextView"
         app:layout_constraintStart_toStartOf="parent"
@@ -90,15 +91,5 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/priceTextView" />
-
-    <TextView
-        android:id="@+id/postedDate"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginEnd="16dp"
-        android:text="Posted On: 25 May"
-        app:layout_constraintBottom_toBottomOf="@+id/priceTextView"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintTop_toTopOf="@+id/priceTextView" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

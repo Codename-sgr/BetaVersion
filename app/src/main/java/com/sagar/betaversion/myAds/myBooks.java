@@ -9,6 +9,7 @@ import android.widget.TextView;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.appcompat.widget.Toolbar;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
@@ -19,7 +20,7 @@ import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
-import com.sagar.betaversion.AdCategory.BooksAd;
+import com.sagar.betaversion.BooksAd;
 import com.sagar.betaversion.FinalProductView;
 import com.sagar.betaversion.R;
 import com.sagar.betaversion.RecViewItemClickListener;
@@ -45,6 +46,9 @@ public class myBooks extends AppCompatActivity implements RecViewItemClickListen
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_my_electronic);
+
+        Toolbar toolbar = findViewById(R.id.toolbar);
+        setSupportActionBar(toolbar);
 
 
         if(getSupportActionBar()!=null){

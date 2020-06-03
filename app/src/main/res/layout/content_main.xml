@@ -1,0 +1,199 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_height="match_parent">
+
+
+    <GridLayout
+        android:id="@+id/categories"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="30dp"
+        android:layout_marginBottom="10dp"
+        android:columnCount="2"
+        android:rowCount="2"
+        app:layout_constraintBottom_toTopOf="@+id/donateImgBtn"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent">
+
+
+        <ImageButton
+            android:id="@+id/vehicleButton"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_row="0"
+            android:layout_column="0"
+            android:layout_margin="17dp"
+            android:background="@null"
+            android:tag="Vehicle"
+            app:srcCompat="@drawable/ic_android_black" />
+
+        <TextView
+            android:id="@+id/textView1"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_row="0"
+            android:layout_column="0"
+            android:layout_gravity="center|bottom"
+            android:text="Vehicle" />
+
+
+        <ImageButton
+            android:id="@+id/miscButton"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_row="1"
+            android:layout_column="1"
+            android:layout_gravity="center_horizontal"
+            android:layout_margin="17dp"
+            android:background="@null"
+            android:tag="6"
+            app:srcCompat="@drawable/ic_android_black" />
+
+        <TextView
+            android:id="@+id/textView6"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_row="1"
+            android:layout_column="1"
+            android:layout_gravity="center|bottom"
+            android:text="Misc" />
+
+        <ImageButton
+            android:id="@+id/electronicsButton"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_row="0"
+            android:layout_column="1"
+            android:layout_gravity="center_horizontal"
+            android:layout_margin="17dp"
+            android:background="@null"
+            android:tag="Electronics"
+            app:srcCompat="@drawable/ic_android_black" />
+
+        <TextView
+            android:id="@+id/textView2"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_row="0"
+            android:layout_column="1"
+            android:layout_gravity="center|bottom"
+            android:text="Electronics" />
+
+        <ImageButton
+            android:id="@+id/booksButton"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_row="1"
+            android:layout_column="0"
+            android:layout_gravity="center_horizontal"
+            android:layout_margin="17dp"
+            android:background="@null"
+            android:tag="Books"
+            app:srcCompat="@drawable/ic_android_black" />
+
+        <TextView
+            android:id="@+id/textView3"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_row="1"
+            android:layout_column="0"
+            android:layout_gravity="center|bottom"
+            android:text="Books" />
+
+
+    </GridLayout>
+
+    <ImageButton
+        android:id="@+id/donateImgBtn"
+        android:layout_width="match_parent"
+        android:layout_height="90dp"
+        android:src="@drawable/donatea"
+        android:layout_marginHorizontal="10dp"
+        app:layout_constraintBottom_toTopOf="@id/navigation"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/categories" />
+
+    <GridLayout
+        android:id="@+id/navigation"
+        android:layout_width="316dp"
+        android:layout_height="111dp"
+        android:layout_marginHorizontal="30dp"
+        android:layout_marginBottom="10dp"
+        android:columnCount="5"
+        android:rowCount="1"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent">
+
+        <ImageButton
+            android:id="@+id/myAdButton"
+            android:layout_width="0dp"
+            android:layout_height="50dp"
+            android:layout_row="0"
+            android:layout_column="0"
+            android:layout_columnWeight="1"
+            android:layout_gravity="center_vertical"
+            android:layout_marginTop="25dp"
+            android:background="@null"
+            android:src="@drawable/chat_logo" />
+
+        <ImageButton
+            android:id="@+id/newAdButton"
+            android:layout_width="0dp"
+            android:layout_height="100dp"
+            android:layout_row="0"
+            android:layout_column="1"
+            android:layout_columnWeight="2"
+            android:layout_marginTop="5dp"
+            android:background="@null"
+            app:srcCompat="@drawable/pos_ad_logo" />
+
+
+        <ImageButton
+            android:id="@+id/myAccountButton"
+            android:layout_width="0dp"
+            android:layout_height="50dp"
+            android:layout_row="0"
+            android:layout_column="2"
+            android:layout_columnWeight="1"
+            android:layout_gravity="center_vertical"
+            android:layout_marginTop="25dp"
+            android:background="@null"
+            android:src="@drawable/myaccount_logo" />
+
+        <TextView
+            android:id="@+id/textViewMyAd"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_row="0"
+            android:layout_column="0"
+            android:layout_gravity="center|bottom"
+            android:text="MyAd" />
+
+        <TextView
+            android:id="@+id/textViewPostAd"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_row="0"
+            android:layout_column="1"
+            android:layout_gravity="center|bottom"
+            android:text="Post Ad" />
+
+        <TextView
+            android:id="@+id/textViewAcc"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_row="0"
+            android:layout_column="2"
+            android:layout_gravity="center|bottom"
+            android:text="My Account" />
+
+    </GridLayout>
+
+
+</androidx.constraintlayout.widget.ConstraintLayout>

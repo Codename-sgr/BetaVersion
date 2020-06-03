@@ -8,10 +8,6 @@
     tools:context=".LoginActivity">
 
 
-    <!--EMAIL LAYOUT-->
-
-    <!--PASSWORD LAYOUT-->
-
     <com.google.android.material.textfield.TextInputLayout
         android:id="@+id/EmailLayout"
         style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"

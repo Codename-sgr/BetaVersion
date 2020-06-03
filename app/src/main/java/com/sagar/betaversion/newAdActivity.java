@@ -3,39 +3,68 @@ package com.sagar.betaversion;
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
-import android.widget.AdapterView;
-import android.widget.ArrayAdapter;
-import android.widget.ListView;
 import android.view.MenuItem;
 
 import androidx.appcompat.app.AppCompatActivity;
-
-import com.sagar.betaversion.AdCategory.electronics;
-import com.sagar.betaversion.AdCategory.otherAds;
-import com.sagar.betaversion.AdCategory.vehicle;
-
-import java.util.ArrayList;
+import androidx.appcompat.widget.Toolbar;
+import androidx.cardview.widget.CardView;
 
 public class newAdActivity extends AppCompatActivity {
-    ArrayList<String> categories= new ArrayList<>();
+
+    CardView vehiclesCV,electronicsCV,booksCV,miscCV;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_new_ad);
+
+        Toolbar toolbar = findViewById(R.id.toolbar);
+        setSupportActionBar(toolbar);
+
         if (getSupportActionBar()!=null){
             getSupportActionBar().setTitle("Select Category");
             getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         }
 
-        categories.add("Vehicle");
-        categories.add("Electronic");
-        categories.add("Books");
-        categories.add("Miscellaneous");
+        vehiclesCV=findViewById(R.id.vehicleCV);
+        electronicsCV=findViewById(R.id.electronicsCV);
+        booksCV=findViewById(R.id.booksCV);
+        miscCV=findViewById(R.id.miscCV);
 
-        //categories.add("Misc");
-        ListView listView=findViewById(R.id.Category);
-        ArrayAdapter arrayAdapter= new ArrayAdapter(this,android.R.layout.simple_list_item_1,categories);
+        vehiclesCV.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                startActivity(new Intent(getApplicationContext(), vehicle.class));
+            }
+        });
+
+        electronicsCV.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                startActivity(new Intent(getApplicationContext(), electronics.class));
+            }
+        });
+
+        booksCV.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent=new Intent(getApplicationContext(), otherAds.class);
+                intent.putExtra("type","Books");
+                startActivity(intent);
+            }
+        });
+
+        miscCV.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent=new Intent(getApplicationContext(), otherAds.class);
+                intent.putExtra("type","Miscellaneous");
+                startActivity(intent);
+            }
+        });
+
+        /*ListView listView=findViewById(R.id.Category);
+        ArrayAdapter arrayAdapter= new ArrayAdapter(this,android.R.layout.simple_expandable_list_item_1,categories);
         listView.setAdapter(arrayAdapter);
         listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
@@ -56,7 +85,7 @@ public class newAdActivity extends AppCompatActivity {
                 }
 
             }
-        });
+        });*/
 
     }
 

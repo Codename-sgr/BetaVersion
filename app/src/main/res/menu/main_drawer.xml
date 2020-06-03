@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    tools:showIn="navigation_view">
+
+    <item
+        android:id="@+id/nav_home"
+        android:title="Home"
+        android:icon="@drawable/ic_home"/>
+
+    <item
+        android:id="@+id/nav_myacc"
+        android:title="My Account"
+        android:icon="@drawable/ic_account"/>
+
+    <item
+        android:id="@+id/nav_myads"
+        android:title="My Ads"
+        android:icon="@drawable/ic_ads"/>
+
+    <item
+        android:id="@+id/nav_contact"
+        android:title="Contact"
+        android:icon="@drawable/ic_contact"/>
+
+    <item
+        android:id="@+id/nav_about"
+        android:title="About"
+        android:icon="@drawable/ic_about"/>
+
+</menu>

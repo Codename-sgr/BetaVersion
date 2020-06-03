@@ -3,6 +3,7 @@ package com.sagar.betaversion;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.appcompat.widget.Toolbar;
 
 import android.app.ProgressDialog;
 import android.content.Intent;
@@ -13,6 +14,7 @@ import android.net.Uri;
 import android.os.Bundle;
 import android.provider.MediaStore;
 import android.util.Base64;
+import android.view.MenuItem;
 import android.view.View;
 import android.widget.EditText;
 import android.widget.ImageView;
@@ -52,21 +54,22 @@ public class profile extends AppCompatActivity {
     SharedPreferences.Editor editor;
     Bitmap bitmap = null;
     Map<String, Object> mp = new HashMap<>();
-    ProgressDialog progressDialog;
+    LoadingDialog loadingDialog;
     private static final int IMAGE_REQUEST = 1;
 
     public void UploadImage(View view) {
         ChooseImage();
     }
+
     public void moveBackToMyAccount()
     {
         Intent intent = new Intent(getApplicationContext(), myAccount.class);
         startActivity(intent);
         finish();
     }
+
     public void update(View view) {
-        progressDialog.setMessage("Updating Profile!!");
-        progressDialog.show();
+        loadingDialog.startLoadingDialog();
         username = userNameView.getText().toString();
         mobile = mobileNoView.getText().toString();
         email = emailView.getText().toString();
@@ -92,7 +95,7 @@ public class profile extends AppCompatActivity {
                 @Override
                 public void onSuccess(UploadTask.TaskSnapshot taskSnapshot) {
                     Toast.makeText(profile.this,"Profile Updated!",Toast.LENGTH_SHORT).show();
-                    progressDialog.dismiss();
+                    loadingDialog.dismissDialog();
                     moveBackToMyAccount();
 
                 }
@@ -108,7 +111,7 @@ public class profile extends AppCompatActivity {
         {
             editor.putString("image",retrievedImage);
             editor.apply();
-            progressDialog.dismiss();
+            loadingDialog.dismissDialog();
             moveBackToMyAccount();
         }
 
@@ -146,7 +149,16 @@ public class profile extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_profile);
-        progressDialog=new ProgressDialog(this);
+
+        Toolbar toolbar = findViewById(R.id.toolbar);
+        setSupportActionBar(toolbar);
+
+        if (getSupportActionBar()!=null){
+            getSupportActionBar().setTitle("Select Category");
+            getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+        }
+
+        loadingDialog=new LoadingDialog(this);
         databaseRef = FirebaseDatabase.getInstance().getReference("Users");
         imageRef = FirebaseStorage.getInstance().getReference("UserImage");
         userNameView = findViewById(R.id.accUserName);
@@ -169,9 +181,9 @@ public class profile extends AppCompatActivity {
             userImage.setImageBitmap(bitmap);
         }
 
-        userNameView.setHint("Enter Username");
+        /*userNameView.setHint("Enter Username");
         mobileNoView.setHint("Enter mobile number");
-        addressView.setHint("Enter address");
+        addressView.setHint("Enter address");*/
         userNameView.setText(username);
         mobileNoView.setText(mobile);
         emailView.setText(email);
@@ -192,4 +204,12 @@ public class profile extends AppCompatActivity {
         }
     }
 
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        if (item.getItemId() == android.R.id.home) {
+            onBackPressed();
+            return true;
+        }
+        return super.onOptionsItemSelected(item);
+    }
 }

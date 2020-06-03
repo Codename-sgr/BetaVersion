@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
-    package="com.sagar.betaversion" >
+    package="com.sagar.betaversion">
 
     <uses-permission android:name="android.permission.INTERNET" />
     <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
@@ -10,10 +10,11 @@
     <application
         android:allowBackup="true"
         android:icon="@mipmap/ic_launcher"
-        android:label="Beta Version"
+        android:label="MANIT KART"
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
-        android:theme="@style/Theme.MaterialComponents.DayNight.DarkActionBar" >
+        android:theme="@style/AppTheme">
+        <activity android:name=".FinalImagePreview"></activity>
         <activity android:name=".myAds.myMisc" />
         <activity android:name=".myAds.myBooks" />
         <activity android:name=".myAds.myElectronic" />
@@ -29,20 +30,20 @@
             android:name=".BetaVersion"
             android:screenOrientation="nosensor" />
         <activity
-            android:name=".AdCategory.otherAds"
+            android:name=".otherAds"
             android:screenOrientation="nosensor" />
         <activity
-            android:name=".AdCategory.electronics"
+            android:name=".electronics"
             android:screenOrientation="nosensor" />
         <activity
-            android:name=".AdCategory.vehicle"
+            android:name=".vehicle"
             android:screenOrientation="nosensor" />
         <activity
             android:name=".newAdActivity"
             android:screenOrientation="nosensor" />
         <activity
             android:name=".LoginActivity"
-            android:screenOrientation="nosensor" >
+            android:screenOrientation="nosensor">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 

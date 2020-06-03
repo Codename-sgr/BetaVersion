@@ -10,6 +10,7 @@ import android.util.Log;
 import android.util.Patterns;
 import android.view.View;
 import android.widget.EditText;
+import android.widget.ProgressBar;
 import android.widget.Toast;
 
 import com.google.android.gms.tasks.OnCompleteListener;
@@ -23,8 +24,8 @@ import com.google.firebase.database.FirebaseDatabase;
 
 public class SignupActivity extends AppCompatActivity {
 
-    EditText name,email,password,conpass;
-    ProgressDialog progressDialog;
+    EditText name,email,password,conpass;;
+    LoadingDialog loadingDialog;
     DatabaseReference databaseUsers;
     private FirebaseAuth mAuth;
 
@@ -59,13 +60,12 @@ public class SignupActivity extends AppCompatActivity {
     }
 
     private void signupuser(final String uname, final String uemail, final String upassword) {
-        progressDialog.setMessage("Signing Up User....");
-        progressDialog.show();
+        loadingDialog.startLoadingDialog();
             mAuth.createUserWithEmailAndPassword(uemail,upassword)
                     .addOnCompleteListener(this, new OnCompleteListener<AuthResult>() {
                         @Override
                         public void onComplete(@NonNull Task<AuthResult> task) {
-                            progressDialog.dismiss();
+                            loadingDialog.dismissDialog();
                             if(task.isSuccessful()){
                                 FirebaseUser user=mAuth.getCurrentUser();
 
@@ -90,7 +90,7 @@ public class SignupActivity extends AppCompatActivity {
                     }).addOnFailureListener(new OnFailureListener() {
                 @Override
                 public void onFailure(@NonNull Exception e) {
-                    progressDialog.dismiss();
+                    loadingDialog.dismissDialog();
                     Toast.makeText(SignupActivity.this, ""+e.getMessage(), Toast.LENGTH_SHORT).show();
                 }
             });
@@ -112,7 +112,7 @@ public class SignupActivity extends AppCompatActivity {
 
         databaseUsers= FirebaseDatabase.getInstance().getReference("Users");
 
-        progressDialog=new ProgressDialog(this);
+        loadingDialog=new LoadingDialog(this);
 
         mAuth=FirebaseAuth.getInstance();
 

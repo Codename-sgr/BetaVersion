@@ -1,50 +1,40 @@
-package com.sagar.betaversion.AdCategory;
+package com.sagar.betaversion;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.appcompat.widget.Toolbar;
 
-import android.app.ProgressDialog;
-import android.content.ContentResolver;
 import android.content.Intent;
 import android.graphics.Bitmap;
 import android.net.Uri;
 import android.os.Bundle;
 import android.provider.MediaStore;
-import android.util.Log;
+import android.view.MenuItem;
 import android.view.View;
-import android.webkit.MimeTypeMap;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.Toast;
 
-import com.google.android.gms.tasks.Continuation;
-import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
-import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.storage.FirebaseStorage;
-import com.google.firebase.storage.OnProgressListener;
 import com.google.firebase.storage.StorageReference;
 import com.google.firebase.storage.UploadTask;
-import com.sagar.betaversion.MainActivity;
-import com.sagar.betaversion.R;
 import com.squareup.picasso.Picasso;
+
 
 import java.io.ByteArrayOutputStream;
 import java.io.IOException;
-import java.net.URI;
-import java.text.DateFormat;
-import java.text.ParseException;
-import java.text.SimpleDateFormat;
 import java.util.ArrayList;
-import java.util.Date;
 
 public class vehicle extends AppCompatActivity {
+
+    LoadingDialog loadingDialog;
     EditText  brand,model,purchaseDate,kmsDriven,milege,sellinPrice,description;
     String vbrand,vmodel,vdescription;
     String vpurchaseDate;
@@ -53,7 +43,7 @@ public class vehicle extends AppCompatActivity {
     ImageView img1,img2,img3;
     ArrayList<Uri> ImageUri= new ArrayList<>();
     DatabaseReference databaseAd,userAd;
-    ProgressDialog progressDialog;
+
     String user_id, ad_id;
     ArrayList<byte[]> ImageArray=new ArrayList<>();
     private static final int IMAGE_REQUEST=1;
@@ -63,7 +53,7 @@ public class vehicle extends AppCompatActivity {
     public void uploadAd(final int i, final VehicleAd vehicleAd, final int count) {
         if(i==count)
         {
-            progressDialog.dismiss();
+            loadingDialog.dismissDialog();
             databaseAd.child(ad_id).setValue(vehicleAd);
             userAd.child(ad_id).setValue(true);
             Toast.makeText(vehicle.this,"Ad Posted Successfully",Toast.LENGTH_SHORT).show();
@@ -101,9 +91,7 @@ public class vehicle extends AppCompatActivity {
     }
     public void post(View view)
     {
-        progressDialog.setMessage("Uploading Ad, Please wait!");
-        progressDialog.show();
-
+        loadingDialog.startLoadingDialog();
         ad_id=databaseAd.push().getKey();
         vmodel=model.getText().toString();
         vbrand=brand.getText().toString();
@@ -191,14 +179,18 @@ public class vehicle extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_vehicle);
 
+        Toolbar toolbar = findViewById(R.id.toolbar);
+        setSupportActionBar(toolbar);
+
         if (getSupportActionBar()!=null){
             getSupportActionBar().setTitle("NEW AD - Vehicle");
             getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         }
 
+        loadingDialog=new LoadingDialog(this);
+
         brand=findViewById(R.id.brand);
         model=findViewById(R.id.model);
-        progressDialog=new ProgressDialog(this);
         purchaseDate=findViewById(R.id.purchaseDate);
         kmsDriven=findViewById(R.id.kmsDriven);
         milege=findViewById(R.id.milege);
@@ -213,6 +205,15 @@ public class vehicle extends AppCompatActivity {
         FirebaseUser user =mAuth.getCurrentUser();
         user_id=user.getUid();
         userAd=FirebaseDatabase.getInstance().getReference("UserAd").child(user_id).child("VehicleId");
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        if (item.getItemId() == android.R.id.home) {
+            onBackPressed();
+            return true;
+        }
+        return super.onOptionsItemSelected(item);
     }
 
 

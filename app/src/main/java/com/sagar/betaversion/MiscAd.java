@@ -1,30 +1,30 @@
-package com.sagar.betaversion.AdCategory;
+package com.sagar.betaversion;
 
-public class BooksAd {
+public class MiscAd
+{
     String id;
     String user_id;
-    String brand;// Author
-    String model;// Title
+    String brand;//item
+    String model;
     String date_of_purchase;
-    String description;
+    String description,img1,img2,img3;
     int sellingPrice;
-    String img1,img2,img3;
     int img_count;
     boolean status;//true for unsold, false for sold
-    public BooksAd()
+    public MiscAd()
     {
 
     }
-    public BooksAd(String id, String user_id, String brand,String model,String date_of_purchase, String description, int sellingPrice) {
+
+    public MiscAd(String id, String user_id, String brand, String model, String date_of_purchase, String description, int sellingPrice) {
         this.id = id;
         this.user_id = user_id;
-        this.brand=brand;
+        this.brand = brand;
         this.model=model;
         this.date_of_purchase=date_of_purchase;
         this.description = description;
         this.sellingPrice = sellingPrice;
         this.status=true;
-
     }
 
     public String getId() {
@@ -67,6 +67,14 @@ public class BooksAd {
         this.date_of_purchase = date_of_purchase;
     }
 
+    public String getDescription() {
+        return description;
+    }
+
+    public void setDescription(String description) {
+        this.description = description;
+    }
+
     public String getImg1() {
         return img1;
     }
@@ -91,14 +99,6 @@ public class BooksAd {
         this.img3 = img3;
     }
 
-    public String getDescription() {
-        return description;
-    }
-
-    public void setDescription(String description) {
-        this.description = description;
-    }
-
     public int getSellingPrice() {
         return sellingPrice;
     }
@@ -114,6 +114,7 @@ public class BooksAd {
     public void setImg_count(int img_count) {
         this.img_count = img_count;
     }
+
 
     public boolean isStatus() {
         return status;

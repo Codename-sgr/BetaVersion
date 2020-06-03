@@ -45,7 +45,7 @@ public class LoginActivity extends AppCompatActivity {
 
     private FirebaseAuth mAuth;
 
-    ProgressDialog progressDialog;
+    LoadingDialog loadingDialog;
 
     SignInButton googleLoginBtn;
 
@@ -77,22 +77,20 @@ public class LoginActivity extends AppCompatActivity {
     }
 
     private void logUserIn(String email, String password) {
-        progressDialog.setMessage("Logging In...");
-        progressDialog.show();
-
+        loadingDialog.startLoadingDialog();
         mAuth.signInWithEmailAndPassword(email, password)
                 .addOnCompleteListener(this, new OnCompleteListener<AuthResult>() {
                     @Override
                     public void onComplete(@NonNull Task<AuthResult> task) {
                         if(task.isSuccessful()){
                             isValid=true;
-                            progressDialog.dismiss();
+                            loadingDialog.dismissDialog();
                             FirebaseUser user=mAuth.getCurrentUser();
                             startActivity(new Intent(getApplicationContext(),MainActivity.class));
                             finish();
                         }
                         else {
-                            progressDialog.dismiss();
+                            loadingDialog.dismissDialog();
                             Toast.makeText(LoginActivity.this, "Authentication Failed", Toast.LENGTH_SHORT).show();
                         }
                     }
@@ -140,14 +138,13 @@ public class LoginActivity extends AppCompatActivity {
 
     private void beginRecovery(String email) {
 
-        progressDialog.setMessage("Sending Email...");
-        progressDialog.show();
+        loadingDialog.startLoadingDialog();
 
         mAuth.sendPasswordResetEmail(email)
                 .addOnCompleteListener(new OnCompleteListener<Void>() {
             @Override
             public void onComplete(@NonNull Task<Void> task) {
-                progressDialog.dismiss();
+                loadingDialog.dismissDialog();
                 if (task.isSuccessful()){
                     Toast.makeText(LoginActivity.this, "Email Sent", Toast.LENGTH_SHORT).show();
                 }
@@ -157,7 +154,7 @@ public class LoginActivity extends AppCompatActivity {
         }).addOnFailureListener(new OnFailureListener() {
             @Override
             public void onFailure(@NonNull Exception e) {
-                progressDialog.dismiss();
+                loadingDialog.dismissDialog();
                 Toast.makeText(LoginActivity.this, ""+e.getMessage(), Toast.LENGTH_SHORT).show();
             }
         });
@@ -239,19 +236,19 @@ public class LoginActivity extends AppCompatActivity {
 
 
 
-        progressDialog=new ProgressDialog(this);
+        loadingDialog = new LoadingDialog(this);
 
     }
 
     @Override
     public void onActivityResult(int requestCode, int resultCode, Intent data) {
 
-        progressDialog.setMessage("Please wait...");
+        loadingDialog.startLoadingDialog();
         super.onActivityResult(requestCode, resultCode, data);
 
         // Result returned from launching the Intent from GoogleSignInApi.getSignInIntent(...);
         if (requestCode == RC_SIGN_IN) {
-            progressDialog.dismiss();
+            loadingDialog.dismissDialog();
             Task<GoogleSignInAccount> task = GoogleSignIn.getSignedInAccountFromIntent(data);
             try {
                 // Google Sign In was successful, authenticate with Firebase
@@ -267,14 +264,14 @@ public class LoginActivity extends AppCompatActivity {
 
     private void firebaseAuthWithGoogle(final GoogleSignInAccount acct) {
 
-        progressDialog.setMessage("Signing In...");
+        loadingDialog.startLoadingDialog();
 
         AuthCredential credential = GoogleAuthProvider.getCredential(acct.getIdToken(), null);
         mAuth.signInWithCredential(credential)
                 .addOnCompleteListener(this, new OnCompleteListener<AuthResult>() {
                     @Override
                     public void onComplete(@NonNull Task<AuthResult> task) {
-                        progressDialog.dismiss();
+                        loadingDialog.dismissDialog();
                         if (task.isSuccessful()) {
                             // Sign in success, update UI with the signed-in user's information
 
