@@ -9,10 +9,12 @@ import android.util.Log;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
+import android.widget.EditText;
 import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.annotation.NonNull;
+import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
 import androidx.core.app.ActivityCompat;
@@ -28,7 +30,9 @@ import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 public class FinalProductView extends AppCompatActivity {
 
@@ -43,7 +47,7 @@ public class FinalProductView extends AppCompatActivity {
 
     String pBrand,pModel,pPurchaseDate,pDesc,pImg1,pImg2,pImg3,pUserID,email;
     int pPrice,pKmsDriven,pMileage,pImgCount;
-    Button contactBtn;
+    Button contactBtn,updateBtn;
 
     private static final int MY_PERMISSIONS_REQUEST_SEND_SMS = 1;
     String smsNumber;
@@ -68,7 +72,7 @@ public class FinalProductView extends AppCompatActivity {
         prodBrand=findViewById(R.id.prodBrand);
         prodModel=findViewById(R.id.productModel);
         prodPrice=findViewById(R.id.priceTextView);
-
+        updateBtn=findViewById(R.id.UpdateBtn);
         Log.i("TYPE",""+type);
         Log.i("ADID",""+adId);
 
@@ -155,6 +159,12 @@ public class FinalProductView extends AppCompatActivity {
 
             }
         });
+        updateBtn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                updatePrice();
+            }
+        });
 
     }
     public  void message()
@@ -226,6 +236,37 @@ public class FinalProductView extends AppCompatActivity {
                 }
             }
         }
+    }
+    public void updatePrice()
+    {
+        final AlertDialog.Builder builder=new AlertDialog.Builder(this);
+        final View mview=getLayoutInflater().inflate(R.layout.price_dialog,null);
+        final EditText newPrice=mview.findViewById(R.id.newPrice);
+        Button update=mview.findViewById(R.id.updatePrice);
+        update.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                String val=newPrice.getText().toString();
+                if(val.matches(""))
+                {
+                    Toast.makeText(FinalProductView.this, "Enter new price", Toast.LENGTH_SHORT).show();
+                }
+                else
+                {
+                    int np=Integer.valueOf(val);
+                    databaseReference.child("sellingPrice").setValue(np);
+                    Toast.makeText(FinalProductView.this,"Price Updated",Toast.LENGTH_SHORT).show();
+                    Intent intent=new Intent(getApplicationContext(),MainActivity.class);
+                    startActivity(intent);
+                    finish();
+
+                }
+            }
+        });
+        builder.setView(mview);
+        AlertDialog dialog=builder.create();
+        dialog.show();
+
     }
 
     @Override

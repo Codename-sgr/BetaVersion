@@ -52,12 +52,12 @@
             app:layout_constraintStart_toStartOf="parent">
 
             <Button
-                android:id="@+id/wishlistBtn"
+                android:id="@+id/UpdateBtn"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginHorizontal="20dp"
                 android:layout_weight="1"
-                android:text="WishList"
+                android:text="Update"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintEnd_toStartOf="@+id/interestedBtn"
                 app:layout_constraintStart_toStartOf="parent" />

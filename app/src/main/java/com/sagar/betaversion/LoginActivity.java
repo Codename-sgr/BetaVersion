@@ -40,6 +40,9 @@ import com.google.firebase.auth.GoogleAuthProvider;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 
+import java.util.HashMap;
+import java.util.Map;
+
 public class LoginActivity extends AppCompatActivity {
 
 
@@ -279,8 +282,9 @@ public class LoginActivity extends AppCompatActivity {
                             FirebaseUser user = mAuth.getCurrentUser();//shivam
                             Toast.makeText(LoginActivity.this, ""+user.getDisplayName()+"\n"+user.getEmail() , Toast.LENGTH_SHORT).show();
 
-                            User user1=new User(user.getUid(),user.getDisplayName(),user.getEmail()); //shivam
-                            databaseUsers.child(user.getUid()).setValue(user1); //shivam
+                            databaseUsers.child(user.getUid()).child("email").setValue(user.getEmail());
+                            databaseUsers.child(user.getUid()).child("user_id").setValue(user.getUid());
+                            databaseUsers.child(user.getUid()).child("user_name").setValue(user.getDisplayName());//shivam
 
                             Intent i=new Intent(getApplicationContext(),MainActivity.class);
                             startActivity(i);
