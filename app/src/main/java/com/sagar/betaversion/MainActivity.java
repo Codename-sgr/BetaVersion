@@ -360,8 +360,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
             Toast.makeText(MainActivity.this, "Contact Us", Toast.LENGTH_SHORT).show();
             //
         } else if (id == R.id.nav_about) {
-            Toast.makeText(MainActivity.this, "About Us", Toast.LENGTH_SHORT).show();
-            //
+            startActivity(new Intent(MainActivity.this,about.class));
         }
 
         drawer.closeDrawer(GravityCompat.START);

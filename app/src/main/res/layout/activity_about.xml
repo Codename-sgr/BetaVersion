@@ -1,0 +1,270 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@drawable/backgroundapp"
+    tools:context=".about">
+
+    <include
+        android:id="@+id/top"
+        layout="@layout/toolbar" />
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        android:paddingHorizontal="7dp"
+        app:layout_constraintTop_toBottomOf="@id/top">
+
+
+        <ScrollView
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent">
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical">
+
+                <ImageView
+                    android:layout_width="match_parent"
+                    android:layout_height="710dp"
+                    android:layout_marginTop="5dp"
+                    android:scaleType="fitStart"
+                    android:src="@drawable/about" />
+
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="30dp"
+                    android:text="DEVELOPERS :"
+                    android:layout_marginStart="10dp"
+                    android:textSize="15sp"
+                    android:layout_marginBottom="10dp"
+                    android:textColor="#ffffff"/>
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="0dp"
+                    android:layout_weight="1"
+                    android:orientation="horizontal">
+
+                    <LinearLayout
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:orientation="vertical">
+
+                        <de.hdodenhof.circleimageview.CircleImageView
+                            android:layout_width="150dp"
+                            android:layout_height="150dp"
+                            android:layout_marginTop="20dp"
+                            android:src="@mipmap/ic_launcher"
+                            android:layout_gravity="center"
+                            app:civ_border_color="#FF000000"
+                            app:civ_border_width="2dp"
+                            app:layout_constraintEnd_toEndOf="parent"
+                            app:layout_constraintStart_toStartOf="parent"
+                            app:layout_constraintTop_toTopOf="parent" />
+
+                        <TextView
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:text="Sagar"
+                            android:textStyle="bold"
+                            android:layout_marginTop="5dp"
+                            android:textSize="20sp"
+                            android:textColor="#ffffff"
+                            android:gravity="center"/>
+                        <TextView
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:text="Pre-Final Year : ChemE"
+                            android:textColor="#ffffff"
+                            android:layout_marginTop="5dp"
+                            android:textSize="13dp"
+                            android:gravity="center"/>
+                        <TextView
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:textStyle="bold"
+                            android:text="FRONT-END DEVELOPER"
+                            android:textSize="14sp"
+                            android:layout_marginTop="5dp"
+                            android:textColor="#FFFFFf"
+                            android:gravity="center"/>
+
+                        <LinearLayout
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:orientation="horizontal"
+                            android:layout_marginVertical="10dp">
+
+                            <ImageView
+                                android:id="@+id/sagarLI"
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:src="@drawable/ic_linkedin"
+                                android:layout_weight="1"/>
+
+                            <ImageView
+                                android:id="@+id/sagarFB"
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:src="@drawable/ic_facebook"
+                                android:layout_weight="1"/>
+
+                        </LinearLayout>
+
+                    </LinearLayout>
+
+
+                    <View
+                        android:id="@+id/divider1"
+                        android:layout_width="2dp"
+                        android:layout_height="match_parent"
+                        android:background="#ffffff"
+                        app:layout_constraintEnd_toEndOf="parent"
+                        app:layout_constraintStart_toStartOf="parent" />
+
+                    <LinearLayout
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:orientation="vertical">
+
+                        <de.hdodenhof.circleimageview.CircleImageView
+                            android:layout_width="150dp"
+                            android:layout_height="150dp"
+                            android:layout_marginTop="20dp"
+                            android:src="@mipmap/ic_launcher"
+                            app:civ_border_color="#FF000000"
+                            android:layout_gravity="center"
+                            app:civ_border_width="2dp"
+                            app:layout_constraintEnd_toEndOf="parent"
+                            app:layout_constraintStart_toStartOf="parent"
+                            app:layout_constraintTop_toTopOf="parent" />
+
+                        <TextView
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:textStyle="bold"
+                            android:layout_marginTop="5dp"
+                            android:text="Shivam Bansal"
+                            android:textSize="20sp"
+                            android:textColor="#ffffff"
+                            android:gravity="center"/>
+                        <TextView
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:text="Pre-Final Year : ECE"
+                            android:textSize="13dp"
+                            android:layout_marginTop="5dp"
+                            android:textColor="#ffffff"
+                            android:gravity="center"/>
+                        <TextView
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:textSize="14sp"
+                            android:textStyle="bold"
+                            android:layout_marginTop="5dp"
+                            android:text="BACK-END DEVELOPER"
+                            android:textColor="#FFFFFf"
+                            android:gravity="center"/>
+                        <LinearLayout
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:orientation="horizontal"
+                            android:layout_marginVertical="10dp">
+
+                            <ImageView
+                                android:id="@+id/bansalLI"
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:src="@drawable/ic_linkedin"
+                                android:layout_weight="1"/>
+
+                            <ImageView
+                                android:id="@+id/bansalIG"
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:src="@drawable/ic_instagram"
+                                android:layout_weight="1"/>
+
+                            <ImageView
+                                android:id="@+id/bansalFB"
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:src="@drawable/ic_facebook"
+                                android:layout_weight="1"/>
+
+                        </LinearLayout>
+
+                    </LinearLayout>
+
+                </LinearLayout>
+
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="30dp"
+                    android:text="CONTRIBUTION :"
+                    android:layout_marginStart="10dp"
+                    android:textSize="15sp"
+                    android:layout_marginBottom="20dp"
+                    android:textColor="#ffffff"/>
+
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:gravity="center"
+                    android:text="NAMRATA JAIN   (Pre-Final Year: ECE)"
+                    android:textColor="#ffffff"/>
+
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:gravity="center"
+                    android:text="CONTENT WRITER"
+                    android:layout_marginBottom="7dp"
+                    android:textColor="#ffffff"/>
+
+                <View
+                    android:id="@+id/divider2"
+                    android:layout_width="match_parent"
+                    android:layout_marginHorizontal="30dp"
+                    android:layout_height="2dp"
+                    android:background="#ffffff"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent" />
+
+
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:gravity="center"
+                    android:layout_marginTop="15dp"
+                    android:text="AABHASH RAHANGDALE   (II Year: Architecture)"
+                    android:textColor="#ffffff"/>
+
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:gravity="center"
+                    android:text="GRAPHIC DESIGNER"
+                    android:textColor="#ffffff"
+                    android:layout_marginBottom="40dp"/>
+
+
+            </LinearLayout>
+        </ScrollView>
+    </androidx.constraintlayout.widget.ConstraintLayout>
+
+
+</androidx.constraintlayout.widget.ConstraintLayout>
