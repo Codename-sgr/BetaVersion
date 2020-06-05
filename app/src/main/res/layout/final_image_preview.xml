@@ -8,6 +8,14 @@
     android:padding="10dp"
     tools:context=".FinalImagePreview">
 
+    <Button
+        android:id="@+id/closeImgPrevBtn"
+        android:layout_width="50dp"
+        android:layout_height="50dp"
+        android:background="@drawable/ic_close"
+        app:layout_constraintStart_toStartOf="@id/finalImgPreview"
+        app:layout_constraintTop_toTopOf="@id/finalImgPreview"/>
+
     <androidx.viewpager.widget.ViewPager
         android:id="@+id/finalImgPreview"
         android:layout_width="match_parent"
@@ -16,7 +24,9 @@
         app:layout_constraintBottom_toTopOf="@id/finalImgTabLayout"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
+        app:layout_constraintTop_toTopOf="parent" >
+
+    </androidx.viewpager.widget.ViewPager>
 
     <com.google.android.material.tabs.TabLayout
         android:id="@+id/finalImgTabLayout"

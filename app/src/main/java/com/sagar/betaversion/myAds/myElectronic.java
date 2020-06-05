@@ -121,6 +121,7 @@ public class myElectronic extends AppCompatActivity implements RecViewItemClickL
         Intent intent=new Intent(getApplicationContext(), FinalProductView.class);
         intent.putExtra("type",type);
         intent.putExtra("adId",adId);
+        intent.putExtra("who",0);       //1---buyer   0---seller
         startActivity(intent);
     }
 }

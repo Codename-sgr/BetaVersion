@@ -14,7 +14,8 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
-        <activity android:name=".FinalImagePreview"></activity>
+        <activity android:name=".about"></activity>
+        <activity android:name=".FinalImagePreview" />
         <activity android:name=".myAds.myMisc" />
         <activity android:name=".myAds.myBooks" />
         <activity android:name=".myAds.myElectronic" />
@@ -62,6 +63,10 @@
         <activity
             android:name=".profile"
             android:screenOrientation="nosensor" />
+
+        <meta-data
+            android:name="preloaded_fonts"
+            android:resource="@array/preloaded_fonts" />
     </application>
 
 </manifest>

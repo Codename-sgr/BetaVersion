@@ -240,6 +240,7 @@ public class ListAd extends AppCompatActivity implements RecViewItemClickListene
         Intent intent=new Intent(getApplicationContext(),FinalProductView.class);
         intent.putExtra("type",type);
         intent.putExtra("adId",adId);
+        intent.putExtra("who",1);       //1---buyer   0---seller
         startActivity(intent);
 
     }

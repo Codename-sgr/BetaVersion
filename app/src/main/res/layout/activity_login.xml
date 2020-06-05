@@ -61,12 +61,11 @@
 
     <Button
         android:id="@+id/LogIn"
-        android:layout_width="127dp"
-        android:layout_height="41dp"
+        android:layout_width="100dp"
+        android:layout_height="wrap_content"
         android:layout_below="@id/passwordLayout"
-        android:layout_marginTop="29dp"
+        android:layout_marginTop="30dp"
         android:background="@drawable/round_button"
-        android:gravity="center_horizontal|center_vertical"
         android:onClick="logIn"
         android:text="Log In"
         app:layout_constraintEnd_toEndOf="@+id/googleLoginBtn"
@@ -77,16 +76,16 @@
         android:id="@+id/textViewForgetPass"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-
+        android:textColor="#ffffff"
         android:text="Forget Password?"
         app:layout_constraintEnd_toEndOf="@+id/passwordLayout"
         app:layout_constraintTop_toBottomOf="@+id/passwordLayout" />
 
     <com.google.android.gms.common.SignInButton
         android:id="@+id/googleLoginBtn"
-        android:layout_width="wrap_content"
+        android:layout_width="120dp"
         android:layout_height="wrap_content"
-        android:layout_marginTop="51dp"
+        android:layout_marginTop="50dp"
         app:layout_constraintEnd_toEndOf="@+id/signUp"
         app:layout_constraintStart_toStartOf="@+id/signUp"
         app:layout_constraintTop_toBottomOf="@+id/LogIn" />
@@ -96,15 +95,13 @@
         style="@style/TextAppearance.AppCompat.Title"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginStart="106dp"
-        android:layout_marginEnd="107dp"
-        android:layout_marginBottom="31dp"
         android:text="New User? Create an Account"
         android:textColor="#FBC02D"
         android:textSize="15sp"
-        app:layout_constraintBottom_toBottomOf="parent"
+        android:layout_marginTop="60dp"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent" />
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/googleLoginBtn" />
 
     <!--LOGIN BUTTON-->
 

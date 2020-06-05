@@ -88,9 +88,9 @@
                     android:id="@+id/accUserName"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_gravity="center"
                     android:textColor="@color/colorPrimaryDark"
                     android:enabled="false"
+                    android:gravity="center_vertical"
                     android:layout_weight="1"
                     android:inputType="none" />
             </LinearLayout>
@@ -112,8 +112,8 @@
                     android:id="@+id/accMobile"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_gravity="center"
                     android:layout_weight="1"
+                    android:gravity="center_vertical"
                     android:textColor="@color/colorPrimaryDark"
                     android:enabled="false"
                     android:inputType="phone" />
@@ -136,10 +136,10 @@
                     android:id="@+id/accEmail"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_gravity="center"
-                    android:layout_weight="1"
                     android:textColor="@color/colorPrimaryDark"
                     android:enabled="false"
+                    android:gravity="center_vertical"
+                    android:layout_weight="1"
                     android:inputType="none" />
             </LinearLayout>
 
@@ -160,8 +160,8 @@
                     android:id="@+id/accAddress"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_gravity="center"
                     android:layout_weight="1"
+                    android:gravity="center_vertical"
                     android:textColor="@color/colorPrimaryDark"
                     android:enabled="false"
                     android:inputType="textPostalAddress" />

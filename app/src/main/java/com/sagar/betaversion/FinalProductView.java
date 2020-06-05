@@ -1,6 +1,7 @@
 package com.sagar.betaversion;
 
 import android.Manifest;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.net.Uri;
@@ -47,10 +48,11 @@ public class FinalProductView extends AppCompatActivity {
 
     String pBrand,pModel,pPurchaseDate,pDesc,pImg1,pImg2,pImg3,pUserID,email;
     int pPrice,pKmsDriven,pMileage,pImgCount;
-    Button contactBtn,updateBtn;
+    Button contactBtn;
 
     private static final int MY_PERMISSIONS_REQUEST_SEND_SMS = 1;
     String smsNumber;
+    int who;
 
 
 
@@ -68,17 +70,20 @@ public class FinalProductView extends AppCompatActivity {
         final Intent intent=getIntent();
         String type=intent.getStringExtra("type");
         final String adId=intent.getStringExtra("adId");
+        who=intent.getIntExtra("who",1);
+
+        if(who==0)
+            contactBtn.setText("EDIT PRICE");
 
         prodBrand=findViewById(R.id.prodBrand);
         prodModel=findViewById(R.id.productModel);
         prodPrice=findViewById(R.id.priceTextView);
-        updateBtn=findViewById(R.id.UpdateBtn);
+//        updateBtn=findViewById(R.id.UpdateBtn);
         Log.i("TYPE",""+type);
         Log.i("ADID",""+adId);
 
         database=FirebaseDatabase.getInstance();
         databaseReference=database.getReference(type+"Ad").child(adId);
-
         databaseReference.addListenerForSingleValueEvent(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
@@ -138,7 +143,10 @@ public class FinalProductView extends AppCompatActivity {
                 recyclerView.setAdapter(finalProdDescRecViewAdapter);
                 finalProdDescRecViewAdapter.notifyDataSetChanged();
 
-
+                if(getSupportActionBar()!=null){
+                    getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+                    getSupportActionBar().setTitle(pModel);
+                }
             }
 
             @Override
@@ -147,28 +155,32 @@ public class FinalProductView extends AppCompatActivity {
             }
         });
 
-        if(getSupportActionBar()!=null){
-            getSupportActionBar().setDisplayHomeAsUpEnabled(true);
-            getSupportActionBar().setTitle(pModel);
-        }
+
+
         contactBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                checkForSmsPermission();
+
+                if (who==1)
+                    checkForSmsPermission();
+                else
+                    updatePrice();
+
 
 
             }
         });
-        updateBtn.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                updatePrice();
-            }
-        });
+
+//        updateBtn.setOnClickListener(new View.OnClickListener() {
+//            @Override
+//            public void onClick(View v) {
+//                updatePrice();
+//            }
+//        });
 
     }
-    public  void message()
-    {
+
+    public  void message(){
         Log.i("User",pUserID);
         DatabaseReference reference=database.getReference().child("Users").child(pUserID);
         reference.addListenerForSingleValueEvent(new ValueEventListener() {
@@ -190,6 +202,7 @@ public class FinalProductView extends AppCompatActivity {
             }
         });
     }
+
     protected void sendEmail(String to) {
         Log.i("Send email", "");
 
@@ -199,6 +212,7 @@ public class FinalProductView extends AppCompatActivity {
         mailIntent.setData(data);
         startActivity(Intent.createChooser(mailIntent, "Send Mail via.."));
     }
+
     private void checkForSmsPermission() {
         if (ActivityCompat.checkSelfPermission(this,
                 Manifest.permission.SEND_SMS) !=
@@ -237,35 +251,73 @@ public class FinalProductView extends AppCompatActivity {
             }
         }
     }
-    public void updatePrice()
-    {
-        final AlertDialog.Builder builder=new AlertDialog.Builder(this);
-        final View mview=getLayoutInflater().inflate(R.layout.price_dialog,null);
-        final EditText newPrice=mview.findViewById(R.id.newPrice);
-        Button update=mview.findViewById(R.id.updatePrice);
-        update.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                String val=newPrice.getText().toString();
-                if(val.matches(""))
-                {
-                    Toast.makeText(FinalProductView.this, "Enter new price", Toast.LENGTH_SHORT).show();
-                }
-                else
-                {
-                    int np=Integer.valueOf(val);
-                    databaseReference.child("sellingPrice").setValue(np);
-                    Toast.makeText(FinalProductView.this,"Price Updated",Toast.LENGTH_SHORT).show();
-                    Intent intent=new Intent(getApplicationContext(),MainActivity.class);
-                    startActivity(intent);
-                    finish();
 
+    public void updatePrice(){
+        if (who==0){
+            final AlertDialog.Builder builder=new AlertDialog.Builder(this);
+            /*final View mview=getLayoutInflater().inflate(R.layout.price_dialog,null);
+            final EditText anewPrice=mview.findViewById(R.id.newPrice);
+            Button update=mview.findViewById(R.id.updatePrice);*/
+            final EditText newPrice=new EditText(this);
+            builder.setView(newPrice);
+            builder.setTitle("Update Price");
+            builder
+                    .setMessage("Enter New Price:")
+                    .setCancelable(false)
+                    .setPositiveButton("UPDATE",
+                            new DialogInterface.OnClickListener() {
+                                public void onClick(DialogInterface dialog,
+                                                    int id) {
+                                    // what to do if YES is tapped
+                                    String val=newPrice.getText().toString();
+                                    if(val.matches(""))
+                                    {
+                                        Toast.makeText(FinalProductView.this, "Enter new price", Toast.LENGTH_SHORT).show();
+                                    }
+                                    else
+                                    {
+                                        int np=Integer.parseInt(val);
+                                        databaseReference.child("sellingPrice").setValue(np);
+                                        Toast.makeText(FinalProductView.this,"Price Updated",Toast.LENGTH_SHORT).show();
+                                        Intent intent=new Intent(getApplicationContext(),com.sagar.betaversion.myAds.myAdActivity.class);
+                                        intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+                                        startActivity(intent);
+                                        finish();
+
+                                    }
+                                }
+                            });
+            builder.setNegativeButton("CANCEL",
+                    new DialogInterface.OnClickListener() {
+                        public void onClick(DialogInterface dialog,
+                                            int id) {
+                            // code to do on NO tapped
+                            dialog.cancel();
+                        }
+                    });
+            /*update.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    String val=newPrice.getText().toString();
+                    if(val.matches(""))
+                    {
+                        Toast.makeText(FinalProductView.this, "Enter new price", Toast.LENGTH_SHORT).show();
+                    }
+                    else
+                    {
+                        int np=Integer.valueOf(val);
+                        databaseReference.child("sellingPrice").setValue(np);
+                        Toast.makeText(FinalProductView.this,"Price Updated",Toast.LENGTH_SHORT).show();
+                        Intent intent=new Intent(getApplicationContext(),MainActivity.class);
+                        startActivity(intent);
+                        finish();
+
+                    }
                 }
-            }
-        });
-        builder.setView(mview);
-        AlertDialog dialog=builder.create();
-        dialog.show();
+            });*/
+            AlertDialog dialog=builder.create();
+            dialog.show();
+        }
 
     }
 

@@ -6,7 +6,9 @@ import androidx.viewpager.widget.ViewPager;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
 import android.widget.ImageView;
 
 import com.google.android.material.tabs.TabLayout;
@@ -22,8 +24,15 @@ public class FinalImagePreview extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.final_image_preview);
 
-        ViewPager finalImgPreview = findViewById(R.id.finalImgPreview);
+        final ViewPager finalImgPreview = findViewById(R.id.finalImgPreview);
         TabLayout viewpagerIndicator = findViewById(R.id.finalImgTabLayout);
+        Button closeBtn=findViewById(R.id.closeImgPrevBtn);
+        closeBtn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                finish();
+            }
+        });
 
 
         Intent i=getIntent();

@@ -13,39 +13,6 @@ import com.firebase.ui.database.FirebaseRecyclerOptions;
 
 import java.util.List;
 
-/*
-public class finalProdDescRecViewAdapter extends FirebaseRecyclerAdapter<finalProdSpecificationModel,finalProdDescRecViewAdapter.ViewHolder>{
-
-    public finalProdDescRecViewAdapter(@NonNull FirebaseRecyclerOptions<finalProdSpecificationModel> options) {
-        super(options);
-    }
-
-    @Override
-    protected void onBindViewHolder(@NonNull ViewHolder viewHolder, int i, @NonNull finalProdSpecificationModel finalProdSpecificationModel) {
-        viewHolder.featureValue.setText(finalProdSpecificationModel.getFeatureValue());
-        viewHolder.featureName.setText(finalProdSpecificationModel.getFeatureName());
-
-    }
-
-    @NonNull
-    @Override
-    public ViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
-        View view= LayoutInflater.from(parent.getContext()).inflate(R.layout.finalprod_desc_row_item,parent,false);
-        return new ViewHolder(view);
-    }
-
-    public class ViewHolder extends RecyclerView.ViewHolder {
-        private TextView featureName;
-        private TextView featureValue;
-        public ViewHolder(@NonNull View itemView) {
-            super(itemView);
-            featureName=itemView.findViewById(R.id.prodFeatureName);
-            featureValue=itemView.findViewById(R.id.prodFeatureValue);
-        }
-    }
-}
-*/
-
 public class finalProdDescRecViewAdapter extends RecyclerView.Adapter<finalProdDescRecViewAdapter.ViewHolder> {
 
     private List<finalProdSpecificationModel> finalProdSpecificationModelList;

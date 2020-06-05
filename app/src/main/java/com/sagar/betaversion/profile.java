@@ -64,6 +64,7 @@ public class profile extends AppCompatActivity {
     public void moveBackToMyAccount()
     {
         Intent intent = new Intent(getApplicationContext(), myAccount.class);
+        intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
         startActivity(intent);
         finish();
     }
@@ -190,7 +191,7 @@ public class profile extends AppCompatActivity {
         addressView.setText(address);
     }
 
-    public Bitmap StringToBitMap(String image) {
+    public static Bitmap StringToBitMap(String image) {
         try {
             byte[] encodeByte = Base64.decode(image, Base64.DEFAULT);
 

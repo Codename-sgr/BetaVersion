@@ -3,6 +3,8 @@ package com.sagar.betaversion;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 import android.os.Bundle;
 import android.util.Base64;
 import android.util.Log;
@@ -10,6 +12,7 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.ImageButton;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.annotation.NonNull;
@@ -34,19 +37,27 @@ import com.google.firebase.storage.FirebaseStorage;
 import com.google.firebase.storage.StorageReference;
 import com.sagar.betaversion.myAds.myAdActivity;
 
+import de.hdodenhof.circleimageview.CircleImageView;
+
 
 public class MainActivity extends AppCompatActivity implements NavigationView.OnNavigationItemSelectedListener {
 
     Toolbar toolbar;
     DrawerLayout drawer;
-    ImageButton myAccount, newAd, vehicleAds, electronicAds, bookAds, miscAds, MyAds,donateBtn;
+    ImageButton myAccount, newAd, vehicleAds, electronicAds, bookAds, miscAds, MyAds, donateBtn;
     LoadingDialog loadingDialog;
-    String username;
+    String username, email, retrievedImage;
     Boolean dp;
     StorageReference storageReference;
+    NavigationView navigationView;
+    CircleImageView navUserImg;
+    TextView navUserName, navUserEmail;
+
+    SharedPreferences pref;
 
     @Override
     protected void onResume() {
+        reloadUserData();
         loadUserData();
         super.onResume();
     }
@@ -61,12 +72,17 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         drawer = findViewById(R.id.drawer_layout);
         setSupportActionBar(toolbar);
 
-        if (getSupportActionBar()!=null){
+        if (getSupportActionBar() != null) {
             getSupportActionBar().setTitle("MANIT-KART");
 
         }
 
-        NavigationView navigationView = findViewById(R.id.nav_view);
+        navigationView = findViewById(R.id.nav_view);
+        View headerview = navigationView.getHeaderView(0);
+        navUserImg = headerview.findViewById(R.id.nav_profile_img);
+        navUserName = headerview.findViewById(R.id.nav_username);
+        navUserEmail = headerview.findViewById(R.id.nav_email);
+
 
         storageReference = FirebaseStorage.getInstance().getReference().child("UserImage");
         myAccount = findViewById(R.id.myAccountButton);
@@ -76,7 +92,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         miscAds = findViewById(R.id.miscButton);
         electronicAds = findViewById(R.id.electronicsButton);
         bookAds = findViewById(R.id.booksButton);
-        donateBtn=findViewById(R.id.donateImgBtn);
+        donateBtn = findViewById(R.id.donateImgBtn);
 
         ActionBarDrawerToggle toggle = new ActionBarDrawerToggle(this, drawer, toolbar, R.string.navigation_drawer_open, R.string.navigation_drawer_close);
         drawer.addDrawerListener(toggle);
@@ -92,12 +108,34 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
 
         selectCategory();
 
+        reloadUserData();
+
         donateBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 Toast.makeText(MainActivity.this, "Donation Coming Soon...", Toast.LENGTH_SHORT).show();
             }
         });
+
+
+    }
+
+    public void reloadUserData() {
+
+        SharedPreferences preferences=getSharedPreferences("UserData",MODE_PRIVATE);;
+        username = preferences.getString("user_name", "");
+        email = preferences.getString("email", "");
+        retrievedImage = preferences.getString("image", "");
+        if (!retrievedImage.matches("") && retrievedImage != null) {
+            Bitmap bitmap = profile.StringToBitMap(retrievedImage);
+            navUserImg.setImageBitmap(bitmap);
+        }
+
+        if (username != null)
+            navUserName.setText(username);
+
+        if (email != null)
+            navUserEmail.setText(email);
 
 
     }
@@ -110,7 +148,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         DatabaseReference mDb = mDatabase.getReference();
         FirebaseUser user = firebaseAuth.getCurrentUser();
         final String userKey = user.getUid();
-        SharedPreferences pref = getSharedPreferences("UserData", MODE_PRIVATE);
+        pref = getSharedPreferences("UserData", MODE_PRIVATE);
         username = pref.getString("user_name", "");
         if (username.matches("")) {
             loadingDialog.startLoadingDialog();
@@ -122,7 +160,6 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
                     Log.i("work", userKey);
                     username = String.valueOf(dataSnapshot.child("user_name").getValue());
                     Log.i("Name: ", username);
-//                    getSupportActionBar().setTitle("Welcome " + username);
                     String email = String.valueOf(dataSnapshot.child("email").getValue());
                     String mobile = String.valueOf(dataSnapshot.child("mobile").getValue());
                     String address = String.valueOf(dataSnapshot.child("address").getValue());
@@ -142,6 +179,10 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
                                 String img_str = Base64.encodeToString(bytes, 0);
                                 editor.putString("image", img_str);
                                 editor.apply();
+
+                                /*Bitmap bitmap = BitmapFactory.decodeByteArray(bytes , 0, bytes.length);
+                                navUserImg.setImageBitmap(bitmap);
+*/
                                 loadingDialog.dismissDialog();
 
 
@@ -159,8 +200,10 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
                     loadingDialog.dismissDialog();
                 }
             });
-        } /*else
-            getSupportActionBar().setTitle("Welcome " + username);*/
+        }
+
+        navUserName.setText(username);
+
     }
 
     private void selectCategory() {
@@ -229,7 +272,6 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
-        // Inflate the menu; this adds items to the action bar if it is present.
         getMenuInflater().inflate(R.menu.options_menu, menu);
         return true;
     }

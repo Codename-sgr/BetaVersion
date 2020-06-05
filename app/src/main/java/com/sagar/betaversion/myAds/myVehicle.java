@@ -59,8 +59,8 @@ public class myVehicle extends AppCompatActivity implements RecViewItemClickList
         recyclerView=findViewById(R.id.AdListRecyclerView);
         recyclerView.setHasFixedSize(true);
         LinearLayoutManager layoutManager=new LinearLayoutManager(this);
-//        layoutManager.setReverseLayout(true);
-//        layoutManager.setStackFromEnd(true);
+        layoutManager.setReverseLayout(true);
+        layoutManager.setStackFromEnd(true);
         recyclerView.setLayoutManager(layoutManager);
 
         Intent intent=getIntent();
@@ -117,6 +117,7 @@ public class myVehicle extends AppCompatActivity implements RecViewItemClickList
         Intent intent=new Intent(getApplicationContext(), FinalProductView.class);
         intent.putExtra("type",type);
         intent.putExtra("adId",adId);
+        intent.putExtra("who",0);       //1---buyer   0---seller
         startActivity(intent);
     }
 }

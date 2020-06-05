@@ -121,6 +121,7 @@ public class myBooks extends AppCompatActivity implements RecViewItemClickListen
         Intent intent=new Intent(getApplicationContext(), FinalProductView.class);
         intent.putExtra("type",type);
         intent.putExtra("adId",adId);
+        intent.putExtra("who",0);       //1---buyer   0---seller
         startActivity(intent);
     }
 }
