@@ -67,7 +67,7 @@ public class about extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 Intent intent = new Intent(Intent.ACTION_VIEW);
-                intent.setData(Uri.parse("https://www.facebook.com/codename.sgr/"));
+                intent.setData(Uri.parse("https://www.instagram.com/shivam_bansal_4/"));
                 startActivity(intent);
 
             }
