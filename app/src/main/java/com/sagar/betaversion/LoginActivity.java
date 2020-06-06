@@ -29,6 +29,7 @@ import com.google.android.gms.common.SignInButton;
 import com.google.android.gms.common.api.ApiException;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.OnFailureListener;
+import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.gms.tasks.Task;
 import com.google.android.material.textfield.TextInputEditText;
 import com.google.android.material.textfield.TextInputLayout;
@@ -42,15 +43,18 @@ import com.google.firebase.database.FirebaseDatabase;
 
 import java.util.HashMap;
 import java.util.Map;
+import java.util.Objects;
 
 public class LoginActivity extends AppCompatActivity {
 
 
-    private FirebaseAuth mAuth;
+    private FirebaseAuth mAuth=FirebaseAuth.getInstance();
+
 
     LoadingDialog loadingDialog;
 
     SignInButton googleLoginBtn;
+    FirebaseUser user;
 
     TextInputEditText email;
     TextInputEditText password;
@@ -76,31 +80,82 @@ public class LoginActivity extends AppCompatActivity {
         }
         else{
             logUserIn(uemail,upassword);
+
+            /*if(user.isEmailVerified()){
+
+            }
+            else
+            {
+                Toast.makeText(this, "Email Not Verified !!!", Toast.LENGTH_SHORT).show();
+            }*/
+
         }
+
     }
 
     private void logUserIn(String email, String password) {
         loadingDialog.startLoadingDialog();
         mAuth.signInWithEmailAndPassword(email, password)
-                .addOnCompleteListener(this, new OnCompleteListener<AuthResult>() {
+                .addOnSuccessListener(this, new OnSuccessListener<AuthResult>() {
                     @Override
-                    public void onComplete(@NonNull Task<AuthResult> task) {
-                        if(task.isSuccessful()){
-                            isValid=true;
-                            loadingDialog.dismissDialog();
-                            FirebaseUser user=mAuth.getCurrentUser();
-                            startActivity(new Intent(getApplicationContext(),MainActivity.class));
-                            finish();
-                        }
-                        else {
-                            loadingDialog.dismissDialog();
-                            Toast.makeText(LoginActivity.this, "Authentication Failed", Toast.LENGTH_SHORT).show();
-                        }
+                    public void onSuccess(AuthResult authResult) {
+                                user=mAuth.getCurrentUser();
+                                try {
+                                    if(user.isEmailVerified()){
+                                        isValid=true;
+                                        loadingDialog.dismissDialog();
+                                        startActivity(new Intent(getApplicationContext(),MainActivity.class));
+                                        finish();
+                                    }
+                                    else
+                                    {
+                                        loadingDialog.dismissDialog();
+                                        final androidx.appcompat.app.AlertDialog.Builder builder=new androidx.appcompat.app.AlertDialog.Builder(LoginActivity.this);
+                                        builder.setTitle("Error");
+                                        builder
+                                                .setMessage("Your Email ID is not Verified !")
+                                                .setCancelable(false);
+                                        builder.setPositiveButton("OK",
+                                                new DialogInterface.OnClickListener() {
+                                                    public void onClick(DialogInterface dialog,
+                                                                        int id) {
+                                                        dialog.cancel();
+                                                        loadingDialog.dismissDialog();
+                                                    }
+                                                });
+
+                                        androidx.appcompat.app.AlertDialog dialog=builder.create();
+                                        dialog.show();
+                                    }
+                                }catch (NullPointerException e){
+                                    loadingDialog.dismissDialog();
+                                    Log.i("Info",""+e.getMessage());
+
+                                }
+
+
+
+
                     }
                 }).addOnFailureListener(new OnFailureListener() {
             @Override
             public void onFailure(@NonNull Exception e) {
+                loadingDialog.dismissDialog();
                 Toast.makeText(LoginActivity.this, ""+e.getMessage(), Toast.LENGTH_SHORT).show();
+            }
+        });
+    }
+
+    private void resendVerificationMail() {
+        user.sendEmailVerification().addOnSuccessListener(new OnSuccessListener<Void>() {
+            @Override
+            public void onSuccess(Void aVoid) {
+                Toast.makeText(LoginActivity.this, "Verification Email Has Been Sent to your Email ID", Toast.LENGTH_LONG).show();
+            }
+        }).addOnFailureListener(new OnFailureListener() {
+            @Override
+            public void onFailure(@NonNull Exception e) {
+                Log.i("TAG","Failed"+e.getMessage());
             }
         });
     }
@@ -164,17 +219,19 @@ public class LoginActivity extends AppCompatActivity {
     }
 
     private void checkUserStatus(){
-        FirebaseUser user=mAuth.getCurrentUser();
-        if(user!=null){
-            startActivity(new Intent(getApplicationContext(),MainActivity.class));
-            finish();
-        }
-
+        if (user!=null && user.isEmailVerified())
+            {
+                startActivity(new Intent(getApplicationContext(), MainActivity.class));
+                finish();
+            }
     }
+
+
 
     @Override
     public void onStart(){
         super.onStart();
+        user=mAuth.getCurrentUser();
         // Check if user is signed in (non-null) and update UI accordingly.
         checkUserStatus();
     }
@@ -187,7 +244,7 @@ public class LoginActivity extends AppCompatActivity {
         if (getSupportActionBar()!=null)
         getSupportActionBar().hide();
 
-        databaseUsers= FirebaseDatabase.getInstance().getReference("Users");//shivam
+        databaseUsers= FirebaseDatabase.getInstance().getReference("Users");
         // Configure Google Sign In
         GoogleSignInOptions gso = new GoogleSignInOptions.Builder(GoogleSignInOptions.DEFAULT_SIGN_IN)
                 .requestIdToken(getString(R.string.default_web_client_id))
@@ -196,7 +253,7 @@ public class LoginActivity extends AppCompatActivity {
         mGoogleSignInClient= GoogleSignIn.getClient(this,gso);
 
         mAuth=FirebaseAuth.getInstance();
-
+        user=mAuth.getCurrentUser();
 
         email=findViewById(R.id.editTextEmail);
         password=findViewById(R.id.password);
@@ -204,6 +261,8 @@ public class LoginActivity extends AppCompatActivity {
         signUp=findViewById(R.id.signUp);
         forgetPwd=findViewById(R.id.textViewForgetPass);
         googleLoginBtn=findViewById(R.id.googleLoginBtn);
+
+
 
         forgetPwd.setOnClickListener(new View.OnClickListener() {
             @Override

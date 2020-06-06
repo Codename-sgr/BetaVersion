@@ -52,7 +52,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
     NavigationView navigationView;
     CircleImageView navUserImg;
     TextView navUserName, navUserEmail;
-
+    FirebaseAuth mAuth=FirebaseAuth.getInstance();
     SharedPreferences pref;
 
     @Override
@@ -60,6 +60,12 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         reloadUserData();
         loadUserData();
         super.onResume();
+    }
+
+    @Override
+    protected void onStart() {
+        super.onStart();
+        reloadUserData();
     }
 
     @Override
@@ -76,13 +82,19 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
             getSupportActionBar().setTitle("MANIT-KART");
 
         }
+        if(!mAuth.getCurrentUser().isEmailVerified())
+        {
+            Toast.makeText(this, "Email Not Verified", Toast.LENGTH_SHORT).show();
+            logoutUser();
+        }
+
 
         navigationView = findViewById(R.id.nav_view);
         View headerview = navigationView.getHeaderView(0);
         navUserImg = headerview.findViewById(R.id.nav_profile_img);
         navUserName = headerview.findViewById(R.id.nav_username);
         navUserEmail = headerview.findViewById(R.id.nav_email);
-
+        reloadUserData();
 
         storageReference = FirebaseStorage.getInstance().getReference().child("UserImage");
         myAccount = findViewById(R.id.myAccountButton);
@@ -108,7 +120,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
 
         selectCategory();
 
-        reloadUserData();
+
 
         donateBtn.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -130,7 +142,6 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
             Bitmap bitmap = profile.StringToBitMap(retrievedImage);
             navUserImg.setImageBitmap(bitmap);
         }
-
         if (username != null)
             navUserName.setText(username);
 
@@ -316,15 +327,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
                             new DialogInterface.OnClickListener() {
                                 public void onClick(DialogInterface dialog,
                                                     int id) {
-                                    FirebaseAuth.getInstance().signOut();
-                                    SharedPreferences pref = getSharedPreferences("UserData", MODE_PRIVATE);
-                                    SharedPreferences.Editor editor = pref.edit();
-                                    editor.clear();
-                                    editor.apply();
-                                    Intent intent = new Intent(MainActivity.this, LoginActivity.class);
-                                    intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
-                                    startActivity(intent);
-                                    finish();
+                                    logoutUser();
                                 }
                             });
             alertDialogBuilder.setNegativeButton("NO",
@@ -340,6 +343,19 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         }
 
         return super.onOptionsItemSelected(item);
+    }
+
+    private void logoutUser() {
+
+        FirebaseAuth.getInstance().signOut();
+        SharedPreferences pref = getSharedPreferences("UserData", MODE_PRIVATE);
+        SharedPreferences.Editor editor = pref.edit();
+        editor.clear();
+        editor.apply();
+        Intent intent = new Intent(MainActivity.this, LoginActivity.class);
+        intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
+        startActivity(intent);
+        finish();
     }
 
     @Override

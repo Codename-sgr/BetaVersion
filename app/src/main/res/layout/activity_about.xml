@@ -39,6 +39,15 @@
                     android:scaleType="fitStart"
                     android:src="@drawable/about" />
 
+                <View
+                    android:id="@+id/divider5"
+                    android:layout_width="match_parent"
+                    android:layout_marginHorizontal="10dp"
+                    android:layout_height="3dp"
+                    android:background="#ffffff"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent" />
+
                 <TextView
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
@@ -65,7 +74,7 @@
                             android:layout_width="150dp"
                             android:layout_height="150dp"
                             android:layout_marginTop="20dp"
-                            android:src="@mipmap/ic_launcher"
+                            android:src="@drawable/sagarimg"
                             android:layout_gravity="center"
                             app:civ_border_color="#FF000000"
                             app:civ_border_width="2dp"
@@ -94,7 +103,7 @@
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
                             android:textStyle="bold"
-                            android:text="FRONT-END DEVELOPER"
+                            android:text="APP DEVELOPER"
                             android:textSize="14sp"
                             android:layout_marginTop="5dp"
                             android:textColor="#FFFFFf"
@@ -143,7 +152,7 @@
                             android:layout_width="150dp"
                             android:layout_height="150dp"
                             android:layout_marginTop="20dp"
-                            android:src="@mipmap/ic_launcher"
+                            android:src="@drawable/bansalimga"
                             app:civ_border_color="#FF000000"
                             android:layout_gravity="center"
                             app:civ_border_width="2dp"
@@ -174,7 +183,7 @@
                             android:textSize="14sp"
                             android:textStyle="bold"
                             android:layout_marginTop="5dp"
-                            android:text="BACK-END DEVELOPER"
+                            android:text="BACK- DEVELOPER"
                             android:textColor="#FFFFFf"
                             android:gravity="center"/>
                         <LinearLayout
@@ -220,6 +229,19 @@
                     android:layout_marginBottom="20dp"
                     android:textColor="#ffffff"/>
 
+
+                <!--<de.hdodenhof.circleimageview.CircleImageView
+                    android:layout_width="80dp"
+                    android:layout_height="80dp"
+                    android:src="@drawable/namrataimga"
+                    app:civ_border_color="#FF000000"
+                    android:layout_gravity="center"
+                    app:civ_border_width="2dp"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="parent" />
+
+-->
                 <TextView
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
@@ -235,31 +257,99 @@
                     android:layout_marginBottom="7dp"
                     android:textColor="#ffffff"/>
 
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="30dp"
+                    android:layout_marginVertical="10dp"
+                    android:orientation="horizontal"
+                    android:paddingHorizontal="50dp">
+
+                    <ImageView
+                        android:id="@+id/namrataLI"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:src="@drawable/ic_linkedin" />
+
+                    <ImageView
+                        android:id="@+id/namrataIG"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:src="@drawable/ic_instagram" />
+
+                    <ImageView
+                        android:id="@+id/namrataFB"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:src="@drawable/ic_facebook" />
+
+                </LinearLayout>
+
                 <View
                     android:id="@+id/divider2"
                     android:layout_width="match_parent"
                     android:layout_marginHorizontal="30dp"
                     android:layout_height="2dp"
                     android:background="#ffffff"
+                    android:layout_marginVertical="20dp"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintStart_toStartOf="parent" />
 
+
+               <!-- <de.hdodenhof.circleimageview.CircleImageView
+                    android:layout_width="80dp"
+                    android:layout_height="80dp"
+                    android:layout_marginTop="40dp"
+                    android:src="@drawable/abhashimg"
+                    app:civ_border_color="#FF000000"
+                    android:layout_gravity="center"
+                    app:civ_border_width="2dp"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="parent" />-->
 
                 <TextView
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:gravity="center"
                     android:layout_marginTop="15dp"
-                    android:text="AABHASH RAHANGDALE   (II Year: Architecture)"
+                    android:text="ABHASH RAHANGDALE   (II Year: Architecture)"
                     android:textColor="#ffffff"/>
 
                 <TextView
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:gravity="center"
-                    android:text="GRAPHIC DESIGNER"
-                    android:textColor="#ffffff"
-                    android:layout_marginBottom="40dp"/>
+                    android:layout_marginBottom="7dp"
+                    android:text="LOGO DESIGNER"
+                    android:textColor="#ffffff" />
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="30dp"
+                    android:layout_marginTop="10dp"
+                    android:orientation="horizontal"
+                    android:layout_marginBottom="40dp"
+                    android:paddingHorizontal="50dp">
+
+                    <ImageView
+                        android:id="@+id/abhashTT"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:src="@drawable/ic_twitter" />
+
+                    <ImageView
+                        android:id="@+id/abhashIG"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:src="@drawable/ic_instagram" />
+
+
+                </LinearLayout>
 
 
             </LinearLayout>

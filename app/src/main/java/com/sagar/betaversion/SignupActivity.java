@@ -15,6 +15,7 @@ import android.widget.Toast;
 
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.OnFailureListener;
+import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.AuthResult;
 import com.google.firebase.auth.FirebaseAuth;
@@ -73,11 +74,20 @@ public class SignupActivity extends AppCompatActivity {
                                 User user1=new User(user_id,uname,uemail);
                                 databaseUsers.child(user_id).setValue(user1);
 
-                                Toast.makeText(SignupActivity.this, "Registered: "+user.getEmail(), Toast.LENGTH_SHORT).show();
+                                user.sendEmailVerification().addOnSuccessListener(new OnSuccessListener<Void>() {
+                                    @Override
+                                    public void onSuccess(Void aVoid) {
+                                        Toast.makeText(SignupActivity.this, "Verification Email Has Been Sent to your Email ID", Toast.LENGTH_LONG).show();
+                                        finish();
 
-                                startActivity(new Intent(SignupActivity.this,MainActivity.class));
-                                finish();
-
+                                    }
+                                }).addOnFailureListener(new OnFailureListener() {
+                                    @Override
+                                    public void onFailure(@NonNull Exception e) {
+                                        Log.i("TAG","Failed"+e.getMessage());
+                                    }
+                                });
+//                                Toast.makeText(SignupActivity.this, "Registered: "+user.getEmail(), Toast.LENGTH_SHORT).show();
                             }
                             else
                             {

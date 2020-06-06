@@ -10,10 +10,12 @@
         android:id="@+id/top"
         layout="@layout/toolbar" />
 
+<!--   // e4f9f5-->
+
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
         android:layout_height="0dp"
-        android:background="#e4f9f5"
+        android:background="@drawable/backgroundapp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/top">

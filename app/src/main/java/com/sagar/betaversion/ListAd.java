@@ -50,7 +50,7 @@ public class ListAd extends AppCompatActivity implements RecViewItemClickListene
         setSupportActionBar(toolbar);
 
         if (getSupportActionBar()!=null){
-            getSupportActionBar().setTitle(intent.getStringExtra(type+" Ads"));
+            getSupportActionBar().setTitle("Ads");
             getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         }
 

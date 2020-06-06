@@ -44,7 +44,7 @@ public class FinalProductView extends AppCompatActivity {
     FirebaseDatabase database;
     DatabaseReference databaseReference;
 
-    TextView prodBrand,prodModel,prodPrice;
+    TextView prodBrand,prodModel,prodPrice,descNote;
 
     String pBrand,pModel,pPurchaseDate,pDesc,pImg1,pImg2,pImg3,pUserID,email;
     int pPrice,pKmsDriven,pMileage,pImgCount;
@@ -78,6 +78,7 @@ public class FinalProductView extends AppCompatActivity {
         prodBrand=findViewById(R.id.prodBrand);
         prodModel=findViewById(R.id.productModel);
         prodPrice=findViewById(R.id.priceTextView);
+        descNote=findViewById(R.id.descNote);
 //        updateBtn=findViewById(R.id.UpdateBtn);
         Log.i("TYPE",""+type);
         Log.i("ADID",""+adId);
@@ -136,7 +137,8 @@ public class FinalProductView extends AppCompatActivity {
                 if(pKmsDriven!=0)
                     finalProdSpecificationModelList.add(new finalProdSpecificationModel("Kms Driven: ",Integer.toString(pKmsDriven)));
                 if(pDesc!=null)
-                    finalProdSpecificationModelList.add(new finalProdSpecificationModel("Note: ",pDesc));
+                    descNote.setText("Note : "+pDesc);
+//                    finalProdSpecificationModelList.add(new finalProdSpecificationModel("Note: ",pDesc));
                 finalProdSpecificationModelList.add(new finalProdSpecificationModel("AD ID: ",adId));
 
                 finalProdDescRecViewAdapter finalProdDescRecViewAdapter=new finalProdDescRecViewAdapter(finalProdSpecificationModelList);
@@ -255,9 +257,6 @@ public class FinalProductView extends AppCompatActivity {
     public void updatePrice(){
         if (who==0){
             final AlertDialog.Builder builder=new AlertDialog.Builder(this);
-            /*final View mview=getLayoutInflater().inflate(R.layout.price_dialog,null);
-            final EditText anewPrice=mview.findViewById(R.id.newPrice);
-            Button update=mview.findViewById(R.id.updatePrice);*/
             final EditText newPrice=new EditText(this);
             builder.setView(newPrice);
             builder.setTitle("Update Price");
@@ -295,6 +294,9 @@ public class FinalProductView extends AppCompatActivity {
                             dialog.cancel();
                         }
                     });
+
+            AlertDialog dialog=builder.create();
+            dialog.show();
             /*update.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
@@ -315,8 +317,7 @@ public class FinalProductView extends AppCompatActivity {
                     }
                 }
             });*/
-            AlertDialog dialog=builder.create();
-            dialog.show();
+
         }
 
     }

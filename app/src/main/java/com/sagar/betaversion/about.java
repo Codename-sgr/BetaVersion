@@ -13,6 +13,7 @@ import android.widget.ImageView;
 public class about extends AppCompatActivity {
 
     ImageView sagarFB,sagarLI,bansalFB,bansalLI,bansalIG;
+    ImageView namrataFB,namrataLI,namrataIG,abhashIG,abhashTT;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -32,6 +33,11 @@ public class about extends AppCompatActivity {
         bansalFB=findViewById(R.id.bansalFB);
         bansalIG=findViewById(R.id.bansalIG);
         bansalLI=findViewById(R.id.bansalLI);
+        namrataFB=findViewById(R.id.namrataFB);
+        namrataLI=findViewById(R.id.namrataLI);
+        namrataIG=findViewById(R.id.namrataIG);
+        abhashTT=findViewById(R.id.abhashTT);
+        abhashIG=findViewById(R.id.abhashIG);
 
 
         sagarLI.setOnClickListener(new View.OnClickListener() {
@@ -80,6 +86,52 @@ public class about extends AppCompatActivity {
                 intent.setData(Uri.parse("https://www.facebook.com/shivamb0407"));
                 startActivity(intent);
 
+            }
+        });
+
+
+
+        namrataFB.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(Intent.ACTION_VIEW);
+                intent.setData(Uri.parse("https://www.facebook.com/namrata.niaj"));
+                startActivity(intent);
+            }
+        });
+        namrataIG.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(Intent.ACTION_VIEW);
+                intent.setData(Uri.parse("https://www.instagram.com/namrata.niaj/"));
+                startActivity(intent);
+            }
+        });
+        namrataLI.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(Intent.ACTION_VIEW);
+                intent.setData(Uri.parse("https://www.linkedin.com/in/namrata-jain-382000177"));
+                startActivity(intent);
+            }
+        });
+
+
+
+        abhashIG.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(Intent.ACTION_VIEW);
+                intent.setData(Uri.parse("https://www.instagram.com/abhash_r_r/"));
+                startActivity(intent);
+            }
+        });
+        abhashTT.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(Intent.ACTION_VIEW);
+                intent.setData(Uri.parse("https://twitter.com/AbhashRahangda1?s=08"));
+                startActivity(intent);
             }
         });
     }
