@@ -67,7 +67,7 @@ public class listAdAdapter extends RecyclerView.Adapter<listAdAdapter.ViewHolder
     class ViewHolder extends RecyclerView.ViewHolder{
         private TextView adProductBrand,adProductModel,adProductPrice,adProductId;
         private ImageView adProductImg;
-        private ImageButton adDelete,adWishlist;
+        private ImageButton adDelete,adSoldBtn;
 
 
         ViewHolder(@NonNull final View itemView) {
@@ -78,7 +78,7 @@ public class listAdAdapter extends RecyclerView.Adapter<listAdAdapter.ViewHolder
             adProductPrice=itemView.findViewById(R.id.AdProdPrice);
             adProductId=itemView.findViewById(R.id.AdProdId);
             adDelete=itemView.findViewById(R.id.adDeleteBtn);
-            adWishlist=itemView.findViewById(R.id.adWishListBtn);
+            adSoldBtn=itemView.findViewById(R.id.adSoldBtn);
 
             itemView.setOnClickListener(new View.OnClickListener() {
                 @Override
@@ -97,11 +97,11 @@ public class listAdAdapter extends RecyclerView.Adapter<listAdAdapter.ViewHolder
             adProductId.setText(adId);
 
             if(listAd){
-                adWishlist.setVisibility(View.INVISIBLE);
+                adSoldBtn.setVisibility(View.INVISIBLE);
                 adDelete.setVisibility(View.INVISIBLE);
             }
             else{
-                adWishlist.setVisibility(View.INVISIBLE);
+                adSoldBtn.setVisibility(View.VISIBLE);
                 adDelete.setVisibility(View.VISIBLE);
             }
 
@@ -145,7 +145,7 @@ public class listAdAdapter extends RecyclerView.Adapter<listAdAdapter.ViewHolder
                 }
             });
 
-            adWishlist.setOnClickListener(new View.OnClickListener() {
+            adSoldBtn.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
                     Toast.makeText(itemView.getContext(), "Wishlist", Toast.LENGTH_SHORT).show();

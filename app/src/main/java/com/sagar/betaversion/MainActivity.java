@@ -1,10 +1,8 @@
 package com.sagar.betaversion;
-
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.graphics.Bitmap;
-import android.graphics.BitmapFactory;
 import android.os.Bundle;
 import android.util.Base64;
 import android.util.Log;
@@ -14,7 +12,6 @@ import android.view.View;
 import android.widget.ImageButton;
 import android.widget.TextView;
 import android.widget.Toast;
-
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.ActionBarDrawerToggle;
 import androidx.appcompat.app.AlertDialog;
@@ -148,11 +145,9 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         if (email != null)
             navUserEmail.setText(email);
 
-
     }
 
     public void loadUserData() {
-
 
         FirebaseAuth firebaseAuth = FirebaseAuth.getInstance();
         FirebaseDatabase mDatabase = FirebaseDatabase.getInstance();
@@ -182,7 +177,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
                         editor.putString("mobile", mobile);
                     if (!address.matches("null"))
                         editor.putString("address", address);
-                    if (dp == true) {
+                    if (dp!=null && dp == true) {
                         final long TEN_MEGABYTE = 10 * 1024 * 1024;
                         storageReference.child(userKey + ".jpg").getBytes(TEN_MEGABYTE).addOnSuccessListener(new OnSuccessListener<byte[]>() {
                             @Override
@@ -190,7 +185,6 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
                                 String img_str = Base64.encodeToString(bytes, 0);
                                 editor.putString("image", img_str);
                                 editor.apply();
-
                                 /*Bitmap bitmap = BitmapFactory.decodeByteArray(bytes , 0, bytes.length);
                                 navUserImg.setImageBitmap(bitmap);
 */

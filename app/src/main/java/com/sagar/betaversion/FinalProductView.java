@@ -139,7 +139,7 @@ public class FinalProductView extends AppCompatActivity {
                 if(pDesc!=null)
                     descNote.setText("Note : "+pDesc);
 //                    finalProdSpecificationModelList.add(new finalProdSpecificationModel("Note: ",pDesc));
-                finalProdSpecificationModelList.add(new finalProdSpecificationModel("AD ID: ",adId));
+//                finalProdSpecificationModelList.add(new finalProdSpecificationModel("AD ID: ",adId));
 
                 finalProdDescRecViewAdapter finalProdDescRecViewAdapter=new finalProdDescRecViewAdapter(finalProdSpecificationModelList);
                 recyclerView.setAdapter(finalProdDescRecViewAdapter);
