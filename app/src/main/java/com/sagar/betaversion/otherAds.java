@@ -92,6 +92,7 @@ public class otherAds extends AppCompatActivity {
             userAd.child(ad_id).setValue(true);
             Toast.makeText(otherAds.this,"Ad Posted Successfully",Toast.LENGTH_SHORT).show();
             Intent intent=new Intent(getApplicationContext(), MainActivity.class);
+            intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
             startActivity(intent);
             finish();
             return;

@@ -51,7 +51,7 @@
             android:layout_weight="1"
             android:ems="10"
             android:inputType="date"
-            android:hint="Date of Purchase" />
+            android:hint="Date of Purchase(in MM/YY)" />
 
 
 
@@ -156,7 +156,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginBottom="16dp"
-        android:text="(2-3 Images)"
+        android:text="(2 or 3 Images)"
         app:layout_constraintBottom_toBottomOf="@+id/UploadImageButton"
         app:layout_constraintStart_toEndOf="@+id/UploadImageButton" />
 
