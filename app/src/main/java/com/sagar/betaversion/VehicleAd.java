@@ -110,4 +110,8 @@ public class VehicleAd {
     public void setImg3(String img3) {
         this.img3 = img3;
     }
+
+    public void setStatus(boolean status) {
+        this.status = status;
+    }
 }

@@ -1,6 +1,9 @@
 package com.sagar.betaversion;
 
 
+import android.app.Activity;
+import android.content.Context;
+import android.content.DialogInterface;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -14,7 +17,10 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.gms.tasks.Task;
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.ValueEventListener;
 import com.sagar.betaversion.myAds.myBooks;
 import com.sagar.betaversion.myAds.myElectronic;
 import com.sagar.betaversion.myAds.myMisc;
@@ -27,16 +33,18 @@ public class listAdAdapter extends RecyclerView.Adapter<listAdAdapter.ViewHolder
 
     private List<listAdModel> listAdModelList;
     private RecViewItemClickListener recViewItemClickListener;
-    private Boolean listAd;
+//    private Boolean listAd;
     private  String type,Uid,activity;
+    private Context context;
 
-    public listAdAdapter(List<listAdModel> listAdModelList,RecViewItemClickListener recViewItemClickListener,Boolean listAd,String type,String Uid ,String activity) {
+    public listAdAdapter(List<listAdModel> listAdModelList,RecViewItemClickListener recViewItemClickListener/*,Boolean listAd*/,String type,String Uid ,String activity,Context context) {
         this.listAdModelList = listAdModelList;
         this.recViewItemClickListener=recViewItemClickListener;
-        this.listAd=listAd;
+//        this.listAd=listAd;
         this.type=type;
         this.Uid=Uid;
         this.activity=activity;
+        this.context=context;
     }
 
 
@@ -54,7 +62,8 @@ public class listAdAdapter extends RecyclerView.Adapter<listAdAdapter.ViewHolder
         int adProductPrice=listAdModelList.get(position).getProdPrice();
         String adProductImage=listAdModelList.get(position).getProdImg();
         String adProductAdId=listAdModelList.get(position).getAdId();
-        holder.setAdProdct(adProductBrand,adProductModel,adProductPrice,adProductImage,adProductAdId,position);
+        Boolean status=listAdModelList.get(position).isStatus();
+        holder.setAdProdct(adProductBrand,adProductModel,adProductPrice,adProductImage,adProductAdId,status,position);
 
     }
 
@@ -65,7 +74,7 @@ public class listAdAdapter extends RecyclerView.Adapter<listAdAdapter.ViewHolder
 
 
     class ViewHolder extends RecyclerView.ViewHolder{
-        private TextView adProductBrand,adProductModel,adProductPrice,adProductId;
+        private TextView adProductBrand,adProductModel,adProductPrice,adProductId,soldOut;
         private ImageView adProductImg;
         private ImageButton adDelete,adSoldBtn;
 
@@ -79,6 +88,7 @@ public class listAdAdapter extends RecyclerView.Adapter<listAdAdapter.ViewHolder
             adProductId=itemView.findViewById(R.id.AdProdId);
             adDelete=itemView.findViewById(R.id.adDeleteBtn);
             adSoldBtn=itemView.findViewById(R.id.adSoldBtn);
+            soldOut=itemView.findViewById(R.id.soldOut);
 
             itemView.setOnClickListener(new View.OnClickListener() {
                 @Override
@@ -89,14 +99,20 @@ public class listAdAdapter extends RecyclerView.Adapter<listAdAdapter.ViewHolder
 
 
         }
-        void setAdProdct(final String adBrand, String adModel, int adPrice, String adImg, final String adId, final int position){
+        void setAdProdct(final String adBrand, String adModel, int adPrice, String adImg, final String adId, final Boolean status, final int position){
             adProductBrand.setText(adBrand);
             adProductModel.setText(adModel);
             adProductPrice.setText(String.valueOf(adPrice));
-            Picasso.get().load(adImg).into(adProductImg);
+            Picasso.get().load(adImg).error(R.drawable.androidlogo).placeholder(R.drawable.loadinga).into(adProductImg);
             adProductId.setText(adId);
 
-            if(listAd){
+            if(!status){
+                soldOut.setVisibility(View.VISIBLE);
+            }
+
+
+
+            if(context instanceof ListAd){
                 adSoldBtn.setVisibility(View.INVISIBLE);
                 adDelete.setVisibility(View.INVISIBLE);
             }
@@ -148,7 +164,30 @@ public class listAdAdapter extends RecyclerView.Adapter<listAdAdapter.ViewHolder
             adSoldBtn.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
-                    Toast.makeText(itemView.getContext(), "Wishlist", Toast.LENGTH_SHORT).show();
+                    androidx.appcompat.app.AlertDialog.Builder builder=new androidx.appcompat.app.AlertDialog.Builder(context);
+                    builder.setTitle("Warning");
+                    builder
+                            .setMessage("You want to mark this Ad as SOLD ?\n This Action cannot be Undone !!!")
+                            .setCancelable(false);
+                    builder.setPositiveButton("YES",
+                            new DialogInterface.OnClickListener() {
+                                public void onClick(DialogInterface dialog,
+                                                    int id) {
+                                        FirebaseDatabase.getInstance().getReference().child(type+"Ad").child(adId).child("status").setValue(false);
+                                        soldOut.setVisibility(View.VISIBLE);
+                                        adSoldBtn.setVisibility(View.INVISIBLE);
+                                }
+                            }).setNegativeButton("NO", new DialogInterface.OnClickListener() {
+                        @Override
+                        public void onClick(DialogInterface dialog, int which) {
+                            dialog.cancel();
+                        }
+                    });
+
+                    androidx.appcompat.app.AlertDialog dialog=builder.create();
+                    dialog.show();
+
+
                 }
             });
 

@@ -134,10 +134,6 @@ public class LoginActivity extends AppCompatActivity {
                                     Log.i("Info",""+e.getMessage());
 
                                 }
-
-
-
-
                     }
                 }).addOnFailureListener(new OnFailureListener() {
             @Override

@@ -88,9 +88,9 @@ public class myVehicle extends AppCompatActivity implements RecViewItemClickList
                 }
 
                 for (int i = 0; i<arrayList.size(); i++)
-                    listAdModelList.add(new listAdModel(arrayList.get(i).getModel(),arrayList.get(i).getBrand(),arrayList.get(i).getSellingPrice(),arrayList.get(i).getImg1(),arrayList.get(i).getId()));
+                    listAdModelList.add(new listAdModel(arrayList.get(i).getModel(),arrayList.get(i).getBrand(),arrayList.get(i).getSellingPrice(),arrayList.get(i).getImg1(),arrayList.get(i).getId(),arrayList.get(i).isStatus()));
 
-                listAdAdapter=new listAdAdapter(listAdModelList,myVehicle.this,false,type,Uid,myVehicle.this.getClass().getSimpleName());
+                listAdAdapter=new listAdAdapter(listAdModelList,myVehicle.this,type,Uid,myVehicle.this.getClass().getSimpleName(),myVehicle.this);
                 recyclerView.setAdapter(listAdAdapter);
                 listAdAdapter.notifyDataSetChanged();
 
