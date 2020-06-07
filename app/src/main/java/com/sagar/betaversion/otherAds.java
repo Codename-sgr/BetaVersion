@@ -126,37 +126,43 @@ public class otherAds extends AppCompatActivity {
     }
     public void post(View view)
     {
-        loadingDialog.startLoadingDialog();
-
-        ad_id=databaseAd.push().getKey();
-        final int[] flag = {0};
-        if(type.matches("Books"))
+        final int count=ImageUri.size();
+        if(count<2)
+            Toast.makeText(this, "Select atleast 2 Images", Toast.LENGTH_SHORT).show();
+        else
         {
-            final BooksAd Ad= new BooksAd(ad_id,
-                                                user_id,
-                                                brand.getText().toString(),
-                                                model.getText().toString(),
-                                                date_of_purchase.getText().toString(),
-                                                description.getText().toString(),
-                                                Integer.parseInt(sellinPrice.getText().toString()));
-            final int count=ImageUri.size();
-            Ad.setImg_count(count);
-            uploadAd(0,Ad,count);
+            loadingDialog.startLoadingDialog();
+            ad_id=databaseAd.push().getKey();
+            final int[] flag = {0};
+            if(type.matches("Books"))
+            {
+                final BooksAd Ad= new BooksAd(ad_id,
+                        user_id,
+                        brand.getText().toString(),
+                        model.getText().toString(),
+                        date_of_purchase.getText().toString(),
+                        description.getText().toString(),
+                        Integer.parseInt(sellinPrice.getText().toString()));
+
+                Ad.setImg_count(count);
+                uploadAd(0,Ad,count);
+            }
+
+            else if(type.matches("Miscellaneous")) {
+                final MiscAd Ad = new MiscAd(ad_id,
+                        user_id,
+                        brand.getText().toString(),
+                        model.getText().toString(),
+                        date_of_purchase.getText().toString(),
+                        description.getText().toString(),
+                        Integer.parseInt(sellinPrice.getText().toString()));
+
+                Ad.setImg_count(count);
+                uploadAdMisc(0,Ad,count);
+
+            }
         }
 
-        else if(type.matches("Miscellaneous")) {
-            final MiscAd Ad = new MiscAd(ad_id,
-                    user_id,
-                    brand.getText().toString(),
-                    model.getText().toString(),
-                    date_of_purchase.getText().toString(),
-                    description.getText().toString(),
-                    Integer.parseInt(sellinPrice.getText().toString()));
-            final int count = ImageUri.size();
-            Ad.setImg_count(count);
-            uploadAdMisc(0,Ad,count);
-
-        }
 
     }
     public void ChooseImage(View view)

@@ -16,6 +16,12 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
         app:srcCompat="@mipmap/ic_manit_logo" />
+    <ImageView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:src="@drawable/manitlogo"
+        android:padding="20dp"
+        android:alpha="0.3"/>
 
 
     <com.google.android.material.textfield.TextInputLayout
@@ -40,7 +46,9 @@
             android:layout_height="wrap_content"
             android:fontFamily="@font/lora_regular"
             android:inputType="textEmailAddress"
-            android:textColor="#FFFFFF" />
+            android:textColor="#FFFFFF"
+            android:textCursorDrawable="@null"
+            />
     </com.google.android.material.textfield.TextInputLayout>
 
     <com.google.android.material.textfield.TextInputLayout
@@ -58,7 +66,8 @@
         app:layout_constraintEnd_toEndOf="@+id/LogIn"
         app:layout_constraintStart_toStartOf="@+id/LogIn"
         app:layout_constraintTop_toBottomOf="@+id/EmailLayout"
-        app:passwordToggleEnabled="true">
+        app:passwordToggleEnabled="true"
+        app:passwordToggleTint="#ffffff">
 
         <com.google.android.material.textfield.TextInputEditText
             android:id="@+id/password"
@@ -66,7 +75,9 @@
             android:layout_height="wrap_content"
             android:fontFamily="@font/lora_regular"
             android:inputType="textPassword"
-            android:textColor="#FFFFFF" />
+            android:textColor="#FFFFFF"
+            android:textCursorDrawable="@null"
+            />
     </com.google.android.material.textfield.TextInputLayout>
 
     <Button
@@ -75,10 +86,9 @@
         android:layout_height="wrap_content"
         android:layout_below="@id/passwordLayout"
         android:layout_marginTop="30dp"
-        android:onClick="logIn"
-        android:backgroundTint="@color/colorAccent"
         android:background="@drawable/round_button"
-        android:text="Log In"
+        android:text="LOG IN"
+        android:onClick="logIn"
         app:layout_constraintEnd_toEndOf="@+id/googleLoginBtn"
         app:layout_constraintStart_toStartOf="@+id/googleLoginBtn"
         app:layout_constraintTop_toBottomOf="@+id/textViewForgetPass" />
