@@ -1,0 +1,249 @@
+#
+# There is insufficient memory for the Java Runtime Environment to continue.
+# Native memory allocation (malloc) failed to allocate 32744 bytes for ChunkPool::allocate
+# Possible reasons:
+#   The system is out of physical RAM or swap space
+#   The process is running with CompressedOops enabled, and the Java Heap may be blocking the growth of the native heap
+# Possible solutions:
+#   Reduce memory load on the system
+#   Increase physical memory or swap space
+#   Check if swap backing store is full
+#   Decrease Java heap size (-Xmx/-Xms)
+#   Decrease number of Java threads
+#   Decrease Java thread stack sizes (-Xss)
+#   Set larger code cache with -XX:ReservedCodeCacheSize=
+#   JVM is running with Unscaled Compressed Oops mode in which the Java heap is
+#     placed in the first 4GB address space. The Java Heap base address is the
+#     maximum limit for the native heap growth. Please use -XX:HeapBaseMinAddress
+#     to set the Java Heap base and to place the Java Heap above 4GB virtual address.
+# This output file may be truncated or incomplete.
+#
+#  Out of Memory Error (allocation.cpp:272), pid=26400, tid=0x00000000000034cc
+#
+# JRE version: OpenJDK Runtime Environment (8.0_212-b04) (build 1.8.0_212-release-1586-b04)
+# Java VM: OpenJDK 64-Bit Server VM (25.212-b04 mixed mode windows-amd64 compressed oops)
+# Failed to write core dump. Minidumps are not enabled by default on client versions of Windows
+#
+
+---------------  T H R E A D  ---------------
+
+Current thread (0x0000000000b5e000):  JavaThread "main" [_thread_in_vm, id=13516, stack(0x00000000023f0000,0x00000000024f0000)]
+
+Stack: [0x00000000023f0000,0x00000000024f0000]
+[error occurred during error reporting (printing stack bounds), id 0xc0000005]
+
+Native frames: (J=compiled Java code, j=interpreted, Vv=VM code, C=native code)
+
+Java frames: (J=compiled Java code, j=interpreted, Vv=VM code)
+j  java.lang.ClassLoader.findBootstrapClass(Ljava/lang/String;)Ljava/lang/Class;+0
+j  java.lang.ClassLoader.findBootstrapClassOrNull(Ljava/lang/String;)Ljava/lang/Class;+12
+j  java.lang.ClassLoader.loadClass(Ljava/lang/String;Z)Ljava/lang/Class;+48
+j  java.lang.ClassLoader.loadClass(Ljava/lang/String;)Ljava/lang/Class;+3
+j  java.util.ResourceBundle$RBClassLoader.loadClass(Ljava/lang/String;)Ljava/lang/Class;+10
+j  java.util.ResourceBundle$Control.newBundle(Ljava/lang/String;Ljava/util/Locale;Ljava/lang/String;Ljava/lang/ClassLoader;Z)Ljava/util/ResourceBundle;+24
+j  java.util.ResourceBundle.loadBundle(Ljava/util/ResourceBundle$CacheKey;Ljava/util/List;Ljava/util/ResourceBundle$Control;Z)Ljava/util/ResourceBundle;+54
+j  java.util.ResourceBundle.findBundle(Ljava/util/ResourceBundle$CacheKey;Ljava/util/List;Ljava/util/List;ILjava/util/ResourceBundle$Control;Ljava/util/ResourceBundle;)Ljava/util/ResourceBundle;+213
+j  java.util.ResourceBundle.getBundleImpl(Ljava/lang/String;Ljava/util/Locale;Ljava/lang/ClassLoader;Ljava/util/ResourceBundle$Control;)Ljava/util/ResourceBundle;+187
+j  java.util.ResourceBundle.getBundle(Ljava/lang/String;Ljava/util/Locale;Ljava/util/ResourceBundle$Control;)Ljava/util/ResourceBundle;+9
+j  sun.util.resources.LocaleData$1.run()Ljava/util/ResourceBundle;+11
+j  sun.util.resources.LocaleData$1.run()Ljava/lang/Object;+1
+v  ~StubRoutines::call_stub
+j  java.security.AccessController.doPrivileged(Ljava/security/PrivilegedAction;)Ljava/lang/Object;+0
+j  sun.util.resources.LocaleData.getBundle(Ljava/lang/String;Ljava/util/Locale;)Ljava/util/ResourceBundle;+9
+j  sun.util.resources.LocaleData.getCurrencyNames(Ljava/util/Locale;)Lsun/util/resources/OpenListResourceBundle;+26
+j  sun.util.locale.provider.LocaleResources.getCurrencyName(Ljava/lang/String;)Ljava/lang/String;+81
+j  sun.util.locale.provider.CurrencyNameProviderImpl.getString(Ljava/lang/String;Ljava/util/Locale;)Ljava/lang/String;+24
+j  sun.util.locale.provider.CurrencyNameProviderImpl.getSymbol(Ljava/lang/String;Ljava/util/Locale;)Ljava/lang/String;+9
+j  java.util.Currency$CurrencyNameGetter.getObject(Ljava/util/spi/CurrencyNameProvider;Ljava/util/Locale;Ljava/lang/String;[Ljava/lang/Object;)Ljava/lang/String;+63
+j  java.util.Currency$CurrencyNameGetter.getObject(Ljava/util/spi/LocaleServiceProvider;Ljava/util/Locale;Ljava/lang/String;[Ljava/lang/Object;)Ljava/lang/Object;+9
+j  sun.util.locale.provider.LocaleServiceProviderPool.getLocalizedObjectImpl(Lsun/util/locale/provider/LocaleServiceProviderPool$LocalizedObjectGetter;Ljava/util/Locale;ZLjava/lang/String;[Ljava/lang/Object;)Ljava/lang/Object;+40
+j  sun.util.locale.provider.LocaleServiceProviderPool.getLocalizedObject(Lsun/util/locale/provider/LocaleServiceProviderPool$LocalizedObjectGetter;Ljava/util/Locale;Ljava/lang/String;[Ljava/lang/Object;)Ljava/lang/Object;+7
+j  java.util.Currency.getSymbol(Ljava/util/Locale;)Ljava/lang/String;+26
+j  java.text.DecimalFormatSymbols.initialize(Ljava/util/Locale;)V+257
+j  java.text.DecimalFormatSymbols.<init>(Ljava/util/Locale;)V+11
+j  sun.util.locale.provider.DecimalFormatSymbolsProviderImpl.getInstance(Ljava/util/Locale;)Ljava/text/DecimalFormatSymbols;+17
+j  java.text.DecimalFormatSymbols.getInstance(Ljava/util/Locale;)Ljava/text/DecimalFormatSymbols;+14
+j  sun.util.locale.provider.NumberFormatProviderImpl.getInstance(Ljava/util/Locale;I)Ljava/text/NumberFormat;+31
+j  sun.util.locale.provider.NumberFormatProviderImpl.getIntegerInstance(Ljava/util/Locale;)Ljava/text/NumberFormat;+3
+j  java.text.NumberFormat.getInstance(Lsun/util/locale/provider/LocaleProviderAdapter;Ljava/util/Locale;I)Ljava/text/NumberFormat;+76
+j  java.text.NumberFormat.getInstance(Ljava/util/Locale;I)Ljava/text/NumberFormat;+10
+j  java.text.NumberFormat.getIntegerInstance(Ljava/util/Locale;)Ljava/text/NumberFormat;+2
+j  java.text.SimpleDateFormat.initialize(Ljava/util/Locale;)V+37
+j  java.text.SimpleDateFormat.<init>(Ljava/lang/String;Ljava/util/Locale;)V+66
+j  java.text.SimpleDateFormat.<init>(Ljava/lang/String;)V+8
+j  org.apache.xmlrpc.util.DateTool.<init>()V+11
+j  org.apache.xmlrpc.DefaultTypeFactory.<clinit>()V+4
+v  ~StubRoutines::call_stub
+j  org.apache.xmlrpc.XmlRpc.createTypeFactory(Ljava/lang/String;)Lorg/apache/xmlrpc/TypeFactory;+94
+j  org.apache.xmlrpc.XmlRpc.<init>()V+107
+j  org.apache.xmlrpc.XmlRpcClientResponseProcessor.<init>(Ljava/util/TimeZone;)V+1
+j  org.apache.xmlrpc.XmlRpcClientWorker.<init>(Ljava/util/TimeZone;)V+14
+j  org.apache.xmlrpc.XmlRpcClient.getWorker(Z)Lorg/apache/xmlrpc/XmlRpcClientWorker;+87
+j  org.apache.xmlrpc.XmlRpcClient.execute(Lorg/apache/xmlrpc/XmlRpcClientRequest;Lorg/apache/xmlrpc/XmlRpcTransport;)Ljava/lang/Object;+2
+j  org.apache.xmlrpc.XmlRpcClient.execute(Lorg/apache/xmlrpc/XmlRpcClientRequest;)Ljava/lang/Object;+6
+j  org.apache.xmlrpc.XmlRpcClient.execute(Ljava/lang/String;Ljava/util/Vector;)Ljava/lang/Object;+63
+j  org.jetbrains.git4idea.http.GitAskPassXmlRpcClient.askUsername(Ljava/lang/String;Ljava/lang/String;)Ljava/lang/String;+30
+j  org.jetbrains.git4idea.http.GitAskPassApp.main([Ljava/lang/String;)V+88
+v  ~StubRoutines::call_stub
+
+---------------  P R O C E S S  ---------------
+
+Java Threads: ( => current thread )
+  0x000000001716e800 JavaThread "Service Thread" daemon [_thread_blocked, id=26640, stack(0x0000000018e70000,0x0000000018f70000)]
+  0x000000001711c000 JavaThread "C1 CompilerThread2" daemon [_thread_blocked, id=2616, stack(0x0000000018970000,0x0000000018a70000)]
+  0x0000000017110000 JavaThread "C2 CompilerThread1" daemon [_thread_blocked, id=9952, stack(0x0000000018870000,0x0000000018970000)]
+  0x000000001710b800 JavaThread "C2 CompilerThread0" daemon [_thread_blocked, id=22392, stack(0x0000000018770000,0x0000000018870000)]
+  0x000000001710a800 JavaThread "Attach Listener" daemon [_thread_blocked, id=24968, stack(0x0000000018670000,0x0000000018770000)]
+  0x0000000017118800 JavaThread "Signal Dispatcher" daemon [_thread_blocked, id=19416, stack(0x0000000018570000,0x0000000018670000)]
+  0x00000000025ee000 JavaThread "Finalizer" daemon [_thread_blocked, id=11708, stack(0x0000000018370000,0x0000000018470000)]
+  0x00000000170f9000 JavaThread "Reference Handler" daemon [_thread_blocked, id=25264, stack(0x0000000018270000,0x0000000018370000)]
+=>0x0000000000b5e000 JavaThread "main" [_thread_in_vm, id=13516, stack(0x00000000023f0000,0x00000000024f0000)]
+
+Other Threads:
+  0x00000000170d7000 VMThread [stack: 0x0000000018170000,0x0000000018270000] [id=19616]
+  0x0000000018aa2800 WatcherThread [stack: 0x0000000018f70000,0x0000000019070000] [id=22020]
+
+VM state:not at safepoint (normal execution)
+
+VM Mutex/Monitor currently owned by a thread: None
+
+heap address: 0x0000000081e00000, size: 2018 MB, Compressed Oops mode: 32-bit
+Narrow klass base: 0x0000000000000000, Narrow klass shift: 3
+Compressed class space size: 1073741824 Address: 0x0000000100000000
+
+Heap:
+ PSYoungGen      total 38400K, used 4711K [0x00000000d5f80000, 0x00000000d8a00000, 0x0000000100000000)
+  eden space 33280K, 14% used [0x00000000d5f80000,0x00000000d6419d88,0x00000000d8000000)
+  from space 5120K, 0% used [0x00000000d8500000,0x00000000d8500000,0x00000000d8a00000)
+  to   space 5120K, 0% used [0x00000000d8000000,0x00000000d8000000,0x00000000d8500000)
+ ParOldGen       total 87552K, used 0K [0x0000000081e00000, 0x0000000087380000, 0x00000000d5f80000)
+  object space 87552K, 0% used [0x0000000081e00000,0x0000000081e00000,0x0000000087380000)
+ Metaspace       used 3725K, capacity 4730K, committed 4864K, reserved 1056768K
+  class space    used 409K, capacity 426K, committed 512K, reserved 1048576K
+
+Card table byte_map: [0x00000000119b0000,0x0000000011db0000] byte_map_base: 0x00000000115a1000
+
+Marking Bits: (ParMarkBitMap*) 0x000000006dd99f30
+ Begin Bits: [0x0000000012460000, 0x00000000143e8000)
+ End Bits:   [0x00000000143e8000, 0x0000000016370000)
+
+Polling page: 0x00000000003f0000
+
+CodeCache: size=245760Kb used=1313Kb max_used=1320Kb free=244446Kb
+ bounds [0x00000000025f0000, 0x0000000002860000, 0x00000000115f0000]
+ total_blobs=373 nmethods=120 adapters=167
+ compilation: enabled
+
+Compilation events (10 events):
+Event: 0.131 Thread 0x000000001711c000  111       3       java.util.concurrent.ConcurrentHashMap::putIfAbsent (8 bytes)
+Event: 0.131 Thread 0x000000001711c000 nmethod 111 0x0000000002733450 code [0x00000000027335c0, 0x00000000027337c8]
+Event: 0.132 Thread 0x000000001711c000  112       3       java.util.HashSet::add (20 bytes)
+Event: 0.132 Thread 0x000000001711c000 nmethod 112 0x0000000002733c10 code [0x0000000002733d80, 0x0000000002734008]
+Event: 0.133 Thread 0x000000001711c000  115       3       java.util.concurrent.ConcurrentHashMap::casTabAt (20 bytes)
+Event: 0.133 Thread 0x000000001711c000 nmethod 115 0x0000000002734450 code [0x00000000027345a0, 0x0000000002734710]
+Event: 0.134 Thread 0x0000000017110000  116  s    4       java.io.BufferedInputStream::read (49 bytes)
+Event: 0.134 Thread 0x000000001711c000  117       3       java.io.DataInputStream::readInt (72 bytes)
+Event: 0.134 Thread 0x000000001711c000 nmethod 117 0x0000000002734790 code [0x0000000002734940, 0x0000000002734ea8]
+Event: 0.135 Thread 0x000000001711c000  118       3       java.util.StringTokenizer::scanToken (179 bytes)
+
+GC Heap History (0 events):
+No events
+
+Deoptimization events (0 events):
+No events
+
+Classes redefined (0 events):
+No events
+
+Internal exceptions (8 events):
+Event: 0.027 Thread 0x0000000000b5e000 Exception <a 'java/lang/NoSuchMethodError': Method sun.misc.Unsafe.defineClass(Ljava/lang/String;[BII)Ljava/lang/Class; name or signature does not match> (0x00000000d5f87cb0) thrown at [D:\src\AOSP-openjdk-cygwin\jdk8u\hotspot\src\share\vm\prims\jni.cpp, 
+Event: 0.027 Thread 0x0000000000b5e000 Exception <a 'java/lang/NoSuchMethodError': Method sun.misc.Unsafe.prefetchRead(Ljava/lang/Object;J)V name or signature does not match> (0x00000000d5f87f98) thrown at [D:\src\AOSP-openjdk-cygwin\jdk8u\hotspot\src\share\vm\prims\jni.cpp, line 4012]
+Event: 0.126 Thread 0x0000000000b5e000 Exception <a 'java/security/PrivilegedActionException'> (0x00000000d63c5c30) thrown at [D:\src\AOSP-openjdk-cygwin\jdk8u\hotspot\src\share\vm\prims\jvm.cpp, line 1502]
+Event: 0.126 Thread 0x0000000000b5e000 Exception <a 'java/security/PrivilegedActionException'> (0x00000000d63c6028) thrown at [D:\src\AOSP-openjdk-cygwin\jdk8u\hotspot\src\share\vm\prims\jvm.cpp, line 1502]
+Event: 0.127 Thread 0x0000000000b5e000 Exception <a 'java/security/PrivilegedActionException'> (0x00000000d63ca000) thrown at [D:\src\AOSP-openjdk-cygwin\jdk8u\hotspot\src\share\vm\prims\jvm.cpp, line 1502]
+Event: 0.127 Thread 0x0000000000b5e000 Exception <a 'java/security/PrivilegedActionException'> (0x00000000d63ca3f8) thrown at [D:\src\AOSP-openjdk-cygwin\jdk8u\hotspot\src\share\vm\prims\jvm.cpp, line 1502]
+Event: 0.127 Thread 0x0000000000b5e000 Exception <a 'java/security/PrivilegedActionException'> (0x00000000d63cbd00) thrown at [D:\src\AOSP-openjdk-cygwin\jdk8u\hotspot\src\share\vm\prims\jvm.cpp, line 1502]
+Event: 0.127 Thread 0x0000000000b5e000 Exception <a 'java/security/PrivilegedActionException'> (0x00000000d63cc0f8) thrown at [D:\src\AOSP-openjdk-cygwin\jdk8u\hotspot\src\share\vm\prims\jvm.cpp, line 1502]
+
+Events (10 events):
+Event: 0.134 loading class java/util/Currency done
+Event: 0.134 loading class java/util/Currency$1
+Event: 0.134 loading class java/util/Currency$1 done
+Event: 0.135 loading class sun/util/locale/provider/CurrencyNameProviderImpl
+Event: 0.135 loading class sun/util/locale/provider/CurrencyNameProviderImpl done
+Event: 0.135 loading class java/util/Currency$CurrencyNameGetter
+Event: 0.135 loading class java/util/Currency$CurrencyNameGetter done
+Event: 0.135 loading class sun/util/resources/CurrencyNames
+Event: 0.135 loading class sun/util/resources/CurrencyNames done
+Event: 0.135 loading class sun/util/resources/en/CurrencyNames_en_IN
+
+
+Dynamic libraries:
+0x00007ff6193a0000 - 0x00007ff6193d1000 	C:\Program Files\Android\Android Studio\jre\jre\bin\java.exe
+0x00007ffb2f8c0000 - 0x00007ffb2fab0000 	C:\WINDOWS\SYSTEM32\ntdll.dll
+0x00007ffb2efd0000 - 0x00007ffb2f082000 	C:\WINDOWS\System32\KERNEL32.DLL
+0x00007ffb2c9d0000 - 0x00007ffb2cc74000 	C:\WINDOWS\System32\KERNELBASE.dll
+0x00007ffb2f670000 - 0x00007ffb2f713000 	C:\WINDOWS\System32\ADVAPI32.dll
+0x00007ffb2f3d0000 - 0x00007ffb2f46e000 	C:\WINDOWS\System32\msvcrt.dll
+0x00007ffb2e3f0000 - 0x00007ffb2e487000 	C:\WINDOWS\System32\sechost.dll
+0x00007ffb2e850000 - 0x00007ffb2e970000 	C:\WINDOWS\System32\RPCRT4.dll
+0x00007ffb2e6b0000 - 0x00007ffb2e844000 	C:\WINDOWS\System32\USER32.dll
+0x00007ffb2d7a0000 - 0x00007ffb2d7c1000 	C:\WINDOWS\System32\win32u.dll
+0x00007ffb2f470000 - 0x00007ffb2f496000 	C:\WINDOWS\System32\GDI32.dll
+0x00007ffb2d7d0000 - 0x00007ffb2d964000 	C:\WINDOWS\System32\gdi32full.dll
+0x00007ffb2d4b0000 - 0x00007ffb2d54e000 	C:\WINDOWS\System32\msvcp_win.dll
+0x00007ffb2c850000 - 0x00007ffb2c94a000 	C:\WINDOWS\System32\ucrtbase.dll
+0x00007ffb21a80000 - 0x00007ffb21d04000 	C:\WINDOWS\WinSxS\amd64_microsoft.windows.common-controls_6595b64144ccf1df_6.0.18362.836_none_e6c4b943130f18ed\COMCTL32.dll
+0x00007ffb2f090000 - 0x00007ffb2f3c6000 	C:\WINDOWS\System32\combase.dll
+0x00007ffb2c950000 - 0x00007ffb2c9d0000 	C:\WINDOWS\System32\bcryptPrimitives.dll
+0x00007ffb2eb30000 - 0x00007ffb2eb5e000 	C:\WINDOWS\System32\IMM32.DLL
+0x000000006d4f0000 - 0x000000006d5c2000 	C:\Program Files\Android\Android Studio\jre\jre\bin\msvcr100.dll
+0x000000006d5d0000 - 0x000000006de16000 	C:\Program Files\Android\Android Studio\jre\jre\bin\server\jvm.dll
+0x00007ffb2e320000 - 0x00007ffb2e328000 	C:\WINDOWS\System32\PSAPI.DLL
+0x00007ffb277f0000 - 0x00007ffb277f9000 	C:\WINDOWS\SYSTEM32\WSOCK32.dll
+0x00007ffb2a870000 - 0x00007ffb2a894000 	C:\WINDOWS\SYSTEM32\WINMM.dll
+0x00007ffb2e970000 - 0x00007ffb2e9df000 	C:\WINDOWS\System32\WS2_32.dll
+0x00007ffb25610000 - 0x00007ffb2561a000 	C:\WINDOWS\SYSTEM32\VERSION.dll
+0x00007ffb2a840000 - 0x00007ffb2a86d000 	C:\WINDOWS\SYSTEM32\WINMMBASE.dll
+0x00007ffb2d460000 - 0x00007ffb2d4aa000 	C:\WINDOWS\System32\cfgmgr32.dll
+0x00007ffb229a0000 - 0x00007ffb229af000 	C:\Program Files\Android\Android Studio\jre\jre\bin\verify.dll
+0x00007ffb0f620000 - 0x00007ffb0f649000 	C:\Program Files\Android\Android Studio\jre\jre\bin\java.dll
+0x00007ffb21d10000 - 0x00007ffb21d26000 	C:\Program Files\Android\Android Studio\jre\jre\bin\zip.dll
+0x00007ffb2db60000 - 0x00007ffb2e244000 	C:\WINDOWS\System32\SHELL32.dll
+0x00007ffb2d970000 - 0x00007ffb2da19000 	C:\WINDOWS\System32\shcore.dll
+0x00007ffb2cc80000 - 0x00007ffb2d3fe000 	C:\WINDOWS\System32\windows.storage.dll
+0x00007ffb2c790000 - 0x00007ffb2c7b3000 	C:\WINDOWS\System32\profapi.dll
+0x00007ffb2c7e0000 - 0x00007ffb2c82a000 	C:\WINDOWS\System32\powrprof.dll
+0x00007ffb2c780000 - 0x00007ffb2c790000 	C:\WINDOWS\System32\UMPDC.dll
+0x00007ffb2f590000 - 0x00007ffb2f5e2000 	C:\WINDOWS\System32\shlwapi.dll
+0x00007ffb2c830000 - 0x00007ffb2c841000 	C:\WINDOWS\System32\kernel.appcore.dll
+0x00007ffb2d750000 - 0x00007ffb2d767000 	C:\WINDOWS\System32\cryptsp.dll
+
+VM Arguments:
+java_command: org.jetbrains.git4idea.http.GitAskPassApp Username for 'https://github.com': 
+java_class_path (initial): C:/Program Files/Android/Android Studio/plugins/git4idea/lib/git4idea-rt.jar;C:/Program Files/Android/Android Studio/lib/xmlrpc-2.0.1.jar;C:/Program Files/Android/Android Studio/lib/commons-codec-1.13.jar;C:/Program Files/Android/Android Studio/lib/util.jar
+Launcher Type: SUN_STANDARD
+
+Environment Variables:
+PATH=C:/Program Files/Git/mingw64/libexec/git-core;C:/Program Files/Git/mingw64/libexec/git-core;C:\Program Files\Git\mingw64\bin;C:\Program Files\Git\usr\bin;C:\Users\SHIVAM\bin;C:\ProgramData\Oracle\Java\javapath;C:\Windows\system32;C:\Windows;C:\Windows\System32\Wbem;C:\Windows\System32\WindowsPowerShell\v1.0\;C:\Program Files (x86)\NVIDIA Corporation\PhysX\Common;C:\Android;C:\WINDOWS\system32;C:\WINDOWS;C:\WINDOWS\System32\Wbem;C:\WINDOWS\System32\WindowsPowerShell\v1.0\;C:\WINDOWS\System32\OpenSSH\;C:\Program Files\MATLAB\R2018a\runtime\win64;C:\Program Files\MATLAB\R2018a\bin;C:\Program Files\PuTTY\;C:\Program Files\Git\cmd;C:\Program Files (x86)\Brackets\command;C:\Program Files\nodejs\;C:\Program Files\MongoDB\Server\4.2\bin;C:\Users\SHIVAM\AppData\Local\Programs\Python\Python37-32\Scripts\;C:\Users\SHIVAM\AppData\Local\Programs\Python\Python37-32\;C:\Users\SHIVAM\AppData\Local\Microsoft\WindowsApps;C:\Src\flutter\bin;C:\Users\SHIVAM\AppData\Roaming\npm;C:\Users\SHIVAM\AppData\Local\Programs\Microsoft VS Code\bin
+USERNAME=SHIVAM
+DISPLAY=:0.0
+OS=Windows_NT
+PROCESSOR_IDENTIFIER=Intel64 Family 6 Model 142 Stepping 9, GenuineIntel
+
+
+
+---------------  S Y S T E M  ---------------
+
+OS: Windows 10.0 , 64 bit Build 18362 (10.0.18362.778)
+
+CPU:total 4 (initial active 4) (2 cores per cpu, 2 threads per core) family 6 model 142 stepping 9, cmov, cx8, fxsr, mmx, sse, sse2, sse3, ssse3, sse4.1, sse4.2, popcnt, avx, avx2, aes, clmul, erms, 3dnowpref, lzcnt, ht, tsc, tscinvbit, bmi1, bmi2, adx
+
+Memory: 4k page, physical 8260324k(866416k free), swap 33426148k(4080k free)
+
+vm_info: OpenJDK 64-Bit Server VM (25.212-b04) for windows-amd64 JRE (1.8.0_212-release-1586-b04), built by "builder" with MS VC++ 10.0 (VS2010)
+
+time: Sun Jun 07 11:19:01 2020
+timezone: India Standard Time
+elapsed time: 0 seconds (0d 0h 0m 0s)
+

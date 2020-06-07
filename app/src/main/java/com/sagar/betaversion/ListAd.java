@@ -152,6 +152,7 @@ public class ListAd extends AppCompatActivity implements RecViewItemClickListene
         }
         else if(type.matches("Books"))
         {
+            Log.i("aaaaaaaaaaaaaaaaaaaa","I am here");
             final ArrayList<BooksAd> arrayList= new ArrayList<>();
             databaseReference.addListenerForSingleValueEvent(new ValueEventListener() {
                 @Override
@@ -164,10 +165,11 @@ public class ListAd extends AppCompatActivity implements RecViewItemClickListene
                             arrayList.add(Ad);
                         }
 
-                        if(arrayList.size()==0){
-                            recyclerView.setVisibility(View.INVISIBLE);
-                            noAds.setVisibility(View.VISIBLE);
-                        }
+
+                    }
+                    if(arrayList.size()==0){
+                        recyclerView.setVisibility(View.INVISIBLE);
+                        noAds.setVisibility(View.VISIBLE);
                     }
                     for (int i=0;i<arrayList.size();i++)
                         listAdModelList.add(new listAdModel(arrayList.get(i).getModel(),arrayList.get(i).getBrand(),arrayList.get(i).getSellingPrice(),arrayList.get(i).getImg1(),arrayList.get(i).getId(),arrayList.get(i).isStatus()));
@@ -197,10 +199,10 @@ public class ListAd extends AppCompatActivity implements RecViewItemClickListene
                             arrayList.add(Ad);
                         }
 
-                        if(arrayList.size()==0){
-                            recyclerView.setVisibility(View.INVISIBLE);
-                            noAds.setVisibility(View.VISIBLE);
-                        }
+                    }
+                    if(arrayList.size()==0){
+                        recyclerView.setVisibility(View.INVISIBLE);
+                        noAds.setVisibility(View.VISIBLE);
                     }
                     for (int i=0;i<arrayList.size();i++)
                         listAdModelList.add(new listAdModel(arrayList.get(i).getModel(),arrayList.get(i).getBrand(),arrayList.get(i).getSellingPrice(),arrayList.get(i).getImg1(),arrayList.get(i).getId(),arrayList.get(i).isStatus()));
