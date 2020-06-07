@@ -14,6 +14,7 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.gms.tasks.Task;
+import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.sagar.betaversion.myAds.myBooks;
 import com.sagar.betaversion.myAds.myElectronic;
@@ -148,6 +149,7 @@ public class listAdAdapter extends RecyclerView.Adapter<listAdAdapter.ViewHolder
             adSoldBtn.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
+                    FirebaseDatabase.getInstance().getReference().child(type+"Ad").child(adId).child("status").setValue(false);
                     Toast.makeText(itemView.getContext(), "Wishlist", Toast.LENGTH_SHORT).show();
                 }
             });
