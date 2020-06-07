@@ -134,10 +134,6 @@ public class LoginActivity extends AppCompatActivity {
                                     Log.i("Info",""+e.getMessage());
 
                                 }
-
-
-
-
                     }
                 }).addOnFailureListener(new OnFailureListener() {
             @Override
@@ -363,6 +359,7 @@ public class LoginActivity extends AppCompatActivity {
 
                             Intent i=new Intent(getApplicationContext(),MainActivity.class);
                             startActivity(i);
+                            finish();
 
                             //updateUI(user);
                         } else {

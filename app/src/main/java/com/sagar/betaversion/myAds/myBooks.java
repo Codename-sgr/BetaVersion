@@ -92,9 +92,9 @@ public class myBooks extends AppCompatActivity implements RecViewItemClickListen
                     noAds.setVisibility(View.VISIBLE);
                 }
                 for (int i = 0; i<arrayList.size(); i++)
-                    listAdModelList.add(new listAdModel(arrayList.get(i).getModel(),arrayList.get(i).getBrand(),arrayList.get(i).getSellingPrice(),arrayList.get(i).getImg1(),arrayList.get(i).getId()));
+                    listAdModelList.add(new listAdModel(arrayList.get(i).getModel(),arrayList.get(i).getBrand(),arrayList.get(i).getSellingPrice(),arrayList.get(i).getImg1(),arrayList.get(i).getId(),arrayList.get(i).isStatus()));
 
-                listAdAdapter=new listAdAdapter(listAdModelList,myBooks.this,false,type,Uid,myBooks.this.getClass().getSimpleName());
+                listAdAdapter=new listAdAdapter(listAdModelList,myBooks.this,type,Uid,myBooks.this.getClass().getSimpleName(),myBooks.this);
                 recyclerView.setAdapter(listAdAdapter);
                 listAdAdapter.notifyDataSetChanged();
 

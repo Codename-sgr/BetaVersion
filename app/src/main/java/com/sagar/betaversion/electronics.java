@@ -51,6 +51,7 @@ public class electronics extends AppCompatActivity {
             userAd.child(ad_id).setValue(true);
             Toast.makeText(electronics.this,"Ad Posted Successfully",Toast.LENGTH_SHORT).show();
             Intent intent=new Intent(getApplicationContext(), MainActivity.class);
+            intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
             startActivity(intent);
             finish();
             return;
@@ -71,7 +72,6 @@ public class electronics extends AppCompatActivity {
                         if(i==2)
                             electronicsAd.setImg3(uri.toString());
                         uploadAd(i+1,electronicsAd,count);
-                        return;
                     }
                 });
             }
@@ -79,25 +79,29 @@ public class electronics extends AppCompatActivity {
             @Override
             public void onFailure(@NonNull Exception e) {
                 Toast.makeText(electronics.this,"Retry!",Toast.LENGTH_SHORT).show();
-                return;
             }
         });
     }
     public void post(View view)
     {
-        loadingDialog.startLoadingDialog();
-
-        ad_id=databaseAd.push().getKey();
-        final ElectronicsAd electronicsAd= new ElectronicsAd(ad_id
-                                                            ,user_id
-                                                            ,brand.getText().toString()
-                                                            ,model.getText().toString()
-                                                            ,purchaseDate.getText().toString()
-                                                            ,description.getText().toString()
-                                                            ,Integer.parseInt(sellingPrice.getText().toString()));
         final int count=ImageUri.size();
-        electronicsAd.setImg_count(count);
-        uploadAd(0,electronicsAd,count);
+
+        if(count<2)
+            Toast.makeText(this, "Select atleast 2 Images", Toast.LENGTH_SHORT).show();
+        else{
+            loadingDialog.startLoadingDialog();
+            ad_id=databaseAd.push().getKey();
+            final ElectronicsAd electronicsAd= new ElectronicsAd(ad_id
+                    ,user_id
+                    ,brand.getText().toString()
+                    ,model.getText().toString()
+                    ,purchaseDate.getText().toString()
+                    ,description.getText().toString()
+                    ,Integer.parseInt(sellingPrice.getText().toString()));
+            electronicsAd.setImg_count(count);
+            uploadAd(0,electronicsAd,count);
+        }
+
 
     }
     public void ChooseImage(View view)

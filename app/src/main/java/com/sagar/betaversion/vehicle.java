@@ -31,6 +31,7 @@ import com.squareup.picasso.Picasso;
 import java.io.ByteArrayOutputStream;
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.Calendar;
 
 public class vehicle extends AppCompatActivity {
 
@@ -58,6 +59,7 @@ public class vehicle extends AppCompatActivity {
             userAd.child(ad_id).setValue(true);
             Toast.makeText(vehicle.this,"Ad Posted Successfully",Toast.LENGTH_SHORT).show();
             Intent intent=new Intent(getApplicationContext(), MainActivity.class);
+            intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
             startActivity(intent);
             finish();
             return;
@@ -91,19 +93,24 @@ public class vehicle extends AppCompatActivity {
     }
     public void post(View view)
     {
-        loadingDialog.startLoadingDialog();
-        ad_id=databaseAd.push().getKey();
-        vmodel=model.getText().toString();
-        vbrand=brand.getText().toString();
-        vdescription=description.getText().toString();
-        vkmsDriven=Integer.parseInt( kmsDriven.getText().toString() );
-        vmilege=Integer.parseInt( milege.getText().toString() );
-        vsellinPrice=Integer.parseInt(sellinPrice.getText().toString());
-        vpurchaseDate=purchaseDate.getText().toString();
-        final VehicleAd vehicleAd= new VehicleAd(ad_id,user_id,vbrand,vmodel,vpurchaseDate,vkmsDriven,vmilege,vsellinPrice,vdescription);
         final int count=ImageUri.size();
-        vehicleAd.setImg_count(count);
-        uploadAd(0,vehicleAd,count);
+        if(count<2)
+            Toast.makeText(this, "Select atleast 2 Images", Toast.LENGTH_SHORT).show();
+        else{
+            loadingDialog.startLoadingDialog();
+            ad_id=databaseAd.push().getKey();
+            vmodel=model.getText().toString();
+            vbrand=brand.getText().toString();
+            vdescription=description.getText().toString();
+            vkmsDriven=Integer.parseInt( kmsDriven.getText().toString() );
+            vmilege=Integer.parseInt( milege.getText().toString() );
+            vsellinPrice=Integer.parseInt(sellinPrice.getText().toString());
+            vpurchaseDate=purchaseDate.getText().toString();
+            final VehicleAd vehicleAd= new VehicleAd(ad_id,user_id,vbrand,vmodel,vpurchaseDate,vkmsDriven,vmilege,vsellinPrice,vdescription);
+            vehicleAd.setImg_count(count);
+            uploadAd(0,vehicleAd,count);
+        }
+
     }
     public void ChooseImage(View view)
    {

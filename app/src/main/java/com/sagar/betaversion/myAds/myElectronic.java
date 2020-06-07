@@ -92,9 +92,9 @@ public class myElectronic extends AppCompatActivity implements RecViewItemClickL
                     noAds.setVisibility(View.VISIBLE);
                 }
                 for (int i = 0; i<arrayList.size(); i++)
-                    listAdModelList.add(new listAdModel(arrayList.get(i).getModel(),arrayList.get(i).getBrand(),arrayList.get(i).getSellingPrice(),arrayList.get(i).getImg1(),arrayList.get(i).getId()));
+                    listAdModelList.add(new listAdModel(arrayList.get(i).getModel(),arrayList.get(i).getBrand(),arrayList.get(i).getSellingPrice(),arrayList.get(i).getImg1(),arrayList.get(i).getId(),arrayList.get(i).isStatus()));
 
-                listAdAdapter=new listAdAdapter(listAdModelList,myElectronic.this,false,type,Uid,myElectronic.this.getClass().getSimpleName());
+                listAdAdapter=new listAdAdapter(listAdModelList,myElectronic.this,type,Uid,myElectronic.this.getClass().getSimpleName(),myElectronic.this);
                 recyclerView.setAdapter(listAdAdapter);
                 listAdAdapter.notifyDataSetChanged();
 

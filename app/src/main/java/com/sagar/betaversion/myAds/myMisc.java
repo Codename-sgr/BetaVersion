@@ -89,11 +89,11 @@ public class myMisc extends AppCompatActivity implements RecViewItemClickListene
                 }
 
                 for (int i = 0; i<arrayList.size(); i++)
-                    listAdModelList.add(new listAdModel(arrayList.get(i).getModel(),arrayList.get(i).getBrand(),arrayList.get(i).getSellingPrice(),arrayList.get(i).getImg1(),arrayList.get(i).getId()));
+                    listAdModelList.add(new listAdModel(arrayList.get(i).getModel(),arrayList.get(i).getBrand(),arrayList.get(i).getSellingPrice(),arrayList.get(i).getImg1(),arrayList.get(i).getId(),arrayList.get(i).isStatus()));
 
                 Log.i("arrayList", String.valueOf(arrayList.size()));
                 //HERE YOU HAVE YOUR ARRAYLIST
-                listAdAdapter=new listAdAdapter(listAdModelList,myMisc.this,false,type,Uid,myMisc.this.getClass().getSimpleName());
+                listAdAdapter=new listAdAdapter(listAdModelList,myMisc.this,type,Uid,myMisc.this.getClass().getSimpleName(),myMisc.this);
                 recyclerView.setAdapter(listAdAdapter);
                 listAdAdapter.notifyDataSetChanged();
 

@@ -1,7 +1,5 @@
 package com.sagar.betaversion;
 
-import android.net.Uri;
-
 public class listAdModel {
 
     private String prodModel;
@@ -9,13 +7,15 @@ public class listAdModel {
     private int prodPrice;
     private String prodImg;
     private String adId;
+    private Boolean status;
 
-    public listAdModel(String prodModel, String prodBrand, int prodPrice, String prodImg,String adId) {
+    public listAdModel(String prodModel, String prodBrand, int prodPrice, String prodImg,String adId,Boolean status) {
         this.prodModel = prodModel;
         this.prodBrand = prodBrand;
         this.prodPrice = prodPrice;
         this.prodImg = prodImg;
         this.adId=adId;
+        this.status=status;
     }
 
     public String getProdModel() {
@@ -56,5 +56,13 @@ public class listAdModel {
 
     public void setAdId(String adId) {
         this.adId = adId;
+    }
+
+    public void setStatus(Boolean status) {
+        this.status = status;
+    }
+
+    public boolean isStatus() {
+        return status;
     }
 }
