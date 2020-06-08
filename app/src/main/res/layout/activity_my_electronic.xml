@@ -23,6 +23,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="No Ads to Dispaly"
+            android:textColor="#ffffff"
             android:textSize="25sp"
             android:visibility="invisible"
             app:layout_constraintBottom_toBottomOf="parent"

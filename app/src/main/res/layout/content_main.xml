@@ -50,7 +50,7 @@
             android:layout_margin="17dp"
             android:background="@null"
             android:tag="6"
-            app:srcCompat="@drawable/amisclogo" />
+            app:srcCompat="@drawable/misclogo" />
 
         <TextView
             android:id="@+id/textView6"
@@ -71,7 +71,7 @@
             android:layout_margin="17dp"
             android:background="@null"
             android:tag="Electronics"
-            app:srcCompat="@drawable/aeleclogo" />
+            app:srcCompat="@drawable/eleclogo" />
 
         <TextView
             android:id="@+id/textView2"
@@ -92,7 +92,7 @@
             android:layout_margin="17dp"
             android:background="@null"
             android:tag="Books"
-            app:srcCompat="@drawable/abookslogo" />
+            app:srcCompat="@drawable/booklogo" />
 
         <TextView
             android:id="@+id/textView3"
