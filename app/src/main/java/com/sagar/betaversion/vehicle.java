@@ -37,8 +37,7 @@ public class vehicle extends AppCompatActivity {
 
     LoadingDialog loadingDialog;
     EditText  brand,model,purchaseDate,kmsDriven,milege,sellinPrice,description;
-    String vbrand,vmodel,vdescription;
-    String vpurchaseDate;
+    String vbrand,vmodel,vdescription,vpurchaseDate;
     int vkmsDriven,vsellinPrice,vmilege;
     FirebaseAuth mAuth;
     ImageView img1,img2,img3;
@@ -93,19 +92,53 @@ public class vehicle extends AppCompatActivity {
     }
     public void post(View view)
     {
+        vmodel=model.getText().toString();
+        if(vmodel.isEmpty()){
+            model.setError("Required.");
+            model.setFocusable(true);
+        }
+
+        vbrand=brand.getText().toString();
+        if(vbrand.isEmpty()) {
+            brand.setError("Required.");
+            model.setFocusable(true);
+        }
+        vdescription=description.getText().toString();
+        if(vdescription.isEmpty()) {
+            description.setError("Required.");
+            model.setFocusable(true);
+        }
+        vkmsDriven=Integer.parseInt( kmsDriven.getText().toString() );
+        if(vkmsDriven<1) {
+            kmsDriven.setError("Fill Proper Data.");
+            model.setFocusable(true);
+        }
+
+        vmilege=Integer.parseInt( milege.getText().toString() );
+        if(vmilege<1) {
+            milege.setError("Fill Proper Data.");
+            model.setFocusable(true);
+        }
+
+        vsellinPrice=Integer.parseInt(sellinPrice.getText().toString());
+        if(vsellinPrice<0) {
+            sellinPrice.setError("Fill Proper Data.");
+            model.setFocusable(true);
+        }
+
+        vpurchaseDate=purchaseDate.getText().toString();
+        if(vpurchaseDate.isEmpty()) {
+            purchaseDate.setError("Required.");
+            model.setFocusable(true);
+        }
+
         final int count=ImageUri.size();
         if(count<2)
             Toast.makeText(this, "Select atleast 2 Images", Toast.LENGTH_SHORT).show();
         else{
             loadingDialog.startLoadingDialog();
             ad_id=databaseAd.push().getKey();
-            vmodel=model.getText().toString();
-            vbrand=brand.getText().toString();
-            vdescription=description.getText().toString();
-            vkmsDriven=Integer.parseInt( kmsDriven.getText().toString() );
-            vmilege=Integer.parseInt( milege.getText().toString() );
-            vsellinPrice=Integer.parseInt(sellinPrice.getText().toString());
-            vpurchaseDate=purchaseDate.getText().toString();
+
             final VehicleAd vehicleAd= new VehicleAd(ad_id,user_id,vbrand,vmodel,vpurchaseDate,vkmsDriven,vmilege,vsellinPrice,vdescription);
             vehicleAd.setImg_count(count);
             uploadAd(0,vehicleAd,count);

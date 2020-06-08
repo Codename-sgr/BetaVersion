@@ -36,6 +36,8 @@ public class otherAds extends AppCompatActivity {
     LoadingDialog loadingDialog;
     String type;
     EditText brand,model,date_of_purchase,sellinPrice,description;
+    String vbrand,vmodel,vdescription,vpurchaseDate;
+    int vsellinPrice;
     FirebaseAuth mAuth;
     ImageView img1,img2,img3;
     ArrayList<Uri> ImageUri= new ArrayList<>();
@@ -127,6 +129,31 @@ public class otherAds extends AppCompatActivity {
     }
     public void post(View view)
     {
+        vbrand=brand.getText().toString();
+        if(vbrand.isEmpty()){
+            brand.setError("Required.");
+            brand.setFocusable(true);
+        }
+        vmodel=model.getText().toString();
+        if(vmodel.isEmpty()){
+            model.setError("Required.");
+            model.setFocusable(true);
+        }
+        vdescription=description.getText().toString();
+        if(vdescription.isEmpty()){
+            description.setError("Required.");
+            description.setFocusable(true);
+        }
+        vpurchaseDate=date_of_purchase.getText().toString();
+        if(vpurchaseDate.isEmpty()){
+            date_of_purchase.setError("Required.");
+            date_of_purchase.setFocusable(true);
+        }
+        vsellinPrice=Integer.parseInt(sellinPrice.getText().toString());
+        if(vsellinPrice<0) {
+            sellinPrice.setError("Fill Proper Data.");
+            model.setFocusable(true);
+        }
         final int count=ImageUri.size();
         if(count<2)
             Toast.makeText(this, "Select atleast 2 Images", Toast.LENGTH_SHORT).show();
@@ -139,11 +166,11 @@ public class otherAds extends AppCompatActivity {
             {
                 final BooksAd Ad= new BooksAd(ad_id,
                         user_id,
-                        brand.getText().toString(),
-                        model.getText().toString(),
-                        date_of_purchase.getText().toString(),
-                        description.getText().toString(),
-                        Integer.parseInt(sellinPrice.getText().toString()));
+                        vbrand,
+                        vmodel,
+                        vpurchaseDate,
+                        vdescription,
+                        vsellinPrice);
 
                 Ad.setImg_count(count);
                 uploadAd(0,Ad,count);
@@ -152,11 +179,11 @@ public class otherAds extends AppCompatActivity {
             else if(type.matches("Miscellaneous")) {
                 final MiscAd Ad = new MiscAd(ad_id,
                         user_id,
-                        brand.getText().toString(),
-                        model.getText().toString(),
-                        date_of_purchase.getText().toString(),
-                        description.getText().toString(),
-                        Integer.parseInt(sellinPrice.getText().toString()));
+                        vbrand,
+                        vmodel,
+                        vpurchaseDate,
+                        vdescription,
+                        vsellinPrice);
 
                 Ad.setImg_count(count);
                 uploadAdMisc(0,Ad,count);

@@ -4,6 +4,7 @@ package com.sagar.betaversion;
 import android.app.Activity;
 import android.content.Context;
 import android.content.DialogInterface;
+import android.content.Intent;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -124,60 +125,100 @@ public class listAdAdapter extends RecyclerView.Adapter<listAdAdapter.ViewHolder
             adDelete.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
-                    Task t1=FirebaseDatabase.getInstance().getReference().child("UserAd")
-                            .child(Uid).child(type+"Id").child(adId).removeValue().addOnSuccessListener(new OnSuccessListener<Void>() {
-                                @Override
-                                public void onSuccess(Void aVoid) {
-                                    Task t2=FirebaseDatabase.getInstance().getReference().child(type+"Ad").child(adId).removeValue().addOnSuccessListener(new OnSuccessListener<Void>() {
+
+                    androidx.appcompat.app.AlertDialog.Builder builder=new androidx.appcompat.app.AlertDialog.Builder(context);
+                    builder.setTitle("WARNING");
+                    builder.setPositiveButton("YES", new DialogInterface.OnClickListener() {
+                        @Override
+                        public void onClick(DialogInterface dialog, int which) {
+                            Task t1=FirebaseDatabase.getInstance().getReference().child("UserAd")
+                                    .child(Uid).child(type+"Id").child(adId).removeValue().addOnSuccessListener(new OnSuccessListener<Void>() {
                                         @Override
                                         public void onSuccess(Void aVoid) {
-                                            switch (activity) {
-                                                case "ListAd":
-                                                    listAdModelList.remove(position);
-                                                    ListAd.listAdAdapter.notifyDataSetChanged();
-                                                    break;
-                                                case "myElectronic":
-                                                    listAdModelList.remove(position);
-                                                    myElectronic.listAdAdapter.notifyDataSetChanged();
-                                                    break;
-                                                case "myMisc":
-                                                    listAdModelList.remove(position);
-                                                    myMisc.listAdAdapter.notifyDataSetChanged();
-                                                    break;
-                                                case "myVehicle":
-                                                    listAdModelList.remove(position);
-                                                    myVehicle.listAdAdapter.notifyDataSetChanged();
-                                                    break;
-                                                case "myBooks":
-                                                    listAdModelList.remove(position);
-                                                    myBooks.listAdAdapter.notifyDataSetChanged();
-                                                    break;
+                                            Task t2=FirebaseDatabase.getInstance().getReference().child(type+"Ad").child(adId).removeValue().addOnSuccessListener(new OnSuccessListener<Void>() {
+                                                @Override
+                                                public void onSuccess(Void aVoid) {
+                                                    switch (activity) {
+                                                        case "ListAd":
+                                                            listAdModelList.remove(position);
+                                                            ListAd.listAdAdapter.notifyDataSetChanged();
+                                                            break;
+                                                        case "myElectronic":
+                                                            listAdModelList.remove(position);
+                                                            myElectronic.listAdAdapter.notifyDataSetChanged();
+                                                            break;
+                                                        case "myMisc":
+                                                            listAdModelList.remove(position);
+                                                            myMisc.listAdAdapter.notifyDataSetChanged();
+                                                            break;
+                                                        case "myVehicle":
+                                                            listAdModelList.remove(position);
+                                                            myVehicle.listAdAdapter.notifyDataSetChanged();
+                                                            break;
+                                                        case "myBooks":
+                                                            listAdModelList.remove(position);
+                                                            myBooks.listAdAdapter.notifyDataSetChanged();
+                                                            break;
 
-                                            }
+                                                    }
+                                                }
+                                            });
                                         }
                                     });
-                                }
-                            });
+
+                        }
+                    }).setNegativeButton("NO", new DialogInterface.OnClickListener() {
+                        @Override
+                        public void onClick(DialogInterface dialog, int which) {
+                            dialog.cancel();
+
+                        }
+                    });
+
+
                 }
             });
 
             adSoldBtn.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
+                    final Intent i=new Intent(context,com.sagar.betaversion.myAds.myAdActivity.class);
                     androidx.appcompat.app.AlertDialog.Builder builder=new androidx.appcompat.app.AlertDialog.Builder(context);
                     builder.setTitle("Warning");
-                    builder
-                            .setMessage("You want to mark this Ad as SOLD ?\n This Action cannot be Undone !!!")
-                            .setCancelable(false);
-                    builder.setPositiveButton("YES",
-                            new DialogInterface.OnClickListener() {
-                                public void onClick(DialogInterface dialog,
-                                                    int id) {
+                    if(status){
+                        builder.setMessage("Do you want to mark this Product as SOLD ?")
+                                .setCancelable(false);
+                        builder.setPositiveButton("YES",
+                                new DialogInterface.OnClickListener() {
+                                    public void onClick(DialogInterface dialog,
+                                                        int id) {
                                         FirebaseDatabase.getInstance().getReference().child(type+"Ad").child(adId).child("status").setValue(false);
                                         soldOut.setVisibility(View.VISIBLE);
-                                        adSoldBtn.setVisibility(View.INVISIBLE);
-                                }
-                            }).setNegativeButton("NO", new DialogInterface.OnClickListener() {
+                                        Toast.makeText(context,"Marked as SOLD",Toast.LENGTH_SHORT).show();
+                                        i.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+                                        context.startActivity(i);
+
+                                    }
+                                });
+                    }
+                    else {
+                        builder.setMessage("Do you want to mark this Product as UNSOLD ?")
+                                .setCancelable(false);
+                        builder.setPositiveButton("YES",
+                                new DialogInterface.OnClickListener() {
+                                    public void onClick(DialogInterface dialog,
+                                                        int id) {
+                                        FirebaseDatabase.getInstance().getReference().child(type+"Ad").child(adId).child("status").setValue(true);
+                                        soldOut.setVisibility(View.INVISIBLE);
+                                        Toast.makeText(context,"Marked as UNSOLD",Toast.LENGTH_SHORT).show();
+                                        i.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+                                        context.startActivity(i);
+
+                                    }
+                                });
+                    }
+
+                    builder.setNegativeButton("NO", new DialogInterface.OnClickListener() {
                         @Override
                         public void onClick(DialogInterface dialog, int which) {
                             dialog.cancel();
@@ -186,6 +227,8 @@ public class listAdAdapter extends RecyclerView.Adapter<listAdAdapter.ViewHolder
 
                     androidx.appcompat.app.AlertDialog dialog=builder.create();
                     dialog.show();
+
+
 
 
                 }

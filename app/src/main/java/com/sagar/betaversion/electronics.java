@@ -34,6 +34,8 @@ import java.util.ArrayList;
 
 public class electronics extends AppCompatActivity {
     EditText brand,model,purchaseDate,sellingPrice,description;
+    String vbrand,vmodel,vdescription,vpurchaseDate;
+    int vsellinPrice;
     FirebaseAuth mAuth;
     ImageView img1,img2,img3;
     ArrayList<Uri> ImageUri= new ArrayList<>();
@@ -84,6 +86,31 @@ public class electronics extends AppCompatActivity {
     }
     public void post(View view)
     {
+        vbrand=brand.getText().toString();
+        if(vbrand.isEmpty()){
+            brand.setError("Required.");
+            brand.setFocusable(true);
+        }
+        vmodel=model.getText().toString();
+        if(vmodel.isEmpty()){
+            model.setError("Required.");
+            model.setFocusable(true);
+        }
+        vdescription=description.getText().toString();
+        if(vdescription.isEmpty()){
+            description.setError("Required.");
+            description.setFocusable(true);
+        }
+        vpurchaseDate=purchaseDate.getText().toString();
+        if(vpurchaseDate.isEmpty()){
+            purchaseDate.setError("Required.");
+            purchaseDate.setFocusable(true);
+        }
+        vsellinPrice=Integer.parseInt(sellingPrice.getText().toString());
+        if(vsellinPrice<0) {
+            sellingPrice.setError("Fill Proper Data.");
+            model.setFocusable(true);
+        }
         final int count=ImageUri.size();
 
         if(count<2)
@@ -93,11 +120,11 @@ public class electronics extends AppCompatActivity {
             ad_id=databaseAd.push().getKey();
             final ElectronicsAd electronicsAd= new ElectronicsAd(ad_id
                     ,user_id
-                    ,brand.getText().toString()
-                    ,model.getText().toString()
-                    ,purchaseDate.getText().toString()
-                    ,description.getText().toString()
-                    ,Integer.parseInt(sellingPrice.getText().toString()));
+                    ,vbrand
+                    ,vmodel
+                    ,vpurchaseDate
+                    ,vdescription
+                    ,vsellinPrice);
             electronicsAd.setImg_count(count);
             uploadAd(0,electronicsAd,count);
         }
