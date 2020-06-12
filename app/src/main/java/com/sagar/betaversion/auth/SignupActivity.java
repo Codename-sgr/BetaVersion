@@ -1,16 +1,13 @@
-package com.sagar.betaversion;
+package com.sagar.betaversion.auth;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 
-import android.app.ProgressDialog;
-import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
 import android.util.Patterns;
 import android.view.View;
 import android.widget.EditText;
-import android.widget.ProgressBar;
 import android.widget.Toast;
 
 import com.google.android.gms.tasks.OnCompleteListener;
@@ -22,6 +19,9 @@ import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
+import com.sagar.betaversion.LoadingDialog;
+import com.sagar.betaversion.R;
+import com.sagar.betaversion.models.User;
 
 public class SignupActivity extends AppCompatActivity {
 
@@ -120,7 +120,7 @@ public class SignupActivity extends AppCompatActivity {
         password=findViewById(R.id.password);
         conpass=findViewById(R.id.editTextConPass);
 
-        databaseUsers= FirebaseDatabase.getInstance().getReference("Users");
+        databaseUsers= FirebaseDatabase.getInstance().getReference().child("Manit").child("Users");
 
         loadingDialog=new LoadingDialog(this);
 

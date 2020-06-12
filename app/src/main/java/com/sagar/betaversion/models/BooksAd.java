@@ -1,34 +1,43 @@
-package com.sagar.betaversion;
+package com.sagar.betaversion.models;
 
-public class MiscAd
-{
+public class BooksAd {
     String id;
     String user_id;
-    String brand;//item
-    String model;
+    String brand;// Author
+    String model;// Title
     String date_of_purchase;
-    String description,img1,img2,img3;
+    int vs;
+    String description;
     int sellingPrice;
+    String img1,img2,img3;
     int img_count;
     boolean status;//true for unsold, false for sold
-    public MiscAd()
+    public BooksAd()
     {
 
     }
-
-    public MiscAd(String id, String user_id, String brand, String model, String date_of_purchase, String description, int sellingPrice) {
+    public BooksAd(String id, String user_id, String brand,String model,String date_of_purchase, String description, int sellingPrice) {
         this.id = id;
         this.user_id = user_id;
-        this.brand = brand;
+        this.brand=brand;
         this.model=model;
         this.date_of_purchase=date_of_purchase;
         this.description = description;
         this.sellingPrice = sellingPrice;
         this.status=true;
+        this.vs=0;
     }
 
     public String getId() {
         return id;
+    }
+
+    public int getVs() {
+        return vs;
+    }
+
+    public void setVs(int vs) {
+        this.vs = vs;
     }
 
     public void setId(String id) {
@@ -67,14 +76,6 @@ public class MiscAd
         this.date_of_purchase = date_of_purchase;
     }
 
-    public String getDescription() {
-        return description;
-    }
-
-    public void setDescription(String description) {
-        this.description = description;
-    }
-
     public String getImg1() {
         return img1;
     }
@@ -99,6 +100,14 @@ public class MiscAd
         this.img3 = img3;
     }
 
+    public String getDescription() {
+        return description;
+    }
+
+    public void setDescription(String description) {
+        this.description = description;
+    }
+
     public int getSellingPrice() {
         return sellingPrice;
     }
@@ -114,7 +123,6 @@ public class MiscAd
     public void setImg_count(int img_count) {
         this.img_count = img_count;
     }
-
 
     public boolean isStatus() {
         return status;

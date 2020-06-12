@@ -14,38 +14,34 @@
         android:roundIcon="@mipmap/ic_manit_logo_round"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
-        <activity android:name=".about"/>
+        <activity android:name=".displayAds.myAdsAll"></activity>
+        <activity android:name=".about" />
         <activity android:name=".FinalImagePreview" />
-        <activity android:name=".myAds.myMisc" />
-        <activity android:name=".myAds.myBooks" />
-        <activity android:name=".myAds.myElectronic" />
-        <activity android:name=".myAds.myVehicle" />
-        <activity android:name=".myAds.myAdActivity" />
         <activity
             android:name=".FinalProductView"
             android:screenOrientation="nosensor" />
         <activity
-            android:name=".ListAd"
+            android:name=".displayAds.ListAd"
             android:screenOrientation="nosensor" />
         <activity
             android:name=".BetaVersion"
             android:screenOrientation="nosensor" />
         <activity
-            android:name=".otherAds"
+            android:name=".postAds.otherAds"
             android:screenOrientation="nosensor" />
         <activity
-            android:name=".electronics"
+            android:name=".postAds.electronics"
             android:screenOrientation="nosensor" />
         <activity
-            android:name=".vehicle"
+            android:name=".postAds.vehicle"
             android:screenOrientation="nosensor" />
         <activity
-            android:name=".newAdActivity"
+            android:name=".postAds.newAdActivity"
             android:screenOrientation="nosensor" />
         <activity
-            android:name=".LoginActivity"
-            android:theme="@style/SplashTheme"
-            android:screenOrientation="nosensor">
+            android:name=".auth.LoginActivity"
+            android:screenOrientation="nosensor"
+            android:theme="@style/SplashTheme">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
@@ -53,16 +49,16 @@
             </intent-filter>
         </activity>
         <activity
-            android:name=".SignupActivity"
+            android:name=".auth.SignupActivity"
             android:screenOrientation="nosensor" />
         <activity
             android:name=".MainActivity"
             android:screenOrientation="nosensor" />
         <activity
-            android:name=".myAccount"
+            android:name=".auth.myAccount"
             android:screenOrientation="nosensor" />
         <activity
-            android:name=".profile"
+            android:name=".auth.profile"
             android:screenOrientation="nosensor" />
     </application>
 

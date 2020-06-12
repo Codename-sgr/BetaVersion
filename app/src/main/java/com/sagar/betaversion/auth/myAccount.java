@@ -1,4 +1,4 @@
-package com.sagar.betaversion;
+package com.sagar.betaversion.auth;
 
 import android.content.Intent;
 import android.content.SharedPreferences;
@@ -8,13 +8,13 @@ import android.os.Bundle;
 import android.util.Base64;
 import android.view.MenuItem;
 import android.view.View;
-import android.widget.ImageView;
 import android.widget.TextView;
 
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
 
 import com.google.firebase.auth.FirebaseAuth;
+import com.sagar.betaversion.R;
 
 import java.io.ByteArrayInputStream;
 import java.io.InputStream;
@@ -33,13 +33,9 @@ public class myAccount extends AppCompatActivity {
 
     public void UpdateProfile(View view)
     {
-        Intent intent= new Intent(getApplicationContext(),profile.class);
+        Intent intent= new Intent(getApplicationContext(), profile.class);
         startActivity(intent);
-
     }
-
-
-
 
     public void logoutUser(View view){
         firebaseAuth.signOut();

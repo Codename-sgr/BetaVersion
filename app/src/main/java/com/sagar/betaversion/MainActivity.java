@@ -32,7 +32,12 @@ import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
 import com.google.firebase.storage.FirebaseStorage;
 import com.google.firebase.storage.StorageReference;
-import com.sagar.betaversion.myAds.myAdActivity;
+import com.sagar.betaversion.auth.LoginActivity;
+import com.sagar.betaversion.auth.myAccount;
+import com.sagar.betaversion.auth.profile;
+import com.sagar.betaversion.displayAds.ListAd;
+import com.sagar.betaversion.displayAds.myAdsAll;
+import com.sagar.betaversion.postAds.newAdActivity;
 
 import de.hdodenhof.circleimageview.CircleImageView;
 
@@ -93,7 +98,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         navUserEmail = headerview.findViewById(R.id.nav_email);
         reloadUserData();
 
-        storageReference = FirebaseStorage.getInstance().getReference().child("UserImage");
+        storageReference = FirebaseStorage.getInstance().getReference().child("Manit").child("UserImage");
         myAccount = findViewById(R.id.myAccountButton);
         newAd = findViewById(R.id.newAdButton);
         MyAds = findViewById(R.id.myAdButton);
@@ -151,7 +156,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
 
         FirebaseAuth firebaseAuth = FirebaseAuth.getInstance();
         FirebaseDatabase mDatabase = FirebaseDatabase.getInstance();
-        DatabaseReference mDb = mDatabase.getReference();
+        DatabaseReference mDb = mDatabase.getReference().child("Manit");
         FirebaseUser user = firebaseAuth.getCurrentUser();
         final String userKey = user.getUid();
         pref = getSharedPreferences("UserData", MODE_PRIVATE);
@@ -247,7 +252,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         myAccount.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                startActivity(new Intent(getApplicationContext(), myAccount.class));
+                startActivity(new Intent(getApplicationContext(), com.sagar.betaversion.auth.myAccount.class));
             }
         });
 
@@ -260,7 +265,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         MyAds.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                startActivity(new Intent(getApplicationContext(), myAdActivity.class));
+                startActivity(new Intent(getApplicationContext(), myAdsAll.class));
             }
         });
 
@@ -361,7 +366,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
             drawer.closeDrawer(GravityCompat.START);
         } else if (id == R.id.nav_myads) {
 //            Toast.makeText(MainActivity.this, "ADS", Toast.LENGTH_SHORT).show();
-            startActivity(new Intent(MainActivity.this, myAdActivity.class));
+            startActivity(new Intent(MainActivity.this, myAdsAll.class));
 
         } else if (id == R.id.nav_myacc) {
 //            Toast.makeText(MainActivity.this, "ACC", Toast.LENGTH_SHORT).show();

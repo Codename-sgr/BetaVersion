@@ -1,4 +1,4 @@
-package com.sagar.betaversion;
+package com.sagar.betaversion.postAds;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
@@ -25,6 +25,11 @@ import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.storage.FirebaseStorage;
 import com.google.firebase.storage.StorageReference;
 import com.google.firebase.storage.UploadTask;
+import com.sagar.betaversion.LoadingDialog;
+import com.sagar.betaversion.MainActivity;
+import com.sagar.betaversion.models.BooksAd;
+import com.sagar.betaversion.models.MiscAd;
+import com.sagar.betaversion.R;
 import com.squareup.picasso.Picasso;
 
 import java.io.ByteArrayOutputStream;
@@ -41,8 +46,8 @@ public class otherAds extends AppCompatActivity {
     FirebaseAuth mAuth;
     ImageView img1,img2,img3;
     ArrayList<Uri> ImageUri= new ArrayList<>();
-    DatabaseReference databaseAd,userAd;
-    String user_id, ad_id;
+    DatabaseReference databaseAd,userAd,verRef;
+    String user_id, ad_id,uad_id;
     ArrayList<byte[]> ImageArray=new ArrayList<>();
     private static final int IMAGE_REQUEST=1;
     StorageReference imageStorageRef;
@@ -51,7 +56,12 @@ public class otherAds extends AppCompatActivity {
         {
             loadingDialog.dismissDialog();
             databaseAd.child(ad_id).setValue(electronicsAd);
-            userAd.child(ad_id).setValue(true);
+            userAd.child(uad_id).setValue(electronicsAd);
+            verRef.child(uad_id).setValue(electronicsAd);
+            userAd.child(uad_id).child("uadId").setValue(uad_id);
+            userAd.child(uad_id).child("type").setValue("Books");
+            verRef.child(uad_id).child("uadId").setValue(uad_id);
+            verRef.child(uad_id).child("type").setValue("Books");;
             Toast.makeText(otherAds.this,"Ad Posted Successfully",Toast.LENGTH_SHORT).show();
             Intent intent=new Intent(getApplicationContext(), MainActivity.class);
             startActivity(intent);
@@ -91,7 +101,12 @@ public class otherAds extends AppCompatActivity {
         {
             loadingDialog.dismissDialog();
             databaseAd.child(ad_id).setValue(electronicsAd);
-            userAd.child(ad_id).setValue(true);
+            userAd.child(uad_id).setValue(electronicsAd);
+            verRef.child(uad_id).setValue(electronicsAd);
+            userAd.child(uad_id).child("uadId").setValue(uad_id);
+            userAd.child(uad_id).child("type").setValue("Miscellaneous");
+            verRef.child(uad_id).child("uadId").setValue(uad_id);
+            verRef.child(uad_id).child("type").setValue("Miscellaneous");;
             Toast.makeText(otherAds.this,"Ad Posted Successfully",Toast.LENGTH_SHORT).show();
             Intent intent=new Intent(getApplicationContext(), MainActivity.class);
             intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
@@ -161,6 +176,7 @@ public class otherAds extends AppCompatActivity {
         {
             loadingDialog.startLoadingDialog();
             ad_id=databaseAd.push().getKey();
+            uad_id=userAd.push().getKey();
             final int[] flag = {0};
             if(type.matches("Books"))
             {
@@ -287,12 +303,13 @@ public class otherAds extends AppCompatActivity {
         img1=findViewById(R.id.img1);
         img2=findViewById(R.id.img2);
         img3=findViewById(R.id.img3);
-        imageStorageRef= FirebaseStorage.getInstance().getReference(type+"Image");
+        imageStorageRef= FirebaseStorage.getInstance().getReference().child("Manit").child(type+"Image");
+        verRef=FirebaseDatabase.getInstance().getReference().child("Manit").child("Verification");
         mAuth=FirebaseAuth.getInstance();
-        databaseAd= FirebaseDatabase.getInstance().getReference(type+"Ad");
+        databaseAd= FirebaseDatabase.getInstance().getReference().child("Manit").child(type+"Ad");
         FirebaseUser user =mAuth.getCurrentUser();
         user_id=user.getUid();
-        userAd=FirebaseDatabase.getInstance().getReference("UserAd").child(user_id).child(type+"Id");
+        userAd=FirebaseDatabase.getInstance().getReference().child("Manit").child("UserAd").child(user_id);
 
         if(type.matches("Books"))
         {

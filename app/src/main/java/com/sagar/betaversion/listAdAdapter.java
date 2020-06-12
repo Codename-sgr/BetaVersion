@@ -1,7 +1,6 @@
 package com.sagar.betaversion;
 
 
-import android.app.Activity;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
@@ -18,14 +17,11 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.gms.tasks.Task;
-import com.google.firebase.database.DataSnapshot;
-import com.google.firebase.database.DatabaseError;
+import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
-import com.google.firebase.database.ValueEventListener;
-import com.sagar.betaversion.myAds.myBooks;
-import com.sagar.betaversion.myAds.myElectronic;
-import com.sagar.betaversion.myAds.myMisc;
-import com.sagar.betaversion.myAds.myVehicle;
+import com.google.firebase.storage.FirebaseStorage;
+import com.sagar.betaversion.displayAds.ListAd;
+import com.sagar.betaversion.displayAds.myAdsAll;
 import com.squareup.picasso.Picasso;
 
 import java.util.List;
@@ -35,14 +31,14 @@ public class listAdAdapter extends RecyclerView.Adapter<listAdAdapter.ViewHolder
     private List<listAdModel> listAdModelList;
     private RecViewItemClickListener recViewItemClickListener;
 //    private Boolean listAd;
-    private  String type,Uid,activity;
+    private  String Uid,activity;
     private Context context;
 
-    public listAdAdapter(List<listAdModel> listAdModelList,RecViewItemClickListener recViewItemClickListener/*,Boolean listAd*/,String type,String Uid ,String activity,Context context) {
+    public listAdAdapter(List<listAdModel> listAdModelList,RecViewItemClickListener recViewItemClickListener,String Uid ,String activity,Context context) {
         this.listAdModelList = listAdModelList;
         this.recViewItemClickListener=recViewItemClickListener;
 //        this.listAd=listAd;
-        this.type=type;
+
         this.Uid=Uid;
         this.activity=activity;
         this.context=context;
@@ -64,7 +60,10 @@ public class listAdAdapter extends RecyclerView.Adapter<listAdAdapter.ViewHolder
         String adProductImage=listAdModelList.get(position).getProdImg();
         String adProductAdId=listAdModelList.get(position).getAdId();
         Boolean status=listAdModelList.get(position).isStatus();
-        holder.setAdProdct(adProductBrand,adProductModel,adProductPrice,adProductImage,adProductAdId,status,position);
+        String type=listAdModelList.get(position).getType();
+        int vs=listAdModelList.get(position).getVs();
+        String uadId=listAdModelList.get(position).getUadId();
+        holder.setAdProdct(adProductBrand,adProductModel,adProductPrice,adProductImage,adProductAdId,uadId,status,type,vs,position);
 
     }
 
@@ -75,7 +74,7 @@ public class listAdAdapter extends RecyclerView.Adapter<listAdAdapter.ViewHolder
 
 
     class ViewHolder extends RecyclerView.ViewHolder{
-        private TextView adProductBrand,adProductModel,adProductPrice,adProductId,soldOut;
+        private TextView adProductBrand,adProductModel,adProductPrice,adProductId,soldOut,verified,uadType,adType;
         private ImageView adProductImg;
         private ImageButton adDelete,adSoldBtn;
 
@@ -90,25 +89,33 @@ public class listAdAdapter extends RecyclerView.Adapter<listAdAdapter.ViewHolder
             adDelete=itemView.findViewById(R.id.adDeleteBtn);
             adSoldBtn=itemView.findViewById(R.id.adSoldBtn);
             soldOut=itemView.findViewById(R.id.soldOut);
+            verified=itemView.findViewById(R.id.verified);
+            adType=itemView.findViewById(R.id.adType);
+            uadType=itemView.findViewById(R.id.uadType);
 
             itemView.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
-                    recViewItemClickListener.onItemClickListener(getAdapterPosition(),adProductId.getText().toString());
+                    recViewItemClickListener.onItemClickListener(getAdapterPosition(),adProductId.getText().toString(),adType.getText().toString(),uadType.getText().toString());
                 }
             });
 
 
         }
-        void setAdProdct(final String adBrand, String adModel, int adPrice, String adImg, final String adId, final Boolean status, final int position){
+        void setAdProdct(final String adBrand, String adModel, int adPrice, String adImg, final String adId, final String uadId,  final Boolean status, final String type,final int vs, final int position){
             adProductBrand.setText(adBrand);
             adProductModel.setText(adModel);
             adProductPrice.setText(String.valueOf(adPrice));
             Picasso.get().load(adImg).error(R.drawable.androidlogo).placeholder(R.drawable.loadinga).into(adProductImg);
             adProductId.setText(adId);
-
+            adType.setText(type);
+            uadType.setText(uadId);
             if(!status){
                 soldOut.setVisibility(View.VISIBLE);
+            }
+            if(vs==0)
+            {
+                verified.setVisibility(View.VISIBLE);
             }
 
 
@@ -127,15 +134,15 @@ public class listAdAdapter extends RecyclerView.Adapter<listAdAdapter.ViewHolder
                 public void onClick(View v) {
 
                     androidx.appcompat.app.AlertDialog.Builder builder=new androidx.appcompat.app.AlertDialog.Builder(context);
-                    builder.setTitle("WARNING");
+                    builder.setTitle("This ad will be deleted permanently, are you sure?");
                     builder.setPositiveButton("YES", new DialogInterface.OnClickListener() {
                         @Override
                         public void onClick(DialogInterface dialog, int which) {
-                            Task t1=FirebaseDatabase.getInstance().getReference().child("UserAd")
-                                    .child(Uid).child(type+"Id").child(adId).removeValue().addOnSuccessListener(new OnSuccessListener<Void>() {
+                            Task t1=FirebaseDatabase.getInstance().getReference().child("Manit").child("UserAd")
+                                    .child(Uid).child(uadId).removeValue().addOnSuccessListener(new OnSuccessListener<Void>() {
                                         @Override
                                         public void onSuccess(Void aVoid) {
-                                            Task t2=FirebaseDatabase.getInstance().getReference().child(type+"Ad").child(adId).removeValue().addOnSuccessListener(new OnSuccessListener<Void>() {
+                                            Task t2=FirebaseDatabase.getInstance().getReference().child("Manit").child(type+"Ad").child(adId).removeValue().addOnSuccessListener(new OnSuccessListener<Void>() {
                                                 @Override
                                                 public void onSuccess(Void aVoid) {
                                                     switch (activity) {
@@ -143,21 +150,9 @@ public class listAdAdapter extends RecyclerView.Adapter<listAdAdapter.ViewHolder
                                                             listAdModelList.remove(position);
                                                             ListAd.listAdAdapter.notifyDataSetChanged();
                                                             break;
-                                                        case "myElectronic":
+                                                        case "myAdsAll":
                                                             listAdModelList.remove(position);
-                                                            myElectronic.listAdAdapter.notifyDataSetChanged();
-                                                            break;
-                                                        case "myMisc":
-                                                            listAdModelList.remove(position);
-                                                            myMisc.listAdAdapter.notifyDataSetChanged();
-                                                            break;
-                                                        case "myVehicle":
-                                                            listAdModelList.remove(position);
-                                                            myVehicle.listAdAdapter.notifyDataSetChanged();
-                                                            break;
-                                                        case "myBooks":
-                                                            listAdModelList.remove(position);
-                                                            myBooks.listAdAdapter.notifyDataSetChanged();
+                                                            myAdsAll.listAdAdapter.notifyDataSetChanged();
                                                             break;
 
                                                     }
@@ -165,6 +160,7 @@ public class listAdAdapter extends RecyclerView.Adapter<listAdAdapter.ViewHolder
                                             });
                                         }
                                     });
+                            //FirebaseStorage.getInstance().getReference().child("Manit").child(type+"Image"+"/"+Uid+"/"+adId).delete();
 
                         }
                     }).setNegativeButton("NO", new DialogInterface.OnClickListener() {
@@ -174,6 +170,9 @@ public class listAdAdapter extends RecyclerView.Adapter<listAdAdapter.ViewHolder
 
                         }
                     });
+                    androidx.appcompat.app.AlertDialog dialog=builder.create();
+                    dialog.show();
+
 
 
                 }
@@ -182,7 +181,8 @@ public class listAdAdapter extends RecyclerView.Adapter<listAdAdapter.ViewHolder
             adSoldBtn.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
-                    final Intent i=new Intent(context,com.sagar.betaversion.myAds.myAdActivity.class);
+                    final DatabaseReference databaseReference=FirebaseDatabase.getInstance().getReference().child("Manit");
+                    final Intent i=new Intent(context,com.sagar.betaversion.MainActivity.class);
                     androidx.appcompat.app.AlertDialog.Builder builder=new androidx.appcompat.app.AlertDialog.Builder(context);
                     builder.setTitle("Warning");
                     if(status){
@@ -192,7 +192,8 @@ public class listAdAdapter extends RecyclerView.Adapter<listAdAdapter.ViewHolder
                                 new DialogInterface.OnClickListener() {
                                     public void onClick(DialogInterface dialog,
                                                         int id) {
-                                        FirebaseDatabase.getInstance().getReference().child(type+"Ad").child(adId).child("status").setValue(false);
+                                        databaseReference.child(type+"Ad").child(adId).child("status").setValue(false);
+                                        databaseReference.child("UserAd").child(Uid).child(uadId).child("status").setValue(false);
                                         soldOut.setVisibility(View.VISIBLE);
                                         Toast.makeText(context,"Marked as SOLD",Toast.LENGTH_SHORT).show();
                                         i.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
@@ -208,7 +209,9 @@ public class listAdAdapter extends RecyclerView.Adapter<listAdAdapter.ViewHolder
                                 new DialogInterface.OnClickListener() {
                                     public void onClick(DialogInterface dialog,
                                                         int id) {
-                                        FirebaseDatabase.getInstance().getReference().child(type+"Ad").child(adId).child("status").setValue(true);
+
+                                        databaseReference.child(type+"Ad").child(adId).child("status").setValue(true);
+                                        databaseReference.child("UserAd").child(Uid).child(uadId).child("status").setValue(true);
                                         soldOut.setVisibility(View.INVISIBLE);
                                         Toast.makeText(context,"Marked as UNSOLD",Toast.LENGTH_SHORT).show();
                                         i.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
@@ -227,8 +230,6 @@ public class listAdAdapter extends RecyclerView.Adapter<listAdAdapter.ViewHolder
 
                     androidx.appcompat.app.AlertDialog dialog=builder.create();
                     dialog.show();
-
-
 
 
                 }

@@ -1,4 +1,4 @@
-package com.sagar.betaversion.myAds;
+package com.sagar.betaversion.displayAds;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
@@ -20,31 +20,29 @@ import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
-import com.sagar.betaversion.MiscAd;
-
 import com.sagar.betaversion.FinalProductView;
 import com.sagar.betaversion.R;
 import com.sagar.betaversion.RecViewItemClickListener;
 import com.sagar.betaversion.listAdAdapter;
 import com.sagar.betaversion.listAdModel;
+import com.sagar.betaversion.models.Ad;
 
 import java.util.ArrayList;
-
 import java.util.List;
 
-public class myMisc extends AppCompatActivity implements RecViewItemClickListener {
+public class myAdsAll extends AppCompatActivity implements RecViewItemClickListener {
     RecyclerView recyclerView;
-    String Uid,type;
+    String Uid;
     DatabaseReference userAd;
-    ArrayList<MiscAd> arrayList=new ArrayList<>();
+    ArrayList<Ad> arrayList=new ArrayList<>();
     FirebaseDatabase firebaseDatabase;
     List<listAdModel> listAdModelList=new ArrayList<>();
     public static com.sagar.betaversion.listAdAdapter listAdAdapter;
     public static TextView noAds;
 
-
     @Override
     protected void onCreate(Bundle savedInstanceState) {
+        Log.i("Start","Start");
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_my_electronic);
 
@@ -56,7 +54,6 @@ public class myMisc extends AppCompatActivity implements RecViewItemClickListene
             getSupportActionBar().setDisplayHomeAsUpEnabled(true);
             getSupportActionBar().setTitle("My Ads");
         }
-
         noAds=findViewById(R.id.noAdsTV);
         recyclerView=findViewById(R.id.AdListRecyclerView);
         recyclerView.setHasFixedSize(true);
@@ -64,39 +61,51 @@ public class myMisc extends AppCompatActivity implements RecViewItemClickListene
         layoutManager.setReverseLayout(true);
         layoutManager.setStackFromEnd(true);
         recyclerView.setLayoutManager(layoutManager);
-
-        Intent intent=getIntent();
-        type=intent.getStringExtra("type");
-
         FirebaseAuth mAuth=FirebaseAuth.getInstance();
         FirebaseUser firebaseUser=mAuth.getCurrentUser();
         Uid=firebaseUser.getUid();
         firebaseDatabase=FirebaseDatabase.getInstance();
-        userAd=firebaseDatabase.getReference().child("MiscellaneousAd");
+        userAd=firebaseDatabase.getReference().child("Manit").child("UserAd").child(Uid);
+        Log.i("Start",Uid);
         userAd.addListenerForSingleValueEvent(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
-                for (DataSnapshot vehicleSnapShot: dataSnapshot.getChildren()) {
-                    final MiscAd miscAd=vehicleSnapShot.getValue(MiscAd.class);
-                    if(miscAd.getUser_id().matches(Uid))
-                    {
-                        arrayList.add(miscAd);
-                    }
+                Log.i("Start","Start1");
+                for (DataSnapshot snapshot: dataSnapshot.getChildren()){
+                    Ad ad=snapshot.getValue(Ad.class);
+                    Log.i("yeaah",ad.toString());
+                    if(ad.getBrand()!=null)
+                        Log.i("yeaahhh",ad.getBrand());
+                    arrayList.add(snapshot.getValue(Ad.class));
+
                 }
                 if(arrayList.size()==0){
                     recyclerView.setVisibility(View.INVISIBLE);
                     noAds.setVisibility(View.VISIBLE);
                 }
-
                 for (int i = 0; i<arrayList.size(); i++)
-                    listAdModelList.add(new listAdModel(arrayList.get(i).getModel(),arrayList.get(i).getBrand(),arrayList.get(i).getSellingPrice(),arrayList.get(i).getImg1(),arrayList.get(i).getId(),arrayList.get(i).isStatus()));
+                {
+                    listAdModelList.add(
+                            new listAdModel(
+                                    arrayList.get(i).getModel(),
+                                    arrayList.get(i).getBrand(),
+                                    arrayList.get(i).getSellingPrice(),
+                                    arrayList.get(i).getImg1(),
+                                    arrayList.get(i).getId(),
+                                    arrayList.get(i).isStatus(),
+                                    arrayList.get(i).getType(),
+                                    arrayList.get(i).getVs(),
+                                    arrayList.get(i).getUadId()
 
-                Log.i("arrayList", String.valueOf(arrayList.size()));
-                //HERE YOU HAVE YOUR ARRAYLIST
-                listAdAdapter=new listAdAdapter(listAdModelList,myMisc.this,type,Uid,myMisc.this.getClass().getSimpleName(),myMisc.this);
+                            )
+
+                    );
+                    //Log.i("AAAAA",arrayList.get(i).getModel());
+                }
+
+                listAdAdapter=new listAdAdapter(listAdModelList,myAdsAll.this,Uid,myAdsAll.this.getClass().getSimpleName(),myAdsAll.this);
                 recyclerView.setAdapter(listAdAdapter);
                 listAdAdapter.notifyDataSetChanged();
-
 
             }
 
@@ -107,7 +116,6 @@ public class myMisc extends AppCompatActivity implements RecViewItemClickListene
         });
 
     }
-
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         if (item.getItemId() == android.R.id.home) {
@@ -117,11 +125,12 @@ public class myMisc extends AppCompatActivity implements RecViewItemClickListene
         return super.onOptionsItemSelected(item);}
 
     @Override
-    public void onItemClickListener(int position, String adId) {
+    public void onItemClickListener(int position, String adId,String type,String uadID) {
         Intent intent=new Intent(getApplicationContext(), FinalProductView.class);
         intent.putExtra("type",type);
         intent.putExtra("adId",adId);
-        intent.putExtra("who",0);       //1---buyer   0---seller
+        intent.putExtra("who",0);//1---buyer   0---seller
+        intent.putExtra("uadId",uadID);
         startActivity(intent);
     }
 }

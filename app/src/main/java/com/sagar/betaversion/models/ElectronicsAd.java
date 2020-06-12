@@ -1,15 +1,10 @@
-package com.sagar.betaversion;
-
-import android.net.Uri;
-
-import java.util.ArrayList;
-import java.util.Date;
-import java.util.List;
+package com.sagar.betaversion.models;
 
 public class ElectronicsAd {
     String id;
     String user_id;
     String brand;
+    int vs;
     String model;
     String date_of_purchase,img1,img2,img3;
     String description;
@@ -68,8 +63,16 @@ public class ElectronicsAd {
         this.date_of_purchase = date_of_purchase;
         this.description = description;
         this.sellingPrice=sellingPrice;
-
+        this.vs=0;
         this.status=true;
+    }
+
+    public int getVs() {
+        return vs;
+    }
+
+    public void setVs(int vs) {
+        this.vs = vs;
     }
 
     public String getImg1() {

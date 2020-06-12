@@ -1,4 +1,4 @@
-package com.sagar.betaversion;
+package com.sagar.betaversion.displayAds;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
@@ -23,11 +23,20 @@ import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
 import com.google.firebase.storage.FirebaseStorage;
 import com.google.firebase.storage.StorageReference;
+import com.sagar.betaversion.FinalProductView;
+import com.sagar.betaversion.R;
+import com.sagar.betaversion.RecViewItemClickListener;
+import com.sagar.betaversion.listAdAdapter;
+import com.sagar.betaversion.listAdModel;
+import com.sagar.betaversion.models.BooksAd;
+import com.sagar.betaversion.models.ElectronicsAd;
+import com.sagar.betaversion.models.MiscAd;
+import com.sagar.betaversion.models.VehicleAd;
 
 import java.util.ArrayList;
 import java.util.List;
 
-public class ListAd extends AppCompatActivity implements RecViewItemClickListener{
+public class ListAd extends AppCompatActivity implements RecViewItemClickListener {
      RecyclerView recyclerView;
      TextView noAds;
      FirebaseDatabase database;
@@ -36,7 +45,7 @@ public class ListAd extends AppCompatActivity implements RecViewItemClickListene
      String type;
      String Uid;
      List<listAdModel> listAdModelList=new ArrayList<>();
-    public static listAdAdapter listAdAdapter;
+    public static com.sagar.betaversion.listAdAdapter listAdAdapter;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -56,8 +65,8 @@ public class ListAd extends AppCompatActivity implements RecViewItemClickListene
 
 
         database= FirebaseDatabase.getInstance();
-        databaseReference=database.getReference(type+"Ad");
-        storageReference= FirebaseStorage.getInstance().getReference(type+"Image");
+        databaseReference=database.getReference().child("Manit").child(type+"Ad");
+        storageReference= FirebaseStorage.getInstance().getReference().child("Manit").child(type+"Image");
         FirebaseAuth mAuth= FirebaseAuth.getInstance();
         FirebaseUser user =mAuth.getCurrentUser();
         Uid=user.getUid();
@@ -86,7 +95,7 @@ public class ListAd extends AppCompatActivity implements RecViewItemClickListene
 
                     for (DataSnapshot vehicleSnapShot: dataSnapshot.getChildren()) {
                         final VehicleAd vehicleAd=vehicleSnapShot.getValue(VehicleAd.class);
-                        if(vehicleAd.isStatus() && !vehicleAd.getUser_id().matches(Uid))
+                        if(vehicleAd.isStatus()  && vehicleAd.getVs()==1 && !vehicleAd.getUser_id().matches(Uid))
                         {
                             Log.i("arrayList",dataSnapshot.getKey()+ " user Id "+vehicleAd.getUser_id()+" my user "+Uid);
                             arrayList.add(vehicleAd);
@@ -99,12 +108,24 @@ public class ListAd extends AppCompatActivity implements RecViewItemClickListene
                     }
 
                     for (int i=0;i<arrayList.size();i++)
-                        listAdModelList.add(new listAdModel(arrayList.get(i).getModel(),arrayList.get(i).getBrand(),arrayList.get(i).getSellingPrice(),arrayList.get(i).getImg1(),arrayList.get(i).getId(),arrayList.get(i).isStatus()));
+                        listAdModelList.add(
+                                new listAdModel(
+                                        arrayList.get(i).getModel(),
+                                        arrayList.get(i).getBrand(),
+                                        arrayList.get(i).getSellingPrice(),
+                                        arrayList.get(i).getImg1(),
+                                        arrayList.get(i).getId(),
+                                        arrayList.get(i).isStatus(),
+                                        type,
+                                        arrayList.get(i).getVs(),null
+                                )
+                        );
                     arrayList.clear();
 
 
-                    listAdAdapter=new listAdAdapter(listAdModelList,ListAd.this,type,Uid,getLocalClassName(),ListAd.this);
+                    listAdAdapter=new listAdAdapter(listAdModelList,ListAd.this,Uid,getLocalClassName(),ListAd.this);
                     recyclerView.setAdapter(listAdAdapter);
+                    listAdAdapter.notifyDataSetChanged();
 
                 }
 
@@ -123,7 +144,7 @@ public class ListAd extends AppCompatActivity implements RecViewItemClickListene
                 public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
                     for (DataSnapshot vehicleSnapShot: dataSnapshot.getChildren()) {
                         final ElectronicsAd Ad=vehicleSnapShot.getValue(ElectronicsAd.class);
-                        if(Ad.isStatus() && !Ad.getUser_id().matches(Uid))
+                        if(Ad.isStatus() && Ad.getVs()==1 && !Ad.getUser_id().matches(Uid))
                         {
                             Log.i("arrayList",dataSnapshot.getKey()+ " user Id "+Ad.getUser_id()+" my user "+Uid);
                             arrayList.add(Ad);
@@ -136,9 +157,20 @@ public class ListAd extends AppCompatActivity implements RecViewItemClickListene
                     }
 
                     for (int i=0;i<arrayList.size();i++)
-                        listAdModelList.add(new listAdModel(arrayList.get(i).getModel(),arrayList.get(i).getBrand(),arrayList.get(i).getSellingPrice(),arrayList.get(i).getImg1(),arrayList.get(i).getId(),arrayList.get(i).isStatus()));
+                        listAdModelList.add(
+                                new listAdModel(
+                                        arrayList.get(i).getModel(),
+                                        arrayList.get(i).getBrand(),
+                                        arrayList.get(i).getSellingPrice(),
+                                        arrayList.get(i).getImg1(),
+                                        arrayList.get(i).getId(),
+                                        arrayList.get(i).isStatus(),
+                                        type,
+                                        arrayList.get(i).getVs(),null
+                                )
+                        );
 
-                    listAdAdapter listAdAdapter=new listAdAdapter(listAdModelList,ListAd.this,type,Uid,getLocalClassName(),ListAd.this);
+                    listAdAdapter listAdAdapter=new listAdAdapter(listAdModelList,ListAd.this,Uid,getLocalClassName(),ListAd.this);
                     recyclerView.setAdapter(listAdAdapter);
                     listAdAdapter.notifyDataSetChanged();
 
@@ -159,7 +191,7 @@ public class ListAd extends AppCompatActivity implements RecViewItemClickListene
                 public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
                     for (DataSnapshot vehicleSnapShot: dataSnapshot.getChildren()) {
                         final BooksAd Ad=vehicleSnapShot.getValue(BooksAd.class);
-                        if(Ad.isStatus() && !Ad.getUser_id().matches(Uid))
+                        if(Ad.isStatus() && Ad.getVs()==1&& !Ad.getUser_id().matches(Uid))
                         {
                             Log.i("arrayList",dataSnapshot.getKey()+ " user Id "+Ad.getUser_id()+" my user "+Uid);
                             arrayList.add(Ad);
@@ -172,9 +204,20 @@ public class ListAd extends AppCompatActivity implements RecViewItemClickListene
                         noAds.setVisibility(View.VISIBLE);
                     }
                     for (int i=0;i<arrayList.size();i++)
-                        listAdModelList.add(new listAdModel(arrayList.get(i).getModel(),arrayList.get(i).getBrand(),arrayList.get(i).getSellingPrice(),arrayList.get(i).getImg1(),arrayList.get(i).getId(),arrayList.get(i).isStatus()));
+                        listAdModelList.add(
+                                new listAdModel(
+                                        arrayList.get(i).getModel(),
+                                        arrayList.get(i).getBrand(),
+                                        arrayList.get(i).getSellingPrice(),
+                                        arrayList.get(i).getImg1(),
+                                        arrayList.get(i).getId(),
+                                        arrayList.get(i).isStatus(),
+                                        type,
+                                        arrayList.get(i).getVs(),null
+                                )
+                        );
 
-                    listAdAdapter listAdAdapter=new listAdAdapter(listAdModelList,ListAd.this,type,Uid,getLocalClassName(),ListAd.this);
+                    listAdAdapter listAdAdapter=new listAdAdapter(listAdModelList,ListAd.this,Uid,getLocalClassName(),ListAd.this);
                     recyclerView.setAdapter(listAdAdapter);
                     listAdAdapter.notifyDataSetChanged();
                 }
@@ -193,7 +236,7 @@ public class ListAd extends AppCompatActivity implements RecViewItemClickListene
                 public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
                     for (DataSnapshot vehicleSnapShot: dataSnapshot.getChildren()) {
                         final MiscAd Ad=vehicleSnapShot.getValue(MiscAd.class);
-                        if(Ad.isStatus() && !Ad.getUser_id().matches(Uid))
+                        if(Ad.isStatus() && Ad.getVs()==1 && !Ad.getUser_id().matches(Uid))
                         {
                             Log.i("arrayList",dataSnapshot.getKey()+ " user Id "+Ad.getUser_id()+" my user "+Uid);
                             arrayList.add(Ad);
@@ -205,9 +248,20 @@ public class ListAd extends AppCompatActivity implements RecViewItemClickListene
                         noAds.setVisibility(View.VISIBLE);
                     }
                     for (int i=0;i<arrayList.size();i++)
-                        listAdModelList.add(new listAdModel(arrayList.get(i).getModel(),arrayList.get(i).getBrand(),arrayList.get(i).getSellingPrice(),arrayList.get(i).getImg1(),arrayList.get(i).getId(),arrayList.get(i).isStatus()));
+                        listAdModelList.add(
+                                new listAdModel(
+                                        arrayList.get(i).getModel(),
+                                        arrayList.get(i).getBrand(),
+                                        arrayList.get(i).getSellingPrice(),
+                                        arrayList.get(i).getImg1(),
+                                        arrayList.get(i).getId(),
+                                        arrayList.get(i).isStatus(),
+                                        type,
+                                        arrayList.get(i).getVs(),null
+                                )
+                        );
 
-                    listAdAdapter listAdAdapter=new listAdAdapter(listAdModelList,ListAd.this,type,Uid,getLocalClassName(),ListAd.this);
+                    listAdAdapter listAdAdapter=new listAdAdapter(listAdModelList,ListAd.this,Uid,getLocalClassName(),ListAd.this);
                     recyclerView.setAdapter(listAdAdapter);
                     listAdAdapter.notifyDataSetChanged();
                 }
@@ -238,11 +292,12 @@ public class ListAd extends AppCompatActivity implements RecViewItemClickListene
     return super.onOptionsItemSelected(item);}
 
     @Override
-    public void onItemClickListener(int position,String adId) {
-        Intent intent=new Intent(getApplicationContext(),FinalProductView.class);
+    public void onItemClickListener(int position,String adId,String type,String uadId) {
+        Intent intent=new Intent(getApplicationContext(), FinalProductView.class);
         intent.putExtra("type",type);
         intent.putExtra("adId",adId);
         intent.putExtra("who",1);       //1---buyer   0---seller
+        intent.putExtra("uadId",uadId);
         startActivity(intent);
 
     }

@@ -1,11 +1,10 @@
-package com.sagar.betaversion;
+package com.sagar.betaversion.postAds;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
 
-import android.app.ProgressDialog;
 import android.content.Intent;
 import android.graphics.Bitmap;
 import android.net.Uri;
@@ -26,11 +25,16 @@ import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.storage.FirebaseStorage;
 import com.google.firebase.storage.StorageReference;
 import com.google.firebase.storage.UploadTask;
+import com.sagar.betaversion.LoadingDialog;
+import com.sagar.betaversion.MainActivity;
+import com.sagar.betaversion.models.ElectronicsAd;
+import com.sagar.betaversion.R;
 import com.squareup.picasso.Picasso;
 
 import java.io.ByteArrayOutputStream;
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.Map;
 
 public class electronics extends AppCompatActivity {
     EditText brand,model,purchaseDate,sellingPrice,description;
@@ -40,9 +44,9 @@ public class electronics extends AppCompatActivity {
     ImageView img1,img2,img3;
     ArrayList<Uri> ImageUri= new ArrayList<>();
     ArrayList<byte[]> ImageArray= new ArrayList<>();
-    DatabaseReference databaseAd,userAd;
+    DatabaseReference databaseAd,userAd,verRef;
     LoadingDialog loadingDialog;
-    String user_id, ad_id;
+    String user_id, ad_id,uad_id,verId;
     private static final int IMAGE_REQUEST=1;
     StorageReference imageStorageRef;
     public void uploadAd(final int i, final ElectronicsAd electronicsAd, final int count) {
@@ -50,7 +54,13 @@ public class electronics extends AppCompatActivity {
         {
             loadingDialog.dismissDialog();
             databaseAd.child(ad_id).setValue(electronicsAd);
-            userAd.child(ad_id).setValue(true);
+            userAd.child(uad_id).setValue(electronicsAd);
+            verRef.child(uad_id).setValue(electronicsAd);
+            userAd.child(uad_id).child("uadId").setValue(uad_id);
+            userAd.child(uad_id).child("type").setValue("Electronic");
+            verRef.child(uad_id).child("uadId").setValue(uad_id);
+            verRef.child(uad_id).child("type").setValue("Electronic");
+
             Toast.makeText(electronics.this,"Ad Posted Successfully",Toast.LENGTH_SHORT).show();
             Intent intent=new Intent(getApplicationContext(), MainActivity.class);
             intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
@@ -118,6 +128,8 @@ public class electronics extends AppCompatActivity {
         else{
             loadingDialog.startLoadingDialog();
             ad_id=databaseAd.push().getKey();
+            uad_id=userAd.push().getKey();
+            verId=verRef.push().getKey();
             final ElectronicsAd electronicsAd= new ElectronicsAd(ad_id
                     ,user_id
                     ,vbrand
@@ -230,12 +242,13 @@ public class electronics extends AppCompatActivity {
         img1=findViewById(R.id.img1);
         img2=findViewById(R.id.img2);
         img3=findViewById(R.id.img3);
-        imageStorageRef= FirebaseStorage.getInstance().getReference("ElectronicImage");
+        imageStorageRef= FirebaseStorage.getInstance().getReference().child("Manit").child("ElectronicImage");
+        verRef=FirebaseDatabase.getInstance().getReference().child("Manit").child("Verification");
         mAuth=FirebaseAuth.getInstance();
-        databaseAd= FirebaseDatabase.getInstance().getReference("ElectronicAd");
+        databaseAd= FirebaseDatabase.getInstance().getReference().child("Manit").child("ElectronicAd");
         FirebaseUser user =mAuth.getCurrentUser();
         user_id=user.getUid();
-        userAd=FirebaseDatabase.getInstance().getReference("UserAd").child(user_id).child("ElectronicId");
+        userAd=FirebaseDatabase.getInstance().getReference().child("Manit").child("UserAd").child(user_id);
 
     }
 

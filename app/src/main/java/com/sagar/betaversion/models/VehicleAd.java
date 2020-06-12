@@ -1,6 +1,4 @@
-package com.sagar.betaversion;
-
-import java.util.Date;
+package com.sagar.betaversion.models;
 
 public class VehicleAd {
     String id;
@@ -8,6 +6,7 @@ public class VehicleAd {
     String brand;
     String model;
     String date_of_purchase;
+    int vs;//0- Verification in progress, 1-Verified, 2-Rejected;
     int kmsDriven;
     int milege;
     int sellingPrice;
@@ -33,9 +32,16 @@ public class VehicleAd {
         this.description = description;
         this.img_count=0;
         this.status=true;
+        this.vs=0;
     }
 
+    public int getVs() {
+        return vs;
+    }
 
+    public void setVs(int vs) {
+        this.vs = vs;
+    }
 
     public String getId() {
         return id;

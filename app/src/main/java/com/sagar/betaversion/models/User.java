@@ -1,4 +1,4 @@
-package com.sagar.betaversion;
+package com.sagar.betaversion.models;
 
 public class User {
     String user_id;

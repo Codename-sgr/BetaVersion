@@ -13,7 +13,6 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.TextView;
 import android.widget.Toast;
-
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
@@ -22,18 +21,19 @@ import androidx.core.app.ActivityCompat;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 import androidx.viewpager.widget.ViewPager;
-
 import com.google.android.material.tabs.TabLayout;
+import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
+import com.sagar.betaversion.models.Ad;
+import com.sagar.betaversion.models.User;
+import com.sagar.betaversion.models.VehicleAd;
 
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 
 public class FinalProductView extends AppCompatActivity {
 
@@ -42,7 +42,7 @@ public class FinalProductView extends AppCompatActivity {
 
     RecyclerView recyclerView;
     FirebaseDatabase database;
-    DatabaseReference databaseReference;
+    DatabaseReference databaseReference,userReference;
 
     TextView prodBrand,prodModel,prodPrice,descNote;
 
@@ -70,7 +70,9 @@ public class FinalProductView extends AppCompatActivity {
         final Intent intent=getIntent();
         String type=intent.getStringExtra("type");
         final String adId=intent.getStringExtra("adId");
+        final String uadID=intent.getStringExtra("uadId");
         who=intent.getIntExtra("who",1);
+        String Uid= FirebaseAuth.getInstance().getCurrentUser().getUid();
 
         if(who==0)
             contactBtn.setText("EDIT PRICE");
@@ -84,12 +86,13 @@ public class FinalProductView extends AppCompatActivity {
         Log.i("ADID",""+adId);
 
         database=FirebaseDatabase.getInstance();
-        databaseReference=database.getReference(type+"Ad").child(adId);
+        userReference=database.getReference().child("Manit").child("UserAd").child(Uid).child(uadID);
+        databaseReference=database.getReference().child("Manit").child(type+"Ad").child(adId);
         databaseReference.addListenerForSingleValueEvent(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
 
-                VehicleAd itemDetails=dataSnapshot.getValue(VehicleAd.class);
+                Ad itemDetails=dataSnapshot.getValue(Ad.class);
                 pBrand=itemDetails.getBrand();
                 pModel=itemDetails.getModel();
                 pPrice=itemDetails.getSellingPrice();
@@ -184,7 +187,7 @@ public class FinalProductView extends AppCompatActivity {
 
     public  void message(){
         Log.i("User",pUserID);
-        DatabaseReference reference=database.getReference().child("Users").child(pUserID);
+        DatabaseReference reference=database.getReference().child("Manit").child("Users").child(pUserID);
         reference.addListenerForSingleValueEvent(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
@@ -219,7 +222,7 @@ public class FinalProductView extends AppCompatActivity {
         if (ActivityCompat.checkSelfPermission(this,
                 Manifest.permission.SEND_SMS) !=
                 PackageManager.PERMISSION_GRANTED) {
-            Log.d("User","Permisiion nOt granted");
+            Log.d("User","Permision not granted");
             ActivityCompat.requestPermissions(this,
                     new String[]{Manifest.permission.SEND_SMS},
                     MY_PERMISSIONS_REQUEST_SEND_SMS);
@@ -277,8 +280,9 @@ public class FinalProductView extends AppCompatActivity {
                                     {
                                         int np=Integer.parseInt(val);
                                         databaseReference.child("sellingPrice").setValue(np);
+                                        userReference.child("sellingPrice").setValue(np);
                                         Toast.makeText(FinalProductView.this,"Price Updated",Toast.LENGTH_SHORT).show();
-                                        Intent intent=new Intent(getApplicationContext(),com.sagar.betaversion.myAds.myAdActivity.class);
+                                        Intent intent=new Intent(getApplicationContext(),com.sagar.betaversion.MainActivity.class);
                                         intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
                                         startActivity(intent);
                                         finish();

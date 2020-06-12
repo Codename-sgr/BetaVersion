@@ -1,4 +1,4 @@
-package com.sagar.betaversion;
+package com.sagar.betaversion.postAds;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
@@ -25,13 +25,16 @@ import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.storage.FirebaseStorage;
 import com.google.firebase.storage.StorageReference;
 import com.google.firebase.storage.UploadTask;
+import com.sagar.betaversion.LoadingDialog;
+import com.sagar.betaversion.MainActivity;
+import com.sagar.betaversion.models.VehicleAd;
+import com.sagar.betaversion.R;
 import com.squareup.picasso.Picasso;
 
 
 import java.io.ByteArrayOutputStream;
 import java.io.IOException;
 import java.util.ArrayList;
-import java.util.Calendar;
 
 public class vehicle extends AppCompatActivity {
 
@@ -42,9 +45,9 @@ public class vehicle extends AppCompatActivity {
     FirebaseAuth mAuth;
     ImageView img1,img2,img3;
     ArrayList<Uri> ImageUri= new ArrayList<>();
-    DatabaseReference databaseAd,userAd;
+    DatabaseReference databaseAd,userAd,verRef;
 
-    String user_id, ad_id;
+    String user_id, ad_id,uad_id;
     ArrayList<byte[]> ImageArray=new ArrayList<>();
     private static final int IMAGE_REQUEST=1;
     StorageReference imageStorageRef;
@@ -55,7 +58,12 @@ public class vehicle extends AppCompatActivity {
         {
             loadingDialog.dismissDialog();
             databaseAd.child(ad_id).setValue(vehicleAd);
-            userAd.child(ad_id).setValue(true);
+            userAd.child(uad_id).setValue(vehicleAd);
+            verRef.child(uad_id).setValue(vehicleAd);
+            userAd.child(uad_id).child("type").setValue("Vehicle");
+            userAd.child(uad_id).child("uadId").setValue(uad_id);
+            verRef.child(uad_id).child("uadId").setValue(uad_id);
+            verRef.child(uad_id).child("type").setValue("Vehicle");
             Toast.makeText(vehicle.this,"Ad Posted Successfully",Toast.LENGTH_SHORT).show();
             Intent intent=new Intent(getApplicationContext(), MainActivity.class);
             intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
@@ -138,7 +146,7 @@ public class vehicle extends AppCompatActivity {
         else{
             loadingDialog.startLoadingDialog();
             ad_id=databaseAd.push().getKey();
-
+            uad_id=userAd.push().getKey();
             final VehicleAd vehicleAd= new VehicleAd(ad_id,user_id,vbrand,vmodel,vpurchaseDate,vkmsDriven,vmilege,vsellinPrice,vdescription);
             vehicleAd.setImg_count(count);
             uploadAd(0,vehicleAd,count);
@@ -239,12 +247,14 @@ public class vehicle extends AppCompatActivity {
         img1=findViewById(R.id.img1);
         img2=findViewById(R.id.img2);
         img3=findViewById(R.id.img3);
-        imageStorageRef= FirebaseStorage.getInstance().getReference("VehicleImage");
+        imageStorageRef= FirebaseStorage.getInstance().getReference("Manit").child("VehicleImage");
+        verRef=FirebaseDatabase.getInstance().getReference().child("Manit").child("Verification");
+
         mAuth=FirebaseAuth.getInstance();
-        databaseAd= FirebaseDatabase.getInstance().getReference("VehicleAd");
+        databaseAd= FirebaseDatabase.getInstance().getReference("Manit").child("VehicleAd");
         FirebaseUser user =mAuth.getCurrentUser();
         user_id=user.getUid();
-        userAd=FirebaseDatabase.getInstance().getReference("UserAd").child(user_id).child("VehicleId");
+        userAd=FirebaseDatabase.getInstance().getReference("Manit").child("UserAd").child(user_id);
     }
 
     @Override

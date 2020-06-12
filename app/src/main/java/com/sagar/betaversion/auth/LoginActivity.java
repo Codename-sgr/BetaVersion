@@ -1,11 +1,9 @@
-package com.sagar.betaversion;
+package com.sagar.betaversion.auth;
 
 import android.app.AlertDialog;
-import android.app.ProgressDialog;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
-import android.os.Handler;
 import android.text.InputType;
 import android.util.Log;
 import android.util.Patterns;
@@ -19,7 +17,6 @@ import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
-import androidx.constraintlayout.widget.ConstraintLayout;
 
 import com.google.android.gms.auth.api.signin.GoogleSignIn;
 import com.google.android.gms.auth.api.signin.GoogleSignInAccount;
@@ -32,7 +29,6 @@ import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.gms.tasks.Task;
 import com.google.android.material.textfield.TextInputEditText;
-import com.google.android.material.textfield.TextInputLayout;
 import com.google.firebase.auth.AuthCredential;
 import com.google.firebase.auth.AuthResult;
 import com.google.firebase.auth.FirebaseAuth;
@@ -43,22 +39,15 @@ import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
-
-import java.util.HashMap;
-import java.util.Map;
-import java.util.Objects;
+import com.sagar.betaversion.LoadingDialog;
+import com.sagar.betaversion.MainActivity;
+import com.sagar.betaversion.R;
 
 public class LoginActivity extends AppCompatActivity {
-
-
     private FirebaseAuth mAuth=FirebaseAuth.getInstance();
-
-
     LoadingDialog loadingDialog;
-
     SignInButton googleLoginBtn;
     FirebaseUser user;
-
     TextInputEditText email;
     TextInputEditText password;
     Button LogIn;
@@ -107,7 +96,7 @@ public class LoginActivity extends AppCompatActivity {
                                     if(user.isEmailVerified()){
                                         isValid=true;
                                         loadingDialog.dismissDialog();
-                                        startActivity(new Intent(getApplicationContext(),MainActivity.class));
+                                        startActivity(new Intent(getApplicationContext(), MainActivity.class));
                                         finish();
                                     }
                                     else
@@ -242,7 +231,7 @@ public class LoginActivity extends AppCompatActivity {
         if (getSupportActionBar()!=null)
         getSupportActionBar().hide();
 
-        databaseUsers= FirebaseDatabase.getInstance().getReference("Users");
+        databaseUsers= FirebaseDatabase.getInstance().getReference().child("Manit").child("Users");
         // Configure Google Sign In
         GoogleSignInOptions gso = new GoogleSignInOptions.Builder(GoogleSignInOptions.DEFAULT_SIGN_IN)
                 .requestIdToken(getString(R.string.default_web_client_id))
@@ -259,20 +248,16 @@ public class LoginActivity extends AppCompatActivity {
         signUp=findViewById(R.id.signUp);
         forgetPwd=findViewById(R.id.textViewForgetPass);
         googleLoginBtn=findViewById(R.id.googleLoginBtn);
-
-
-
         forgetPwd.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 showPwdRecoveryDialog();
             }
         });
-
         signUp.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                startActivity(new Intent(getApplicationContext(),SignupActivity.class));
+                startActivity(new Intent(getApplicationContext(), SignupActivity.class));
             }
         });
 
@@ -293,8 +278,6 @@ public class LoginActivity extends AppCompatActivity {
 
             }
         });
-
-
 
         loadingDialog = new LoadingDialog(this);
 

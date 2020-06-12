@@ -1,4 +1,4 @@
-package com.sagar.betaversion;
+package com.sagar.betaversion.postAds;
 
 import android.content.Intent;
 import android.os.Bundle;
@@ -8,6 +8,11 @@ import android.view.MenuItem;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
 import androidx.cardview.widget.CardView;
+
+import com.sagar.betaversion.R;
+import com.sagar.betaversion.postAds.electronics;
+import com.sagar.betaversion.postAds.otherAds;
+import com.sagar.betaversion.postAds.vehicle;
 
 public class newAdActivity extends AppCompatActivity {
 

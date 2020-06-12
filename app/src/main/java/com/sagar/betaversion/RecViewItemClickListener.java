@@ -4,6 +4,6 @@ import android.view.View;
 
 public interface RecViewItemClickListener {
 
-    void onItemClickListener(int position,String adId);
+    void onItemClickListener(int position,String adId,String type,String uadId);
 
 }

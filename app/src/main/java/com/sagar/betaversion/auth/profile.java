@@ -1,11 +1,10 @@
-package com.sagar.betaversion;
+package com.sagar.betaversion.auth;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
 
-import android.app.ProgressDialog;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.graphics.Bitmap;
@@ -29,6 +28,8 @@ import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.storage.FirebaseStorage;
 import com.google.firebase.storage.StorageReference;
 import com.google.firebase.storage.UploadTask;
+import com.sagar.betaversion.LoadingDialog;
+import com.sagar.betaversion.R;
 import com.squareup.picasso.Picasso;
 
 import java.io.ByteArrayInputStream;
@@ -160,8 +161,8 @@ public class profile extends AppCompatActivity {
         }
 
         loadingDialog=new LoadingDialog(this);
-        databaseRef = FirebaseDatabase.getInstance().getReference("Users");
-        imageRef = FirebaseStorage.getInstance().getReference("UserImage");
+        databaseRef = FirebaseDatabase.getInstance().getReference().child("Manit").child("Users");
+        imageRef = FirebaseStorage.getInstance().getReference().child("Manit").child("UserImage");
         userNameView = findViewById(R.id.accUserName);
         mobileNoView = findViewById(R.id.accMobile);
         emailView = findViewById(R.id.accEmail);

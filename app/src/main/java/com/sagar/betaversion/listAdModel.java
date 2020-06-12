@@ -7,19 +7,45 @@ public class listAdModel {
     private int prodPrice;
     private String prodImg;
     private String adId;
+    private  String uadId;
     private Boolean status;
+    private  String type;
+    private int vs;
 
-    public listAdModel(String prodModel, String prodBrand, int prodPrice, String prodImg,String adId,Boolean status) {
+    public listAdModel(String prodModel, String prodBrand, int prodPrice, String prodImg,String adId,Boolean status,String type,int vs,String uadId) {
         this.prodModel = prodModel;
         this.prodBrand = prodBrand;
         this.prodPrice = prodPrice;
         this.prodImg = prodImg;
         this.adId=adId;
         this.status=status;
+        this.vs=vs;
+        this.type=type;
+        this.uadId=uadId;
+    }
+
+    public String getType() {
+        return type;
+    }
+
+    public void setType(String type) {
+        this.type = type;
     }
 
     public String getProdModel() {
         return prodModel;
+    }
+
+    public Boolean getStatus() {
+        return status;
+    }
+
+    public int getVs() {
+        return vs;
+    }
+
+    public void setVs(int vs) {
+        this.vs = vs;
     }
 
     public void setProdModel(String prodModel) {
@@ -56,6 +82,14 @@ public class listAdModel {
 
     public void setAdId(String adId) {
         this.adId = adId;
+    }
+
+    public String getUadId() {
+        return uadId;
+    }
+
+    public void setUadId(String uadId) {
+        this.uadId = uadId;
     }
 
     public void setStatus(Boolean status) {
