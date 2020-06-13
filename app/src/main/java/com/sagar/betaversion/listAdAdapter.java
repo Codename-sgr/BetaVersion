@@ -22,6 +22,7 @@ import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.storage.FirebaseStorage;
 import com.sagar.betaversion.displayAds.ListAd;
 import com.sagar.betaversion.displayAds.myAdsAll;
+import com.sagar.betaversion.displayAds.verifyAd;
 import com.squareup.picasso.Picasso;
 
 import java.util.List;
@@ -110,23 +111,25 @@ public class listAdAdapter extends RecyclerView.Adapter<listAdAdapter.ViewHolder
             adProductId.setText(adId);
             adType.setText(type);
             uadType.setText(uadId);
-            if(!status){
-                soldOut.setVisibility(View.VISIBLE);
-            }
-            if(vs==0)
-            {
-                verified.setVisibility(View.VISIBLE);
-            }
 
 
 
-            if(context instanceof ListAd){
+
+            if(context instanceof ListAd || context instanceof verifyAd){
                 adSoldBtn.setVisibility(View.INVISIBLE);
                 adDelete.setVisibility(View.INVISIBLE);
             }
+
             else{
                 adSoldBtn.setVisibility(View.VISIBLE);
                 adDelete.setVisibility(View.VISIBLE);
+                if(!status){
+                    soldOut.setVisibility(View.VISIBLE);
+                }
+                if(vs==0)
+                {
+                    verified.setVisibility(View.VISIBLE);
+                }
             }
 
             adDelete.setOnClickListener(new View.OnClickListener() {

@@ -11,6 +11,7 @@ import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 import androidx.annotation.NonNull;
@@ -21,6 +22,8 @@ import androidx.core.app.ActivityCompat;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 import androidx.viewpager.widget.ViewPager;
+
+import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.material.tabs.TabLayout;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.database.DataSnapshot;
@@ -42,14 +45,14 @@ public class FinalProductView extends AppCompatActivity {
 
     RecyclerView recyclerView;
     FirebaseDatabase database;
-    DatabaseReference databaseReference,userReference;
+    DatabaseReference databaseReference,userReference,verifyReference;
 
     TextView prodBrand,prodModel,prodPrice,descNote;
 
     String pBrand,pModel,pPurchaseDate,pDesc,pImg1,pImg2,pImg3,pUserID,email;
     int pPrice,pKmsDriven,pMileage,pImgCount;
-    Button contactBtn;
-
+    Button contactBtn,acceptBtn,rejectBtn;
+    LinearLayout verifyBtnLayout,btnsLayout;
     private static final int MY_PERMISSIONS_REQUEST_SEND_SMS = 1;
     String smsNumber;
     int who;
@@ -67,6 +70,10 @@ public class FinalProductView extends AppCompatActivity {
         prodImageViewPager=findViewById(R.id.viewPagerImage);
         viewpagerIndicator=findViewById(R.id.finalImgTabLayout);
         contactBtn=findViewById(R.id.contactBtn);
+        verifyBtnLayout=findViewById(R.id.verifyBtnLayout);
+        btnsLayout=findViewById(R.id.btnsLayout);
+        acceptBtn=findViewById(R.id.acceptBtn);
+        rejectBtn=findViewById(R.id.rejectBtn);
         final Intent intent=getIntent();
         String type=intent.getStringExtra("type");
         final String adId=intent.getStringExtra("adId");
@@ -76,6 +83,16 @@ public class FinalProductView extends AppCompatActivity {
 
         if(who==0)
             contactBtn.setText("EDIT PRICE");
+        if(who==2)
+        {
+            verifyBtnLayout.setVisibility(View.VISIBLE);
+            btnsLayout.setVisibility(View.INVISIBLE);
+        }
+        else
+        {
+            verifyBtnLayout.setVisibility(View.INVISIBLE);
+            btnsLayout.setVisibility(View.VISIBLE);
+        }
 
         prodBrand=findViewById(R.id.prodBrand);
         prodModel=findViewById(R.id.productModel);
@@ -88,6 +105,7 @@ public class FinalProductView extends AppCompatActivity {
         database=FirebaseDatabase.getInstance();
         userReference=database.getReference().child("Manit").child("UserAd").child(Uid).child(uadID);
         databaseReference=database.getReference().child("Manit").child(type+"Ad").child(adId);
+        verifyReference=database.getReference().child("Manit").child("Verification");
         databaseReference.addListenerForSingleValueEvent(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
@@ -160,8 +178,24 @@ public class FinalProductView extends AppCompatActivity {
             }
         });
 
-
-
+        acceptBtn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                databaseReference.child("vs").setValue(1);
+                userReference.child("vs").setValue(1);
+                verifyReference.child(uadID).removeValue();
+                verifyBtnLayout.setVisibility(View.INVISIBLE);
+            }
+        });
+        rejectBtn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                databaseReference.child("vs").setValue(2);
+                userReference.child("vs").setValue(2);
+                verifyReference.child(uadID).removeValue();
+                verifyBtnLayout.setVisibility(View.INVISIBLE);
+            }
+        });
         contactBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {

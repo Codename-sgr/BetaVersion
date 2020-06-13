@@ -9,6 +9,7 @@ import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.Button;
 import android.widget.ImageButton;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -37,6 +38,7 @@ import com.sagar.betaversion.auth.myAccount;
 import com.sagar.betaversion.auth.profile;
 import com.sagar.betaversion.displayAds.ListAd;
 import com.sagar.betaversion.displayAds.myAdsAll;
+import com.sagar.betaversion.displayAds.verifyAd;
 import com.sagar.betaversion.postAds.newAdActivity;
 
 import de.hdodenhof.circleimageview.CircleImageView;
@@ -49,12 +51,14 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
     ImageButton myAccount, newAd, vehicleAds, electronicAds, bookAds, miscAds, MyAds, donateBtn;
     LoadingDialog loadingDialog;
     String username, email, retrievedImage;
+    Button verifyBtn;
     Boolean dp;
     StorageReference storageReference;
     NavigationView navigationView;
     CircleImageView navUserImg;
     TextView navUserName, navUserEmail;
     FirebaseAuth mAuth=FirebaseAuth.getInstance();
+    String userKey;
     SharedPreferences pref;
 
     @Override
@@ -78,7 +82,9 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         loadingDialog = new LoadingDialog(this);
         toolbar = findViewById(R.id.toolbar);
         drawer = findViewById(R.id.drawer_layout);
+        verifyBtn=findViewById(R.id.verifyBtn);
         setSupportActionBar(toolbar);
+
 
         if (getSupportActionBar() != null) {
             getSupportActionBar().setTitle("MANIT-KART");
@@ -97,7 +103,9 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         navUserName = headerview.findViewById(R.id.nav_username);
         navUserEmail = headerview.findViewById(R.id.nav_email);
         reloadUserData();
-
+        FirebaseAuth firebaseAuth = FirebaseAuth.getInstance();
+        FirebaseUser user = firebaseAuth.getCurrentUser();
+        userKey= user.getUid();
         storageReference = FirebaseStorage.getInstance().getReference().child("Manit").child("UserImage");
         myAccount = findViewById(R.id.myAccountButton);
         newAd = findViewById(R.id.newAdButton);
@@ -130,6 +138,12 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
                 Toast.makeText(MainActivity.this, "Donation Coming Soon...", Toast.LENGTH_SHORT).show();
             }
         });
+        if(userKey.matches("huUeaJADQKaPRr5j3No5xztAx1E2"))
+        {
+            Log.i("yeahhhhhhhhhhhhhhhhhhh","nooooooooooooooooooooooo");
+            verifyBtn.setVisibility(View.VISIBLE);
+        }
+
 
 
     }
@@ -154,11 +168,10 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
 
     public void loadUserData() {
 
-        FirebaseAuth firebaseAuth = FirebaseAuth.getInstance();
+
         FirebaseDatabase mDatabase = FirebaseDatabase.getInstance();
         DatabaseReference mDb = mDatabase.getReference().child("Manit");
-        FirebaseUser user = firebaseAuth.getCurrentUser();
-        final String userKey = user.getUid();
+
         pref = getSharedPreferences("UserData", MODE_PRIVATE);
         username = pref.getString("user_name", "");
         if (username.matches("")) {
@@ -266,6 +279,12 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
             @Override
             public void onClick(View v) {
                 startActivity(new Intent(getApplicationContext(), myAdsAll.class));
+            }
+        });
+        verifyBtn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                startActivity(new Intent(getApplicationContext(), verifyAd.class));
             }
         });
 

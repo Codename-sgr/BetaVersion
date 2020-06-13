@@ -14,7 +14,8 @@
         android:roundIcon="@mipmap/ic_manit_logo_round"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
-        <activity android:name=".displayAds.myAdsAll"></activity>
+        <activity android:name=".displayAds.verifyAd"></activity>
+        <activity android:name=".displayAds.myAdsAll" />
         <activity android:name=".about" />
         <activity android:name=".FinalImagePreview" />
         <activity

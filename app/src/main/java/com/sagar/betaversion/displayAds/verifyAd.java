@@ -9,7 +9,6 @@ import androidx.recyclerview.widget.RecyclerView;
 import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
-import android.view.MenuItem;
 import android.view.View;
 import android.widget.TextView;
 
@@ -30,29 +29,26 @@ import com.sagar.betaversion.models.Ad;
 import java.util.ArrayList;
 import java.util.List;
 
-public class myAdsAll extends AppCompatActivity implements RecViewItemClickListener {
+public class verifyAd extends AppCompatActivity implements RecViewItemClickListener {
     RecyclerView recyclerView;
     String Uid;
-    DatabaseReference userAd;
+    DatabaseReference verifyAd;
     ArrayList<Ad> arrayList=new ArrayList<>();
     FirebaseDatabase firebaseDatabase;
     List<listAdModel> listAdModelList=new ArrayList<>();
     public static com.sagar.betaversion.listAdAdapter listAdAdapter;
     public static TextView noAds;
-
     @Override
     protected void onCreate(Bundle savedInstanceState) {
-        Log.i("Start","Start");
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_my_electronic);
-
+        setContentView(R.layout.activity_verify_ad);
         Toolbar toolbar = findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
 
 
         if(getSupportActionBar()!=null){
             getSupportActionBar().setDisplayHomeAsUpEnabled(true);
-            getSupportActionBar().setTitle("My Ads");
+            getSupportActionBar().setTitle("Verify Ads");
         }
         noAds=findViewById(R.id.noAdsTV);
         recyclerView=findViewById(R.id.AdListRecyclerView);
@@ -65,12 +61,10 @@ public class myAdsAll extends AppCompatActivity implements RecViewItemClickListe
         FirebaseUser firebaseUser=mAuth.getCurrentUser();
         Uid=firebaseUser.getUid();
         firebaseDatabase=FirebaseDatabase.getInstance();
-        userAd=firebaseDatabase.getReference().child("Manit").child("UserAd").child(Uid);
-        Log.i("Start",Uid);
-        userAd.addListenerForSingleValueEvent(new ValueEventListener() {
+        verifyAd=firebaseDatabase.getReference().child("Manit").child("Verification");
+        verifyAd.addListenerForSingleValueEvent(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
-                Log.i("Start","Start1");
                 for (DataSnapshot snapshot: dataSnapshot.getChildren()){
                     Ad ad=snapshot.getValue(Ad.class);
                     Log.i("yeaah",ad.toString());
@@ -103,10 +97,9 @@ public class myAdsAll extends AppCompatActivity implements RecViewItemClickListe
                     //Log.i("AAAAA",arrayList.get(i).getModel());
                 }
 
-                listAdAdapter=new listAdAdapter(listAdModelList,myAdsAll.this,Uid,myAdsAll.this.getClass().getSimpleName(),myAdsAll.this);
+                listAdAdapter=new listAdAdapter(listAdModelList,verifyAd.this,Uid,verifyAd.this.getClass().getSimpleName(),verifyAd.this);
                 recyclerView.setAdapter(listAdAdapter);
                 listAdAdapter.notifyDataSetChanged();
-
             }
 
             @Override
@@ -114,23 +107,16 @@ public class myAdsAll extends AppCompatActivity implements RecViewItemClickListe
 
             }
         });
-
     }
-    @Override
-    public boolean onOptionsItemSelected(MenuItem item) {
-        if (item.getItemId() == android.R.id.home) {
-            onBackPressed();
-            return true;
-        }
-        return super.onOptionsItemSelected(item);}
 
     @Override
-    public void onItemClickListener(int position, String adId,String type,String uadId) {
+    public void onItemClickListener(int position, String adId, String type, String uadId) {
         Intent intent=new Intent(getApplicationContext(), FinalProductView.class);
         intent.putExtra("type",type);
         intent.putExtra("adId",adId);
-        intent.putExtra("who",0);//1---buyer   0---seller
+        intent.putExtra("who",2);//1---buyer   0---seller  2----verifier
         intent.putExtra("uadId",uadId);
         startActivity(intent);
+
     }
 }
