@@ -10,10 +10,16 @@
         app:showAsAction="never" />
     <item
         android:id="@+id/action_exit"
-        android:icon="@drawable/ic_exit"
         android:orderInCategory="100"
         android:title="Exit"
         app:showAsAction="never"/>
+    <item
+        android:id="@+id/action_verify"
+        android:orderInCategory="100"
+        android:icon="@drawable/ic_verify"
+        android:title="Verify Ads"
+        app:showAsAction="always"
+        android:visible="false"/>
 
 
 </menu>

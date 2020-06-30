@@ -28,4 +28,8 @@
         android:title="About"
         android:icon="@drawable/ic_about"/>
 
+    <item
+        android:id="@+id/nav_privpol"
+        android:title="Privacy Policy"
+        android:icon="@drawable/ic_privpol"/>
 </menu>

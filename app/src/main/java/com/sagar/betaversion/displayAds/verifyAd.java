@@ -9,6 +9,7 @@ import androidx.recyclerview.widget.RecyclerView;
 import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
+import android.view.MenuItem;
 import android.view.View;
 import android.widget.TextView;
 
@@ -105,10 +106,10 @@ public class verifyAd extends AppCompatActivity implements RecViewItemClickListe
             @Override
             public void onCancelled(@NonNull DatabaseError databaseError) {
 
-            }
-        });
-    }
 
+}
+        });
+                }
     @Override
     public void onItemClickListener(int position, String adId, String type, String uadId) {
         Intent intent=new Intent(getApplicationContext(), FinalProductView.class);
@@ -119,4 +120,12 @@ public class verifyAd extends AppCompatActivity implements RecViewItemClickListe
         startActivity(intent);
 
     }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        if (item.getItemId() == android.R.id.home){
+            onBackPressed();
+            return true;
+        }
+        return super.onOptionsItemSelected(item);}
 }

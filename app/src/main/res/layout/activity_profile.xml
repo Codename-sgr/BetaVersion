@@ -29,7 +29,7 @@
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent"
-            tools:srcCompat="@drawable/userimage" />
+            android:src="@drawable/userimage"/>
 
         <LinearLayout
             android:id="@+id/linearLayout3"
@@ -116,11 +116,11 @@
             android:id="@+id/Update"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginStart="163dp"
             android:layout_marginTop="5dp"
             android:background="@color/colorPrimaryDark"
             android:onClick="update"
             android:text="Update"
+            app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/linearLayout3" />
 

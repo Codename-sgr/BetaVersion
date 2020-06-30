@@ -48,10 +48,11 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
 
     Toolbar toolbar;
     DrawerLayout drawer;
-    ImageButton myAccount, newAd, vehicleAds, electronicAds, bookAds, miscAds, MyAds, donateBtn;
+    ImageButton myAccount, newAd, MyAds, donateBtn;
+    CircleImageView vehicleAds, electronicAds, bookAds, miscAds;
     LoadingDialog loadingDialog;
     String username, email, retrievedImage;
-    Button verifyBtn;
+    TextView verifyBtn;
     Boolean dp;
     StorageReference storageReference;
     NavigationView navigationView;
@@ -82,7 +83,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         loadingDialog = new LoadingDialog(this);
         toolbar = findViewById(R.id.toolbar);
         drawer = findViewById(R.id.drawer_layout);
-        verifyBtn=findViewById(R.id.verifyBtn);
+//        verifyBtn=findViewById(R.id.verifyBtn);
         setSupportActionBar(toolbar);
 
 
@@ -131,18 +132,17 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         selectCategory();
 
 
-
         donateBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 Toast.makeText(MainActivity.this, "Donation Coming Soon...", Toast.LENGTH_SHORT).show();
             }
         });
-        if(userKey.matches("huUeaJADQKaPRr5j3No5xztAx1E2"))
+        /*if(userKey.matches("huUeaJADQKaPRr5j3No5xztAx1E2") || userKey.matches("K6dhzrpF2IZwsibOfllS5bP5pX83"))
         {
-            Log.i("yeahhhhhhhhhhhhhhhhhhh","nooooooooooooooooooooooo");
+            Log.i("yeahhhhhhh","noooooooo");
             verifyBtn.setVisibility(View.VISIBLE);
-        }
+        }*/
 
 
 
@@ -281,12 +281,13 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
                 startActivity(new Intent(getApplicationContext(), myAdsAll.class));
             }
         });
-        verifyBtn.setOnClickListener(new View.OnClickListener() {
+
+        /*verifyBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 startActivity(new Intent(getApplicationContext(), verifyAd.class));
             }
-        });
+        });*/
 
 
     }
@@ -302,6 +303,8 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         getMenuInflater().inflate(R.menu.options_menu, menu);
+        if(userKey.matches("huUeaJADQKaPRr5j3No5xztAx1E2") || userKey.matches("K6dhzrpF2IZwsibOfllS5bP5pX83"))
+        menu.getItem(2).setVisible(true);
         return true;
     }
 
@@ -334,7 +337,8 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
             AlertDialog alertDialog = alertDialogBuilder.create();
             alertDialog.show();
             return true;
-        } else if (id == R.id.action_logout) {
+        }
+        else if (id == R.id.action_logout) {
 
             AlertDialog.Builder alertDialogBuilder = new AlertDialog.Builder(this);
             alertDialogBuilder.setTitle("Alert");
@@ -359,6 +363,9 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
             alertDialog.show();
 
         }
+        else if(id==R.id.action_verify)
+            startActivity(new Intent(getApplicationContext(), verifyAd.class));
+
 
         return super.onOptionsItemSelected(item);
     }
@@ -395,6 +402,8 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
             //
         } else if (id == R.id.nav_about) {
             startActivity(new Intent(MainActivity.this,about.class));
+        } else if (id==R.id.nav_privpol){
+            startActivity(new Intent(MainActivity.this,privacy_policy.class));
         }
 
         drawer.closeDrawer(GravityCompat.START);
