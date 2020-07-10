@@ -4,8 +4,10 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@drawable/backgroundapp"
+    android:background="#d7ccb6"
     tools:context=".auth.LoginActivity">
+
+<!--    android:background="@drawable/backgroundapp"-->
 
     <ImageView
         android:id="@+id/logo"
@@ -16,26 +18,28 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
         app:srcCompat="@mipmap/ic_manit_logo" />
+
     <ImageView
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:src="@drawable/manitlogo"
         android:padding="20dp"
-        android:alpha="0.3"/>
+        android:alpha="0.05"/>
 
 
     <com.google.android.material.textfield.TextInputLayout
         android:id="@+id/EmailLayout"
         style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
-        android:layout_width="250dp"
+        android:layout_width="270dp"
         android:layout_height="75dp"
         android:layout_marginTop="30dp"
         android:hint="@string/Email"
-        android:textColorHint="#ffffff"
-        app:boxStrokeColor="@color/colorAccent"
+        android:textColorHint="#000000"
+        app:boxStrokeColor="#161616"
         app:boxStrokeWidth="2dp"
-        app:boxStrokeWidthFocused="3dp"
-        app:hintTextColor="#ffffff"
+        app:boxStrokeWidthFocused="4dp"
+        app:hintTextColor="#000000"
+        app:boxBackgroundMode="outline"
         app:layout_constraintEnd_toEndOf="@+id/passwordLayout"
         app:layout_constraintStart_toStartOf="@+id/passwordLayout"
         app:layout_constraintTop_toBottomOf="@id/logo">
@@ -46,7 +50,7 @@
             android:layout_height="wrap_content"
             android:fontFamily="@font/lora_regular"
             android:inputType="textEmailAddress"
-            android:textColor="#FFFFFF"
+            android:textColor="#000000"
             android:textCursorDrawable="@null"
             />
     </com.google.android.material.textfield.TextInputLayout>
@@ -54,20 +58,20 @@
     <com.google.android.material.textfield.TextInputLayout
         android:id="@+id/passwordLayout"
         style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
-        android:layout_width="250dp"
+        android:layout_width="270dp"
         android:layout_height="75dp"
         android:layout_marginTop="10dp"
         android:hint="@string/Password"
-        android:textColorHint="#ffffff"
-        app:boxStrokeColor="@color/colorAccent"
+        android:textColorHint="#000000"
+        app:boxStrokeColor="#161616"
         app:boxStrokeWidth="2dp"
         app:boxStrokeWidthFocused="3dp"
-        app:hintTextColor="#ffffff"
+        app:hintTextColor="#000000"
         app:layout_constraintEnd_toEndOf="@+id/LogIn"
         app:layout_constraintStart_toStartOf="@+id/LogIn"
         app:layout_constraintTop_toBottomOf="@+id/EmailLayout"
         app:passwordToggleEnabled="true"
-        app:passwordToggleTint="#ffffff">
+        app:passwordToggleTint="#000000">
 
         <com.google.android.material.textfield.TextInputEditText
             android:id="@+id/password"
@@ -75,9 +79,8 @@
             android:layout_height="wrap_content"
             android:fontFamily="@font/lora_regular"
             android:inputType="textPassword"
-            android:textColor="#FFFFFF"
-            android:textCursorDrawable="@null"
-            />
+            android:textColor="#000000"
+            android:textCursorDrawable="@null" />
     </com.google.android.material.textfield.TextInputLayout>
 
     <Button
@@ -97,7 +100,7 @@
         android:id="@+id/textViewForgetPass"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:textColor="#ffffff"
+        android:textColor="#000000"
         android:text="Forget Password?"
         app:layout_constraintEnd_toEndOf="@+id/passwordLayout"
         app:layout_constraintTop_toBottomOf="@+id/passwordLayout" />
@@ -117,7 +120,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="New User? Create an Account"
-        android:textColor="#FBC02D"
+        android:textColor="#000000"
         android:textSize="15sp"
         android:layout_marginTop="60dp"
         app:layout_constraintEnd_toEndOf="parent"

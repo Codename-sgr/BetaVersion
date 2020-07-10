@@ -6,6 +6,7 @@ import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.net.Uri;
 import android.os.Bundle;
+import android.os.Handler;
 import android.util.Log;
 import android.view.MenuItem;
 import android.view.View;
@@ -23,6 +24,7 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 import androidx.viewpager.widget.ViewPager;
 
+import com.facebook.shimmer.ShimmerFrameLayout;
 import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.material.tabs.TabLayout;
 import com.google.firebase.auth.FirebaseAuth;
@@ -162,10 +164,9 @@ public class FinalProductView extends AppCompatActivity {
 //                    finalProdSpecificationModelList.add(new finalProdSpecificationModel("Note: ",pDesc));
 //                finalProdSpecificationModelList.add(new finalProdSpecificationModel("AD ID: ",adId));
 
-                finalProdDescRecViewAdapter finalProdDescRecViewAdapter=new finalProdDescRecViewAdapter(finalProdSpecificationModelList);
+                final finalProdDescRecViewAdapter finalProdDescRecViewAdapter=new finalProdDescRecViewAdapter(finalProdSpecificationModelList);
                 recyclerView.setAdapter(finalProdDescRecViewAdapter);
                 finalProdDescRecViewAdapter.notifyDataSetChanged();
-
                 if(getSupportActionBar()!=null){
                     getSupportActionBar().setDisplayHomeAsUpEnabled(true);
                     getSupportActionBar().setTitle(pModel);

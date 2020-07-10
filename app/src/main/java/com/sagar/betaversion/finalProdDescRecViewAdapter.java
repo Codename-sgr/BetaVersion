@@ -8,9 +8,6 @@ import android.widget.TextView;
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
-import com.firebase.ui.database.FirebaseRecyclerAdapter;
-import com.firebase.ui.database.FirebaseRecyclerOptions;
-
 import java.util.List;
 
 public class finalProdDescRecViewAdapter extends RecyclerView.Adapter<finalProdDescRecViewAdapter.ViewHolder> {
@@ -30,9 +27,9 @@ public class finalProdDescRecViewAdapter extends RecyclerView.Adapter<finalProdD
 
     @Override
     public void onBindViewHolder(@NonNull finalProdDescRecViewAdapter.ViewHolder holder, int position) {
-        String featureName=finalProdSpecificationModelList.get(position).getFeatureName();
-        String featureValue=finalProdSpecificationModelList.get(position).getFeatureValue();
-        holder.setFeatures(featureName,featureValue);
+        String featureName = finalProdSpecificationModelList.get(position).getFeatureName();
+        String featureValue = finalProdSpecificationModelList.get(position).getFeatureValue();
+        holder.setFeatures(featureName, featureValue);
     }
 
     @Override

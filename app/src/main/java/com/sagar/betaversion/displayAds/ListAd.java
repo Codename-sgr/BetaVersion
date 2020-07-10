@@ -8,9 +8,11 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.os.Handler;
 import android.util.Log;
 import android.view.MenuItem;
 import android.view.View;
+import android.view.WindowManager;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -52,6 +54,9 @@ public class ListAd extends AppCompatActivity implements RecViewItemClickListene
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_list_ad);
 
+        getWindow().setFlags(WindowManager.LayoutParams.FLAG_NOT_TOUCHABLE,
+                WindowManager.LayoutParams.FLAG_NOT_TOUCHABLE);
+
         Intent intent=getIntent();
         type=intent.getStringExtra("type");
 
@@ -76,8 +81,8 @@ public class ListAd extends AppCompatActivity implements RecViewItemClickListene
         recyclerView=findViewById(R.id.AdListRecyclerView);
         recyclerView.setHasFixedSize(true);
         LinearLayoutManager layoutManager=new LinearLayoutManager(this);
-        /*layoutManager.setReverseLayout(true);
-        layoutManager.setStackFromEnd(true);*/
+        layoutManager.setReverseLayout(true);
+        layoutManager.setStackFromEnd(true);
         recyclerView.setLayoutManager(layoutManager);
 
         showList();
@@ -125,7 +130,15 @@ public class ListAd extends AppCompatActivity implements RecViewItemClickListene
 
                     listAdAdapter=new listAdAdapter(listAdModelList,ListAd.this,Uid,getLocalClassName(),ListAd.this);
                     recyclerView.setAdapter(listAdAdapter);
-                    listAdAdapter.notifyDataSetChanged();
+
+                    new Handler().postDelayed(new Runnable() {
+                        @Override
+                        public void run() {
+                            getWindow().clearFlags(WindowManager.LayoutParams.FLAG_NOT_TOUCHABLE);
+                            listAdAdapter.shimmering=false;
+                            listAdAdapter.notifyDataSetChanged();
+                        }
+                    },3000);
 
                 }
 
@@ -170,9 +183,16 @@ public class ListAd extends AppCompatActivity implements RecViewItemClickListene
                                 )
                         );
 
-                    listAdAdapter listAdAdapter=new listAdAdapter(listAdModelList,ListAd.this,Uid,getLocalClassName(),ListAd.this);
+                    listAdAdapter=new listAdAdapter(listAdModelList,ListAd.this,Uid,getLocalClassName(),ListAd.this);
                     recyclerView.setAdapter(listAdAdapter);
-                    listAdAdapter.notifyDataSetChanged();
+                    new Handler().postDelayed(new Runnable() {
+                        @Override
+                        public void run() {
+                            getWindow().clearFlags(WindowManager.LayoutParams.FLAG_NOT_TOUCHABLE);
+                            listAdAdapter.shimmering=false;
+                            listAdAdapter.notifyDataSetChanged();
+                        }
+                    },3000);
 
                 }
 
@@ -217,9 +237,16 @@ public class ListAd extends AppCompatActivity implements RecViewItemClickListene
                                 )
                         );
 
-                    listAdAdapter listAdAdapter=new listAdAdapter(listAdModelList,ListAd.this,Uid,getLocalClassName(),ListAd.this);
+                    listAdAdapter=new listAdAdapter(listAdModelList,ListAd.this,Uid,getLocalClassName(),ListAd.this);
                     recyclerView.setAdapter(listAdAdapter);
-                    listAdAdapter.notifyDataSetChanged();
+                    new Handler().postDelayed(new Runnable() {
+                        @Override
+                        public void run() {
+                            getWindow().clearFlags(WindowManager.LayoutParams.FLAG_NOT_TOUCHABLE);
+                            listAdAdapter.shimmering=false;
+                            listAdAdapter.notifyDataSetChanged();
+                        }
+                    },3000);
                 }
 
                 @Override
@@ -261,9 +288,16 @@ public class ListAd extends AppCompatActivity implements RecViewItemClickListene
                                 )
                         );
 
-                    listAdAdapter listAdAdapter=new listAdAdapter(listAdModelList,ListAd.this,Uid,getLocalClassName(),ListAd.this);
+                    listAdAdapter=new listAdAdapter(listAdModelList,ListAd.this,Uid,getLocalClassName(),ListAd.this);
                     recyclerView.setAdapter(listAdAdapter);
-                    listAdAdapter.notifyDataSetChanged();
+                    new Handler().postDelayed(new Runnable() {
+                        @Override
+                        public void run() {
+                            getWindow().clearFlags(WindowManager.LayoutParams.FLAG_NOT_TOUCHABLE);
+                            listAdAdapter.shimmering=false;
+                            listAdAdapter.notifyDataSetChanged();
+                        }
+                    },3000);
                 }
 
                 @Override
@@ -271,6 +305,7 @@ public class ListAd extends AppCompatActivity implements RecViewItemClickListene
 
                 }
             });
+
         }
         else
             {

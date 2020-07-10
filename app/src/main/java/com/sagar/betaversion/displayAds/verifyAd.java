@@ -8,6 +8,7 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.os.Handler;
 import android.util.Log;
 import android.view.MenuItem;
 import android.view.View;
@@ -100,7 +101,13 @@ public class verifyAd extends AppCompatActivity implements RecViewItemClickListe
 
                 listAdAdapter=new listAdAdapter(listAdModelList,verifyAd.this,Uid,verifyAd.this.getClass().getSimpleName(),verifyAd.this);
                 recyclerView.setAdapter(listAdAdapter);
-                listAdAdapter.notifyDataSetChanged();
+                new Handler().postDelayed(new Runnable() {
+                    @Override
+                    public void run() {
+                        listAdAdapter.shimmering=false;
+                        listAdAdapter.notifyDataSetChanged();
+                    }
+                },2500);
             }
 
             @Override

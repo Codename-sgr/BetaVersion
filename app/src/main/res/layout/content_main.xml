@@ -3,7 +3,8 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
-    android:layout_height="match_parent">
+    android:layout_height="match_parent"
+    android:background="#39F8F1E4">
 
     <LinearLayout
         android:id="@+id/categories"
@@ -411,7 +412,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_gravity="bottom"
-            android:backgroundTint="@color/colorAccent"
+            android:backgroundTint="@color/colorPrimary"
             android:paddingEnd="15dp"
             android:paddingBottom="5dp">
 
@@ -441,6 +442,7 @@
                         android:id="@+id/textViewMyAd"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
+                        android:textColor="#ffffff"
                         android:layout_gravity="center|bottom"
                         android:text="MyAd" />
 
@@ -450,6 +452,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_gravity="bottom"
+                    android:textColor="#ffffff"
                     android:text="Post Ad" />
 
                 <LinearLayout
@@ -473,6 +476,7 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_gravity="center|bottom"
+                        android:textColor="#ffffff"
                         android:text="My Account" />
 
                 </LinearLayout>
@@ -488,7 +492,7 @@
             android:layout_height="wrap_content"
             android:src="@drawable/pos_ad_logo"
             android:tint="@color/colorPrimary"
-            app:backgroundTint="#FF5722"
+            app:backgroundTint="@color/colorAccent"
             app:borderWidth="3dp"
             app:fabCustomSize="80dp"
             app:layout_anchor="@id/bottomAppBar"

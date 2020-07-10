@@ -8,6 +8,7 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.os.Handler;
 import android.util.Log;
 import android.view.MenuItem;
 import android.view.View;
@@ -105,7 +106,13 @@ public class myAdsAll extends AppCompatActivity implements RecViewItemClickListe
 
                 listAdAdapter=new listAdAdapter(listAdModelList,myAdsAll.this,Uid,myAdsAll.this.getClass().getSimpleName(),myAdsAll.this);
                 recyclerView.setAdapter(listAdAdapter);
-                listAdAdapter.notifyDataSetChanged();
+                new Handler().postDelayed(new Runnable() {
+                    @Override
+                    public void run() {
+                        listAdAdapter.shimmering=false;
+                        listAdAdapter.notifyDataSetChanged();
+                    }
+                },3000);
 
             }
 
