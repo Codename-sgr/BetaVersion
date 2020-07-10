@@ -49,7 +49,7 @@ public class FinalProductView extends AppCompatActivity {
     FirebaseDatabase database;
     DatabaseReference databaseReference,userReference,verifyReference;
 
-    TextView prodBrand,prodModel,prodPrice,descNote;
+    TextView prodBrand,prodModel,prodPrice,descNote,rsTV;
 
     String pBrand,pModel,pPurchaseDate,pDesc,pImg1,pImg2,pImg3,pUserID,email;
     int pPrice,pKmsDriven,pMileage,pImgCount;
@@ -68,6 +68,8 @@ public class FinalProductView extends AppCompatActivity {
 
         Toolbar toolbar = findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
+        getSupportActionBar().setTitle(null);
+        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
 
         prodImageViewPager=findViewById(R.id.viewPagerImage);
         viewpagerIndicator=findViewById(R.id.finalImgTabLayout);
@@ -100,6 +102,7 @@ public class FinalProductView extends AppCompatActivity {
         prodModel=findViewById(R.id.productModel);
         prodPrice=findViewById(R.id.priceTextView);
         descNote=findViewById(R.id.descNote);
+        rsTV=findViewById(R.id.rsTV);
 //        updateBtn=findViewById(R.id.UpdateBtn);
         Log.i("TYPE",""+type);
         Log.i("ADID",""+adId);
@@ -126,6 +129,10 @@ public class FinalProductView extends AppCompatActivity {
                 pImg3=itemDetails.getImg3();
                 pUserID=itemDetails.getUser_id();
 
+                if(getSupportActionBar()!=null){
+                    getSupportActionBar().setTitle(pModel);
+                }
+
 //FOR IMAGE IN VIEW PAGER
                 final ArrayList<String> imageURLs=new ArrayList<>();
                 if(pImg1!=null)
@@ -142,6 +149,7 @@ public class FinalProductView extends AppCompatActivity {
 //FOR DETAILS
                  prodBrand.setText(pBrand);
                  prodModel.setText(pModel);
+                 rsTV.setText("Rs.");
                  prodPrice.setText(Integer.toString(pPrice));
 
 //FOR SPECIFICATIONS
@@ -167,10 +175,7 @@ public class FinalProductView extends AppCompatActivity {
                 final finalProdDescRecViewAdapter finalProdDescRecViewAdapter=new finalProdDescRecViewAdapter(finalProdSpecificationModelList);
                 recyclerView.setAdapter(finalProdDescRecViewAdapter);
                 finalProdDescRecViewAdapter.notifyDataSetChanged();
-                if(getSupportActionBar()!=null){
-                    getSupportActionBar().setDisplayHomeAsUpEnabled(true);
-                    getSupportActionBar().setTitle(pModel);
-                }
+
             }
 
             @Override

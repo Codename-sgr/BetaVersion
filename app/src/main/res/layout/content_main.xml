@@ -6,12 +6,14 @@
     android:layout_height="match_parent"
     android:background="#39F8F1E4">
 
+
     <LinearLayout
         android:id="@+id/categories"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:orientation="vertical"
         android:layout_marginTop="55dp"
+        app:layout_constraintBottom_toTopOf="@id/donateImgBtn"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
@@ -128,6 +130,7 @@
     </LinearLayout>
 
 
+
     <ImageButton
         android:id="@+id/donateImgBtn"
         android:layout_width="match_parent"
@@ -137,7 +140,8 @@
         android:background="@null"
         android:scaleType="centerCrop"
         android:src="@drawable/donationcharity"
-        app:layout_constraintBottom_toTopOf="@id/cooL"
+        android:layout_marginBottom="135dp"
+        app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@id/categories" />
@@ -397,7 +401,8 @@
         </GridLayout>
     -->
 
-    <androidx.coordinatorlayout.widget.CoordinatorLayout
+
+    <!--<androidx.coordinatorlayout.widget.CoordinatorLayout
         android:id="@+id/cooL"
         android:layout_width="401dp"
         android:layout_height="0dp"
@@ -500,7 +505,7 @@
             app:tint="#eeeeee" />
 
 
-    </androidx.coordinatorlayout.widget.CoordinatorLayout>
+    </androidx.coordinatorlayout.widget.CoordinatorLayout>-->
 
 
 </androidx.constraintlayout.widget.ConstraintLayout>

@@ -11,6 +11,8 @@
 
     <include layout="@layout/content_main" />
 
+    <include layout="@layout/bottom_app_bar"/>
+
 
 
 </androidx.coordinatorlayout.widget.CoordinatorLayout>

@@ -57,12 +57,11 @@
         app:layout_constraintTop_toBottomOf="@id/productModel" />
 
     <TextView
-        android:id="@+id/textView13"
+        android:id="@+id/rsTV"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginStart="16dp"
         android:layout_marginTop="8dp"
-        android:text="Rs. "
         android:textSize="22sp"
         android:textStyle="bold"
         app:layout_constraintBottom_toBottomOf="@+id/priceTextView"
@@ -76,7 +75,7 @@
         android:layout_marginTop="8dp"
         android:textSize="28sp"
         android:textStyle="bold"
-        app:layout_constraintStart_toEndOf="@+id/textView13"
+        app:layout_constraintStart_toEndOf="@+id/rsTV"
         app:layout_constraintTop_toBottomOf="@+id/prodBrand" />
 
     <View
