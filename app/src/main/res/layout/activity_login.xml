@@ -7,7 +7,7 @@
     android:background="#d7ccb6"
     tools:context=".auth.LoginActivity">
 
-<!--    android:background="@drawable/backgroundapp"-->
+    <!--    android:background="@drawable/backgroundapp"-->
 
     <ImageView
         android:id="@+id/logo"
@@ -22,9 +22,9 @@
     <ImageView
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:src="@drawable/manitlogo"
+        android:alpha="0.05"
         android:padding="20dp"
-        android:alpha="0.05"/>
+        android:src="@drawable/manitlogo" />
 
 
     <com.google.android.material.textfield.TextInputLayout
@@ -37,9 +37,8 @@
         android:textColorHint="#000000"
         app:boxStrokeColor="#161616"
         app:boxStrokeWidth="2dp"
-        app:boxStrokeWidthFocused="4dp"
+        app:boxStrokeWidthFocused="3dp"
         app:hintTextColor="#000000"
-        app:boxBackgroundMode="outline"
         app:layout_constraintEnd_toEndOf="@+id/passwordLayout"
         app:layout_constraintStart_toStartOf="@+id/passwordLayout"
         app:layout_constraintTop_toBottomOf="@id/logo">
@@ -51,8 +50,7 @@
             android:fontFamily="@font/lora_regular"
             android:inputType="textEmailAddress"
             android:textColor="#000000"
-            android:textCursorDrawable="@null"
-            />
+            android:textCursorDrawable="@null" />
     </com.google.android.material.textfield.TextInputLayout>
 
     <com.google.android.material.textfield.TextInputLayout
@@ -90,8 +88,8 @@
         android:layout_below="@id/passwordLayout"
         android:layout_marginTop="30dp"
         android:background="@drawable/round_button"
-        android:text="LOG IN"
         android:onClick="logIn"
+        android:text="LOG IN"
         app:layout_constraintEnd_toEndOf="@+id/googleLoginBtn"
         app:layout_constraintStart_toStartOf="@+id/googleLoginBtn"
         app:layout_constraintTop_toBottomOf="@+id/textViewForgetPass" />
@@ -100,8 +98,8 @@
         android:id="@+id/textViewForgetPass"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:textColor="#000000"
         android:text="Forget Password?"
+        android:textColor="#000000"
         app:layout_constraintEnd_toEndOf="@+id/passwordLayout"
         app:layout_constraintTop_toBottomOf="@+id/passwordLayout" />
 
@@ -119,14 +117,13 @@
         style="@style/TextAppearance.AppCompat.Title"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:layout_marginTop="60dp"
         android:text="New User? Create an Account"
         android:textColor="#000000"
         android:textSize="15sp"
-        android:layout_marginTop="60dp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@id/googleLoginBtn" />
-
 
 
     <!--LOGIN BUTTON-->

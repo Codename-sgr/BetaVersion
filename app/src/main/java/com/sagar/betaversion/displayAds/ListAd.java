@@ -16,6 +16,7 @@ import android.view.WindowManager;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.facebook.shimmer.ShimmerFrameLayout;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.database.DataSnapshot;
@@ -26,6 +27,7 @@ import com.google.firebase.database.ValueEventListener;
 import com.google.firebase.storage.FirebaseStorage;
 import com.google.firebase.storage.StorageReference;
 import com.sagar.betaversion.FinalProductView;
+import com.sagar.betaversion.MainActivity;
 import com.sagar.betaversion.R;
 import com.sagar.betaversion.RecViewItemClickListener;
 import com.sagar.betaversion.listAdAdapter;
@@ -131,6 +133,7 @@ public class ListAd extends AppCompatActivity implements RecViewItemClickListene
                     listAdAdapter=new listAdAdapter(listAdModelList,ListAd.this,Uid,getLocalClassName(),ListAd.this);
                     recyclerView.setAdapter(listAdAdapter);
 
+
                     new Handler().postDelayed(new Runnable() {
                         @Override
                         public void run() {
@@ -138,7 +141,7 @@ public class ListAd extends AppCompatActivity implements RecViewItemClickListene
                             listAdAdapter.shimmering=false;
                             listAdAdapter.notifyDataSetChanged();
                         }
-                    },3000);
+                    },2000);
 
                 }
 
@@ -192,7 +195,7 @@ public class ListAd extends AppCompatActivity implements RecViewItemClickListene
                             listAdAdapter.shimmering=false;
                             listAdAdapter.notifyDataSetChanged();
                         }
-                    },3000);
+                    },2000);
 
                 }
 
@@ -246,7 +249,7 @@ public class ListAd extends AppCompatActivity implements RecViewItemClickListene
                             listAdAdapter.shimmering=false;
                             listAdAdapter.notifyDataSetChanged();
                         }
-                    },3000);
+                    },2000);
                 }
 
                 @Override
@@ -297,7 +300,7 @@ public class ListAd extends AppCompatActivity implements RecViewItemClickListene
                             listAdAdapter.shimmering=false;
                             listAdAdapter.notifyDataSetChanged();
                         }
-                    },3000);
+                    },2000);
                 }
 
                 @Override

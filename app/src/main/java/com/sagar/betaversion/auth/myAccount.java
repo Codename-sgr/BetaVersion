@@ -14,6 +14,7 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
 
 import com.google.firebase.auth.FirebaseAuth;
+import com.sagar.betaversion.MainActivity;
 import com.sagar.betaversion.R;
 
 import java.io.ByteArrayInputStream;

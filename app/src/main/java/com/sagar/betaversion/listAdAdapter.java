@@ -40,8 +40,6 @@ public class listAdAdapter extends RecyclerView.Adapter<listAdAdapter.ViewHolder
     public listAdAdapter(List<listAdModel> listAdModelList,RecViewItemClickListener recViewItemClickListener,String Uid ,String activity,Context context) {
         this.listAdModelList = listAdModelList;
         this.recViewItemClickListener=recViewItemClickListener;
-//        this.listAd=listAd;
-
         this.Uid=Uid;
         this.activity=activity;
         this.context=context;
@@ -57,32 +55,24 @@ public class listAdAdapter extends RecyclerView.Adapter<listAdAdapter.ViewHolder
 
     @Override
     public void onBindViewHolder(@NonNull listAdAdapter.ViewHolder holder, int position) {
-        if (shimmering){
-            holder.shimmerFrameLayout.startShimmer();
-        }
-        else {
-            holder.shimmerFrameLayout.stopShimmer();
-            holder.shimmerFrameLayout.setShimmer(null);
 
-            holder.adProductImg.setBackground(null);
-            holder.adProductBrand.setBackground(null);
-            holder.adProductModel.setBackground(null);
-            holder.adProductPrice.setBackground(null);
+            if(shimmering==false){
+                String adProductBrand=listAdModelList.get(position).getProdBrand();
+                String adProductModel=listAdModelList.get(position).getProdModel();
+                int adProductPrice=listAdModelList.get(position).getProdPrice();
+                String adProductImage=listAdModelList.get(position).getProdImg();
+                String adProductAdId=listAdModelList.get(position).getAdId();
+                Boolean status=listAdModelList.get(position).isStatus();
+                String type=listAdModelList.get(position).getType();
+                int vs=listAdModelList.get(position).getVs();
+                String uadId=listAdModelList.get(position).getUadId();
+                holder.setAdProdct(adProductBrand,adProductModel,adProductPrice,adProductImage,adProductAdId,uadId,status,type,vs,position);
+            }
 
-            String adProductBrand=listAdModelList.get(position).getProdBrand();
-            String adProductModel=listAdModelList.get(position).getProdModel();
-            int adProductPrice=listAdModelList.get(position).getProdPrice();
-            String adProductImage=listAdModelList.get(position).getProdImg();
-            String adProductAdId=listAdModelList.get(position).getAdId();
-            Boolean status=listAdModelList.get(position).isStatus();
-            String type=listAdModelList.get(position).getType();
-            int vs=listAdModelList.get(position).getVs();
-            String uadId=listAdModelList.get(position).getUadId();
-            holder.setAdProdct(adProductBrand,adProductModel,adProductPrice,adProductImage,adProductAdId,uadId,status,type,vs,position);
         }
 
 
-    }
+
 
     @Override
     public int getItemCount() {
@@ -125,6 +115,12 @@ public class listAdAdapter extends RecyclerView.Adapter<listAdAdapter.ViewHolder
 
         void setAdProdct(final String adBrand, String adModel, int adPrice, String adImg, final String adId, final String uadId,  final Boolean status, final String type,final int vs, final int position){
 
+
+            adProductImg.setBackground(null);
+            adProductBrand.setBackground(null);
+            adProductModel.setBackground(null);
+            adProductPrice.setBackground(null);
+
             adProductBrand.setText(adBrand);
             adProductModel.setText(adModel);
             adProductPrice.setText(String.valueOf(adPrice));
@@ -134,6 +130,8 @@ public class listAdAdapter extends RecyclerView.Adapter<listAdAdapter.ViewHolder
             uadType.setText(uadId);
 
 
+            shimmerFrameLayout.stopShimmer();
+            shimmerFrameLayout.setShimmer(null);
 
 
             if(context instanceof myAdsAll /*|| context instanceof verifyAd*/){

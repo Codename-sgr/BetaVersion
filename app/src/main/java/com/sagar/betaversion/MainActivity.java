@@ -126,7 +126,6 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
 
         AppBarConfiguration mAppBarConfiguration = new AppBarConfiguration.Builder(
                 R.id.nav_home, R.id.nav_myads, R.id.nav_myacc, R.id.nav_about, R.id.nav_contact)
-                .setDrawerLayout(drawer)
                 .build();
 
         selectCategory();

@@ -5,7 +5,8 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="fill_parent"
     android:layout_height="match_parent"
-    tools:context=".privacy_policy">
+    tools:context=".privacy_policy"
+    android:id="@+id/qq">
 
     <include
         android:id="@+id/top"

@@ -11,6 +11,7 @@
         android:layout_height="wrap_content"
         android:autoLink="web|email"
         android:text="Test"
+        android:textSize="17sp"
         android:layout_marginLeft="18dp"
         android:layout_marginRight="18dp"
         android:layout_marginTop="16dp"

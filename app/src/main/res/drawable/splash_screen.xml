@@ -1,12 +1,14 @@
 <?xml version="1.0" encoding="utf-8"?>
 <layer-list xmlns:android="http://schemas.android.com/apk/res/android">
-    <item android:drawable="@drawable/splash"/>
-    <!--<item>
-        <bitmap android:src="@drawable/manitlogo"
-            android:tint="#FFFFFF"
-            android:gravity="center"
-            android:alpha=""
+    <item>
+        <bitmap android:src="@drawable/backgroundapp"
+            android:gravity="fill_vertical"
+            />
+
+    </item>
+    <item>
+        <bitmap android:src="@drawable/qwerty"
+            android:gravity="clip_horizontal"
             />
     </item>
--->
 </layer-list>

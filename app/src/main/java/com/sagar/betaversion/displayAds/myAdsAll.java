@@ -112,7 +112,7 @@ public class myAdsAll extends AppCompatActivity implements RecViewItemClickListe
                         listAdAdapter.shimmering=false;
                         listAdAdapter.notifyDataSetChanged();
                     }
-                },3000);
+                },2500);
 
             }
 
