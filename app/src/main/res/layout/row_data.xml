@@ -33,17 +33,18 @@
 
             <TextView
                 android:id="@+id/soldOut"
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
+                android:layout_width="175dp"
+                android:layout_height="54dp"
+                android:background="#ffffff"
                 android:elevation="2dp"
+                android:fontFamily="@font/lora_regular"
                 android:gravity="center"
                 android:text="SOLD OUT"
-                android:fontFamily="@font/berkshire_swash"
+                android:layout_marginStart="5dp"
                 android:textColor="#F85959"
-                android:textSize="50sp"
+                android:textSize="37sp"
                 android:visibility="invisible"
                 app:layout_constraintBottom_toBottomOf="@+id/linearLayout4"
-                app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toTopOf="parent" />
             <TextView
@@ -52,7 +53,7 @@
                 android:layout_height="wrap_content"
                 android:gravity="center"
                 android:text="Verification in Progress"
-                android:fontFamily="@font/berkshire_swash"
+                android:fontFamily="@font/lora_regular"
                 android:textColor="#0B2FEA"
                 android:textSize="13sp"
                 android:visibility="invisible"
@@ -165,7 +166,6 @@
                         android:layout_gravity="end"
                         android:layout_weight="1"
                         android:visibility="invisible"
-                        android:textSize="10sp"
                         android:text=""
                         />
                     <TextView
@@ -176,7 +176,6 @@
                         android:layout_gravity="end"
                         android:layout_weight="1"
                         android:visibility="invisible"
-                        android:textSize="10sp"
                         android:text=""
                         />
                     <TextView
@@ -187,7 +186,6 @@
                         android:layout_gravity="end"
                         android:layout_weight="1"
                         android:visibility="invisible"
-                        android:textSize="10sp"
                         android:text=""
                         />
 

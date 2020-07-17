@@ -56,7 +56,9 @@ public class listAdAdapter extends RecyclerView.Adapter<listAdAdapter.ViewHolder
     @Override
     public void onBindViewHolder(@NonNull listAdAdapter.ViewHolder holder, int position) {
 
-            if(shimmering==false){
+        if(shimmering==true)
+            holder.itemView.setClickable(false);
+        if(shimmering==false){
                 String adProductBrand=listAdModelList.get(position).getProdBrand();
                 String adProductModel=listAdModelList.get(position).getProdModel();
                 int adProductPrice=listAdModelList.get(position).getProdPrice();
@@ -67,7 +69,9 @@ public class listAdAdapter extends RecyclerView.Adapter<listAdAdapter.ViewHolder
                 int vs=listAdModelList.get(position).getVs();
                 String uadId=listAdModelList.get(position).getUadId();
                 holder.setAdProdct(adProductBrand,adProductModel,adProductPrice,adProductImage,adProductAdId,uadId,status,type,vs,position);
+                holder.itemView.setClickable(true);
             }
+
 
         }
 
@@ -137,18 +141,20 @@ public class listAdAdapter extends RecyclerView.Adapter<listAdAdapter.ViewHolder
             if(context instanceof myAdsAll /*|| context instanceof verifyAd*/){
                 adSoldBtn.setVisibility(View.VISIBLE);
                 adDelete.setVisibility(View.VISIBLE);
+                if(vs==0)
+                {
+                    verified.setVisibility(View.VISIBLE);
+                }
+                if(!status){
+                    soldOut.setVisibility(View.VISIBLE);
+                }
             }
 
             else{
                 adSoldBtn.setVisibility(View.INVISIBLE);
                 adDelete.setVisibility(View.INVISIBLE);
-                if(!status){
-                    soldOut.setVisibility(View.VISIBLE);
-                }
-                if(vs==0)
-                {
-                    verified.setVisibility(View.VISIBLE);
-                }
+
+
             }
 
             adDelete.setOnClickListener(new View.OnClickListener() {
@@ -217,6 +223,7 @@ public class listAdAdapter extends RecyclerView.Adapter<listAdAdapter.ViewHolder
                                         databaseReference.child(type+"Ad").child(adId).child("status").setValue(false);
                                         databaseReference.child("UserAd").child(Uid).child(uadId).child("status").setValue(false);
                                         soldOut.setVisibility(View.VISIBLE);
+                                        itemView.setAlpha((float) 0.5);
                                         Toast.makeText(context,"Marked as SOLD",Toast.LENGTH_SHORT).show();
                                         i.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
                                         context.startActivity(i);
@@ -235,6 +242,7 @@ public class listAdAdapter extends RecyclerView.Adapter<listAdAdapter.ViewHolder
                                         databaseReference.child(type+"Ad").child(adId).child("status").setValue(true);
                                         databaseReference.child("UserAd").child(Uid).child(uadId).child("status").setValue(true);
                                         soldOut.setVisibility(View.INVISIBLE);
+                                        itemView.setAlpha(1);
                                         Toast.makeText(context,"Marked as UNSOLD",Toast.LENGTH_SHORT).show();
                                         i.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
                                         context.startActivity(i);

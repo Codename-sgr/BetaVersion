@@ -41,6 +41,8 @@ import com.sagar.betaversion.displayAds.myAdsAll;
 import com.sagar.betaversion.displayAds.verifyAd;
 import com.sagar.betaversion.postAds.newAdActivity;
 
+import java.util.Objects;
+
 import de.hdodenhof.circleimageview.CircleImageView;
 
 
@@ -72,7 +74,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
     @Override
     protected void onStart() {
         super.onStart();
-        reloadUserData();
+        loadUserData();
     }
 
     @Override
@@ -91,7 +93,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
             getSupportActionBar().setTitle("MANIT-KART");
 
         }
-        if(!mAuth.getCurrentUser().isEmailVerified())
+        if(!Objects.requireNonNull(mAuth.getCurrentUser()).isEmailVerified())
         {
             Toast.makeText(this, "Email Not Verified", Toast.LENGTH_SHORT).show();
             logoutUser();

@@ -18,18 +18,24 @@
         android:title="My Ads"
         android:icon="@drawable/ic_ads"/>
 
-    <item
-        android:id="@+id/nav_contact"
-        android:title="Contact"
-        android:icon="@drawable/ic_contact"/>
+    <group>
 
-    <item
-        android:id="@+id/nav_about"
-        android:title="About"
-        android:icon="@drawable/ic_about"/>
+        <item
+            android:id="@+id/nav_contact"
+            android:title="Contact"
+            android:icon="@drawable/ic_contact"/>
 
-    <item
-        android:id="@+id/nav_privpol"
-        android:title="Privacy Policy"
-        android:icon="@drawable/ic_privpol"/>
+        <item
+            android:id="@+id/nav_about"
+            android:title="About"
+            android:icon="@drawable/ic_about"/>
+
+        <item
+            android:id="@+id/nav_privpol"
+            android:title="Privacy Policy"
+            android:icon="@drawable/ic_privpol"/>
+
+    </group>
+
+
 </menu>

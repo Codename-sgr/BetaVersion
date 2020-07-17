@@ -56,8 +56,8 @@ public class ListAd extends AppCompatActivity implements RecViewItemClickListene
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_list_ad);
 
-        getWindow().setFlags(WindowManager.LayoutParams.FLAG_NOT_TOUCHABLE,
-                WindowManager.LayoutParams.FLAG_NOT_TOUCHABLE);
+        /*getWindow().setFlags(WindowManager.LayoutParams.FLAG_NOT_TOUCHABLE,
+                WindowManager.LayoutParams.FLAG_NOT_TOUCHABLE);*/
 
         Intent intent=getIntent();
         type=intent.getStringExtra("type");
@@ -137,7 +137,7 @@ public class ListAd extends AppCompatActivity implements RecViewItemClickListene
                     new Handler().postDelayed(new Runnable() {
                         @Override
                         public void run() {
-                            getWindow().clearFlags(WindowManager.LayoutParams.FLAG_NOT_TOUCHABLE);
+//                            getWindow().clearFlags(WindowManager.LayoutParams.FLAG_NOT_TOUCHABLE);
                             listAdAdapter.shimmering=false;
                             listAdAdapter.notifyDataSetChanged();
                         }

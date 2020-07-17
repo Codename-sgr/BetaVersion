@@ -17,6 +17,7 @@
         android:id="@+id/nav_profile_img"
         android:layout_width="match_parent"
         android:layout_height="100dp"
+        android:layout_marginTop="10dp"
         android:src="@drawable/userimage"
         android:layout_weight="2"
         android:paddingTop="8dp"/>
