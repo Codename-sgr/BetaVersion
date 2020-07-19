@@ -116,11 +116,17 @@ public class electronics extends AppCompatActivity {
             purchaseDate.setError("Required.");
             purchaseDate.setFocusable(true);
         }
-        vsellinPrice=Integer.parseInt(sellingPrice.getText().toString());
-        if(vsellinPrice<0) {
-            sellingPrice.setError("Fill Proper Data.");
-            model.setFocusable(true);
+
+        try {
+            vsellinPrice=Integer.parseInt(sellingPrice.getText().toString());
+        }catch (NumberFormatException nfe){
+            if(vsellinPrice<1) {
+                sellingPrice.setError("Fill Proper Data.");
+                model.setFocusable(true);
+            }
         }
+
+
         final int count=ImageUri.size();
 
         if(count<2)

@@ -18,7 +18,14 @@
         android:title="My Ads"
         android:icon="@drawable/ic_ads"/>
 
-    <group>
+    <item
+        android:id="@+id/nav_donate"
+        android:title="Donate"
+        android:icon="@drawable/ic_donate"/>
+
+    <group
+        android:id="@+id/menu_bottom"
+        android:checkableBehavior="single">
 
         <item
             android:id="@+id/nav_contact"

@@ -87,7 +87,6 @@ public class vehicle extends AppCompatActivity {
                         if(i==2)
                             vehicleAd.setImg3(uri.toString());
                         uploadAd(i+1,vehicleAd,count);
-                        return;
                     }
                 });
             }
@@ -98,6 +97,7 @@ public class vehicle extends AppCompatActivity {
             }
         });
     }
+
     public void post(View view)
     {
         vmodel=model.getText().toString();
@@ -111,28 +111,40 @@ public class vehicle extends AppCompatActivity {
             brand.setError("Required.");
             model.setFocusable(true);
         }
+
         vdescription=description.getText().toString();
         if(vdescription.isEmpty()) {
             description.setError("Required.");
             model.setFocusable(true);
         }
-        vkmsDriven=Integer.parseInt( kmsDriven.getText().toString() );
-        if(vkmsDriven<1) {
+
+        try {
+            vkmsDriven=Integer.parseInt( kmsDriven.getText().toString());
+            if(vkmsDriven<1) {
+                kmsDriven.setError("Fill Proper Data.");
+                model.setFocusable(true);
+            }
+
+            vmilege=Integer.parseInt( milege.getText().toString() );
+            if(vmilege<1) {
+                milege.setError("Fill Proper Data.");
+                model.setFocusable(true);
+            }
+
+            vsellinPrice=Integer.parseInt(sellinPrice.getText().toString());
+            if(vsellinPrice<0) {
+                sellinPrice.setError("Fill Proper Data.");
+                model.setFocusable(true);
+            }
+            }
+        catch (NumberFormatException ignored){
             kmsDriven.setError("Fill Proper Data.");
-            model.setFocusable(true);
-        }
-
-        vmilege=Integer.parseInt( milege.getText().toString() );
-        if(vmilege<1) {
             milege.setError("Fill Proper Data.");
-            model.setFocusable(true);
+            sellinPrice.setError("Fill Proper Data.");
+
         }
 
-        vsellinPrice=Integer.parseInt(sellinPrice.getText().toString());
-        if(vsellinPrice<0) {
-            sellinPrice.setError("Fill Proper Data.");
-            model.setFocusable(true);
-        }
+
 
         vpurchaseDate=purchaseDate.getText().toString();
         if(vpurchaseDate.isEmpty()) {
@@ -154,7 +166,7 @@ public class vehicle extends AppCompatActivity {
 
     }
     public void ChooseImage(View view)
-   {
+    {
        Intent intent= new Intent();
        intent.setType("image/*");
        intent.putExtra(Intent.EXTRA_ALLOW_MULTIPLE,true);

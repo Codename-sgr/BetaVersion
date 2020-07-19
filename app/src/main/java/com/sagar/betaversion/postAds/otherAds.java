@@ -164,11 +164,16 @@ public class otherAds extends AppCompatActivity {
             date_of_purchase.setError("Required.");
             date_of_purchase.setFocusable(true);
         }
-        vsellinPrice=Integer.parseInt(sellinPrice.getText().toString());
-        if(vsellinPrice<0) {
-            sellinPrice.setError("Fill Proper Data.");
-            model.setFocusable(true);
+
+        try {
+            vsellinPrice=Integer.parseInt(sellinPrice.getText().toString());
+        }catch (NumberFormatException nfe){
+            if(vsellinPrice<1) {
+                sellinPrice.setError("Fill Proper Data.");
+                model.setFocusable(true);
+            }
         }
+
         final int count=ImageUri.size();
         if(count<2)
             Toast.makeText(this, "Select atleast 2 Images", Toast.LENGTH_SHORT).show();

@@ -3,13 +3,13 @@ import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.graphics.Bitmap;
+import android.net.Uri;
 import android.os.Bundle;
 import android.util.Base64;
 import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
-import android.widget.Button;
 import android.widget.ImageButton;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -117,7 +117,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         miscAds = findViewById(R.id.miscButton);
         electronicAds = findViewById(R.id.electronicsButton);
         bookAds = findViewById(R.id.booksButton);
-        donateBtn = findViewById(R.id.donateImgBtn);
+//        donateBtn = findViewById(R.id.donateImgBtn);
 
         ActionBarDrawerToggle toggle = new ActionBarDrawerToggle(this, drawer, toolbar, R.string.navigation_drawer_open, R.string.navigation_drawer_close);
         drawer.addDrawerListener(toggle);
@@ -133,12 +133,12 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         selectCategory();
 
 
-        donateBtn.setOnClickListener(new View.OnClickListener() {
+        /*donateBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 Toast.makeText(MainActivity.this, "Donation Coming Soon...", Toast.LENGTH_SHORT).show();
             }
-        });
+        });*/
         /*if(userKey.matches("huUeaJADQKaPRr5j3No5xztAx1E2") || userKey.matches("K6dhzrpF2IZwsibOfllS5bP5pX83"))
         {
             Log.i("yeahhhhhhh","noooooooo");
@@ -293,6 +293,15 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
 
     }
 
+    protected void sendEmail() {
+        Log.i("Send email", "");
+        Intent mailIntent = new Intent(Intent.ACTION_VIEW);
+        Uri data = Uri.parse("mailto:?subject=" + "MANITkart Feedback "+ "&body=" +
+                "" + "&to=" + "asbtech.0420@gmail.com");
+        mailIntent.setData(data);
+        startActivity(Intent.createChooser(mailIntent, "Send Mail via.."));
+    }
+
     @Override
     public void onBackPressed() {
         if (drawer.isDrawerOpen(GravityCompat.START)) {
@@ -389,18 +398,15 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         int id = item.getItemId();
 
         if (id == R.id.nav_home) {
-//            Toast.makeText(MainActivity.this, "HOME", Toast.LENGTH_SHORT).show();
             drawer.closeDrawer(GravityCompat.START);
         } else if (id == R.id.nav_myads) {
-//            Toast.makeText(MainActivity.this, "ADS", Toast.LENGTH_SHORT).show();
             startActivity(new Intent(MainActivity.this, myAdsAll.class));
-
         } else if (id == R.id.nav_myacc) {
-//            Toast.makeText(MainActivity.this, "ACC", Toast.LENGTH_SHORT).show();
             startActivity(new Intent(MainActivity.this, myAccount.class));
-        } else if (id == R.id.nav_contact) {
-            Toast.makeText(MainActivity.this, "Contact Us", Toast.LENGTH_SHORT).show();
-            //
+        }else if (id == R.id.nav_donate) {
+            Toast.makeText(this, "Donation Coming Soon...", Toast.LENGTH_SHORT).show();
+        }else if (id == R.id.nav_contact) {
+            sendEmail();
         } else if (id == R.id.nav_about) {
             startActivity(new Intent(MainActivity.this,about.class));
         } else if (id==R.id.nav_privpol){

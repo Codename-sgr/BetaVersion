@@ -225,7 +225,7 @@ public class FinalProductView extends AppCompatActivity {
 
     }
 
-    public  void message(){
+    public void message(){
         Log.i("User",pUserID);
         DatabaseReference reference=database.getReference().child("Manit").child("Users").child(pUserID);
         reference.addListenerForSingleValueEvent(new ValueEventListener() {
@@ -236,7 +236,6 @@ public class FinalProductView extends AppCompatActivity {
                     smsNumber=dataSnapshot.getValue(User.class).getMobile();
                     email=dataSnapshot.getValue(User.class).getEmail();
                     sendEmail(email);
-
                 }
 
             }
