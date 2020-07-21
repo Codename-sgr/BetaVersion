@@ -96,8 +96,8 @@ public class myAdsAll extends AppCompatActivity implements RecViewItemClickListe
                                     arrayList.get(i).isStatus(),
                                     arrayList.get(i).getType(),
                                     arrayList.get(i).getVs(),
-                                    arrayList.get(i).getUadId()
-
+                                    arrayList.get(i).getUadId(),
+                                    arrayList.get(i).getUser_id()
                             )
 
                     );
@@ -132,12 +132,13 @@ public class myAdsAll extends AppCompatActivity implements RecViewItemClickListe
         return super.onOptionsItemSelected(item);}
 
     @Override
-    public void onItemClickListener(int position, String adId,String type,String uadId) {
+    public void onItemClickListener(int position, String adId,String type,String uadId,String owner_id) {
         Intent intent=new Intent(getApplicationContext(), FinalProductView.class);
         intent.putExtra("type",type);
         intent.putExtra("adId",adId);
         intent.putExtra("who",0);//1---buyer   0---seller
         intent.putExtra("uadId",uadId);
+        intent.putExtra("owner_id",owner_id);
         startActivity(intent);
     }
 }

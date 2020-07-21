@@ -188,6 +188,16 @@
                         android:visibility="invisible"
                         android:text=""
                         />
+                    <TextView
+                        android:id="@+id/owner_idType"
+                        android:layout_width="wrap_content"
+                        android:layout_height="0dp"
+                        android:layout_marginTop="8dp"
+                        android:layout_gravity="end"
+                        android:layout_weight="1"
+                        android:visibility="invisible"
+                        android:text=""
+                        />
 
 
                 </LinearLayout>

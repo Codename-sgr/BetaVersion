@@ -10,9 +10,10 @@ public class listAdModel {
     private  String uadId;
     private Boolean status;
     private  String type;
+    private String owner_id;
     private int vs;
 
-    public listAdModel(String prodModel, String prodBrand, int prodPrice, String prodImg,String adId,Boolean status,String type,int vs,String uadId) {
+    public listAdModel(String prodModel, String prodBrand, int prodPrice, String prodImg,String adId,Boolean status,String type,int vs,String uadId, String owner_id) {
         this.prodModel = prodModel;
         this.prodBrand = prodBrand;
         this.prodPrice = prodPrice;
@@ -22,6 +23,7 @@ public class listAdModel {
         this.vs=vs;
         this.type=type;
         this.uadId=uadId;
+        this.owner_id=owner_id;
     }
 
     public String getType() {
@@ -38,6 +40,14 @@ public class listAdModel {
 
     public Boolean getStatus() {
         return status;
+    }
+
+    public String getOwner_id() {
+        return owner_id;
+    }
+
+    public void setOwner_id(String owner_id) {
+        this.owner_id = owner_id;
     }
 
     public int getVs() {

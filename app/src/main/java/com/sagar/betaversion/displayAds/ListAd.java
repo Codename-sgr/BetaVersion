@@ -124,7 +124,7 @@ public class ListAd extends AppCompatActivity implements RecViewItemClickListene
                                         arrayList.get(i).getId(),
                                         arrayList.get(i).isStatus(),
                                         type,
-                                        arrayList.get(i).getVs(),null
+                                        arrayList.get(i).getVs(),null,null
                                 )
                         );
                     arrayList.clear();
@@ -182,7 +182,7 @@ public class ListAd extends AppCompatActivity implements RecViewItemClickListene
                                         arrayList.get(i).getId(),
                                         arrayList.get(i).isStatus(),
                                         type,
-                                        arrayList.get(i).getVs(),null
+                                        arrayList.get(i).getVs(),null,null
                                 )
                         );
 
@@ -236,7 +236,7 @@ public class ListAd extends AppCompatActivity implements RecViewItemClickListene
                                         arrayList.get(i).getId(),
                                         arrayList.get(i).isStatus(),
                                         type,
-                                        arrayList.get(i).getVs(),null
+                                        arrayList.get(i).getVs(),null,null
                                 )
                         );
 
@@ -287,7 +287,7 @@ public class ListAd extends AppCompatActivity implements RecViewItemClickListene
                                         arrayList.get(i).getId(),
                                         arrayList.get(i).isStatus(),
                                         type,
-                                        arrayList.get(i).getVs(),null
+                                        arrayList.get(i).getVs(),null,null
                                 )
                         );
 
@@ -330,12 +330,13 @@ public class ListAd extends AppCompatActivity implements RecViewItemClickListene
     return super.onOptionsItemSelected(item);}
 
     @Override
-    public void onItemClickListener(int position,String adId,String type,String uadId) {
+    public void onItemClickListener(int position,String adId,String type,String uadId,String owner_id) {
         Intent intent=new Intent(getApplicationContext(), FinalProductView.class);
         intent.putExtra("type",type);
         intent.putExtra("adId",adId);
         intent.putExtra("who",1);       //1---buyer   0---seller
         intent.putExtra("uadId",uadId);
+        intent.putExtra("owner_id",owner_id);
         startActivity(intent);
 
     }

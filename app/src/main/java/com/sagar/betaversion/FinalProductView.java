@@ -24,7 +24,7 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 import androidx.viewpager.widget.ViewPager;
 
-import com.facebook.shimmer.ShimmerFrameLayout;
+
 import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.material.tabs.TabLayout;
 import com.google.firebase.auth.FirebaseAuth;
@@ -82,6 +82,7 @@ public class FinalProductView extends AppCompatActivity {
         String type=intent.getStringExtra("type");
         final String adId=intent.getStringExtra("adId");
         final String uadID=intent.getStringExtra("uadId");
+        final String owner_id=intent.getStringExtra("owner_id");
         who=intent.getIntExtra("who",1);
         String Uid= FirebaseAuth.getInstance().getCurrentUser().getUid();
 
@@ -108,7 +109,7 @@ public class FinalProductView extends AppCompatActivity {
         Log.i("ADID",""+adId);
 
         database=FirebaseDatabase.getInstance();
-        userReference=database.getReference().child("Manit").child("UserAd").child(Uid).child(uadID);
+        userReference=database.getReference().child("Manit").child("UserAd").child(owner_id).child(uadID);
         databaseReference=database.getReference().child("Manit").child(type+"Ad").child(adId);
         verifyReference=database.getReference().child("Manit").child("Verification");
         databaseReference.addListenerForSingleValueEvent(new ValueEventListener() {

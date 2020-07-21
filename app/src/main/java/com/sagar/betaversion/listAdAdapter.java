@@ -68,7 +68,8 @@ public class listAdAdapter extends RecyclerView.Adapter<listAdAdapter.ViewHolder
                 String type=listAdModelList.get(position).getType();
                 int vs=listAdModelList.get(position).getVs();
                 String uadId=listAdModelList.get(position).getUadId();
-                holder.setAdProdct(adProductBrand,adProductModel,adProductPrice,adProductImage,adProductAdId,uadId,status,type,vs,position);
+                String owner_id=listAdModelList.get(position).getOwner_id();
+                holder.setAdProdct(adProductBrand,adProductModel,adProductPrice,adProductImage,adProductAdId,uadId,status,type,vs,position,owner_id);
                 holder.itemView.setClickable(true);
             }
 
@@ -86,7 +87,7 @@ public class listAdAdapter extends RecyclerView.Adapter<listAdAdapter.ViewHolder
 
     class ViewHolder extends RecyclerView.ViewHolder{
         private ShimmerFrameLayout shimmerFrameLayout;
-        private TextView adProductBrand,adProductModel,adProductPrice,adProductId,soldOut,verified,uadType,adType;
+        private TextView adProductBrand,adProductModel,adProductPrice,adProductId,soldOut,verified,uadType,adType,owner_idType;
         private ImageView adProductImg;
         private ImageButton adDelete,adSoldBtn;
 
@@ -105,11 +106,11 @@ public class listAdAdapter extends RecyclerView.Adapter<listAdAdapter.ViewHolder
             verified=itemView.findViewById(R.id.verified);
             adType=itemView.findViewById(R.id.adType);
             uadType=itemView.findViewById(R.id.uadType);
-
+            owner_idType=itemView.findViewById(R.id.owner_idType);
             itemView.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
-                    recViewItemClickListener.onItemClickListener(getAdapterPosition(),adProductId.getText().toString(),adType.getText().toString(),uadType.getText().toString());
+                    recViewItemClickListener.onItemClickListener(getAdapterPosition(),adProductId.getText().toString(),adType.getText().toString(),uadType.getText().toString(),owner_idType.getText().toString());
                 }
             });
 
@@ -117,7 +118,7 @@ public class listAdAdapter extends RecyclerView.Adapter<listAdAdapter.ViewHolder
         }
 
 
-        void setAdProdct(final String adBrand, String adModel, int adPrice, String adImg, final String adId, final String uadId,  final Boolean status, final String type,final int vs, final int position){
+        void setAdProdct(final String adBrand, String adModel, int adPrice, String adImg, final String adId, final String uadId, final Boolean status, final String type, final int vs, final int position, String owner_id){
 
 
             adProductImg.setBackground(null);
@@ -132,8 +133,7 @@ public class listAdAdapter extends RecyclerView.Adapter<listAdAdapter.ViewHolder
             adProductId.setText(adId);
             adType.setText(type);
             uadType.setText(uadId);
-
-
+            owner_idType.setText(owner_id);
             shimmerFrameLayout.stopShimmer();
             shimmerFrameLayout.setShimmer(null);
 
