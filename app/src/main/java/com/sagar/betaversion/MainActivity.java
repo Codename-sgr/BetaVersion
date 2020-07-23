@@ -67,7 +67,6 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
     @Override
     protected void onResume() {
         reloadUserData();
-        loadUserData();
         super.onResume();
     }
 
@@ -90,7 +89,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
 
 
         if (getSupportActionBar() != null) {
-            getSupportActionBar().setTitle("MANIT-KART");
+            getSupportActionBar().setTitle("MANITkart");
 
         }
         if(!Objects.requireNonNull(mAuth.getCurrentUser()).isEmailVerified())
@@ -129,7 +128,6 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         AppBarConfiguration mAppBarConfiguration = new AppBarConfiguration.Builder(
                 R.id.nav_home, R.id.nav_myads, R.id.nav_myacc, R.id.nav_about, R.id.nav_contact)
                 .build();
-
         selectCategory();
 
 
@@ -182,6 +180,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
             mDb.child("Users").child(userKey).addValueEventListener(new ValueEventListener() {
                 @Override
                 public void onDataChange(DataSnapshot dataSnapshot) {
+
                     Log.i("work", userKey);
                     username = String.valueOf(dataSnapshot.child("user_name").getValue());
                     Log.i("Name: ", username);
@@ -206,16 +205,15 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
                                 editor.apply();
                                 /*Bitmap bitmap = BitmapFactory.decodeByteArray(bytes , 0, bytes.length);
                                 navUserImg.setImageBitmap(bitmap);
-*/
-                                loadingDialog.dismissDialog();
-
-
+*/                              loadingDialog.dismissDialog();
                             }
                         });
                     } else {
-                        editor.apply();
                         loadingDialog.dismissDialog();
+                        editor.apply();
+
                     }
+
 
                 }
 

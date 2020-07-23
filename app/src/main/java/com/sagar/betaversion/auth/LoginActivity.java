@@ -92,16 +92,15 @@ public class LoginActivity extends AppCompatActivity {
                     @Override
                     public void onSuccess(AuthResult authResult) {
                                 user=mAuth.getCurrentUser();
-                                try {
+                        loadingDialog.dismissDialog();
+                        try {
                                     if(user.isEmailVerified()){
                                         isValid=true;
-                                        loadingDialog.dismissDialog();
                                         startActivity(new Intent(getApplicationContext(), MainActivity.class));
                                         finish();
                                     }
                                     else
                                     {
-                                        loadingDialog.dismissDialog();
                                         final androidx.appcompat.app.AlertDialog.Builder builder=new androidx.appcompat.app.AlertDialog.Builder(LoginActivity.this);
                                         builder.setTitle("Error");
                                         builder

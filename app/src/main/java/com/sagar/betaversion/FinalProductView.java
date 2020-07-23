@@ -208,7 +208,7 @@ public class FinalProductView extends AppCompatActivity {
             public void onClick(View v) {
 
                 if (who==1)
-                    checkForSmsPermission();
+                    message();
                 else
                     updatePrice();
 
@@ -252,13 +252,13 @@ public class FinalProductView extends AppCompatActivity {
         Log.i("Send email", "");
 
         Intent mailIntent = new Intent(Intent.ACTION_VIEW);
-        Uri data = Uri.parse("mailto:?subject=" + "Manit Cart"+ "&body=" +
-                "I want to buy your product" + "&to=" + to);
+        Uri data = Uri.parse("mailto:?subject=" + "MANITkart"+ "&body=" +
+                "I want to buy your product..." + "&to=" + to);
         mailIntent.setData(data);
         startActivity(Intent.createChooser(mailIntent, "Send Mail via.."));
     }
 
-    private void checkForSmsPermission() {
+    /*private void checkForSmsPermission() {
         if (ActivityCompat.checkSelfPermission(this,
                 Manifest.permission.SEND_SMS) !=
                 PackageManager.PERMISSION_GRANTED) {
@@ -271,8 +271,8 @@ public class FinalProductView extends AppCompatActivity {
             message();
         }
     }
-
-    @Override
+*/
+   /* @Override
     public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {
         super.onRequestPermissionsResult(requestCode, permissions, grantResults);
         switch (requestCode) {
@@ -295,7 +295,7 @@ public class FinalProductView extends AppCompatActivity {
                 }
             }
         }
-    }
+    }*/
 
     public void updatePrice(){
         if (who==0){

@@ -145,6 +145,9 @@ public class listAdAdapter extends RecyclerView.Adapter<listAdAdapter.ViewHolder
                 {
                     verified.setVisibility(View.VISIBLE);
                 }
+                if (vs==2){
+                    verified.setText("Ad Rejected");
+                }
                 if(!status){
                     soldOut.setVisibility(View.VISIBLE);
                 }

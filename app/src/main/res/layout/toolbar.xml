@@ -19,7 +19,8 @@
             android:layout_height="?attr/actionBarSize"
             android:background="@color/colorPrimary"
             app:layout_anchor="@+id/appBarLayout"
-            app:layout_anchorGravity="center"/>
+            app:layout_anchorGravity="center"
+            app:theme="@style/ThemeOverlay.AppCompat"/>
 
     </com.google.android.material.appbar.AppBarLayout>
 
