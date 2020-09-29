@@ -8,6 +8,43 @@
   "client": [
     {
       "client_info": {
+        "mobilesdk_app_id": "1:893284755848:android:48a67309c005dc2675f23d",
+        "android_client_info": {
+          "package_name": "com.manitkart.app"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "893284755848-k142trqvaab0366iiiesh0vlgn6cu93b.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.manitkart.app",
+            "certificate_hash": "62953da964e5741d09867e8b9e9ff096080a4d61"
+          }
+        },
+        {
+          "client_id": "893284755848-28pk7uaqa8cl0tneq0gl5onogir5lrns.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyAEtnp9ArVn7YSc2jJNBbrcJhqUN4Lz8oE"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "893284755848-28pk7uaqa8cl0tneq0gl5onogir5lrns.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    },
+    {
+      "client_info": {
         "mobilesdk_app_id": "1:893284755848:android:bb585c7747ddb9d475f23d",
         "android_client_info": {
           "package_name": "com.sagar.betaversion"
@@ -15,11 +52,11 @@
       },
       "oauth_client": [
         {
-          "client_id": "893284755848-carta7a8or9etfh7iff2sgcmshe13r7l.apps.googleusercontent.com",
+          "client_id": "893284755848-9d41auctdr6i9m7b10m3jjs7cn4b8fkj.apps.googleusercontent.com",
           "client_type": 1,
           "android_info": {
             "package_name": "com.sagar.betaversion",
-            "certificate_hash": "7b8d8158df0cbc5d4c9529c60fd33df162b7a73e"
+            "certificate_hash": "62953da964e5741d09867e8b9e9ff096080a4d61"
           }
         },
         {

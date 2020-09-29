@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
-    package="com.sagar.betaversion">
+    package="com.manitkart.app">
 
     <uses-permission android:name="android.permission.INTERNET" />
     <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
@@ -13,34 +13,34 @@
         android:roundIcon="@mipmap/ic_manit_logo_round"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
-        <activity android:name=".privacy_policy" />
-        <activity android:name=".displayAds.verifyAd" />
-        <activity android:name=".displayAds.myAdsAll" />
-        <activity android:name=".about" />
-        <activity android:name=".FinalImagePreview" />
+        <activity android:name="com.manitkart.app.privacy_policy" />
+        <activity android:name="com.manitkart.app.displayAds.verifyAd" />
+        <activity android:name="com.manitkart.app.displayAds.myAdsAll" />
+        <activity android:name="com.manitkart.app.about" />
+        <activity android:name="com.manitkart.app.FinalImagePreview" />
         <activity
-            android:name=".FinalProductView"
+            android:name="com.manitkart.app.FinalProductView"
             android:screenOrientation="nosensor" />
         <activity
-            android:name=".displayAds.ListAd"
+            android:name="com.manitkart.app.displayAds.ListAd"
             android:screenOrientation="nosensor" />
         <activity
-            android:name=".BetaVersion"
+            android:name="com.manitkart.app.BetaVersion"
             android:screenOrientation="nosensor" />
         <activity
-            android:name=".postAds.otherAds"
+            android:name="com.manitkart.app.postAds.otherAds"
             android:screenOrientation="nosensor" />
         <activity
-            android:name=".postAds.electronics"
+            android:name="com.manitkart.app.postAds.electronics"
             android:screenOrientation="nosensor" />
         <activity
-            android:name=".postAds.vehicle"
+            android:name="com.manitkart.app.postAds.vehicle"
             android:screenOrientation="nosensor" />
         <activity
-            android:name=".postAds.newAdActivity"
+            android:name="com.manitkart.app.postAds.newAdActivity"
             android:screenOrientation="nosensor" />
         <activity
-            android:name=".auth.LoginActivity"
+            android:name="com.manitkart.app.auth.LoginActivity"
             android:screenOrientation="nosensor"
             android:theme="@style/SplashTheme">
             <intent-filter>
@@ -50,16 +50,16 @@
             </intent-filter>
         </activity>
         <activity
-            android:name=".auth.SignupActivity"
+            android:name="com.manitkart.app.auth.SignupActivity"
             android:screenOrientation="nosensor" />
         <activity
-            android:name=".MainActivity"
+            android:name="com.manitkart.app.MainActivity"
             android:screenOrientation="nosensor" />
         <activity
-            android:name=".auth.myAccount"
+            android:name="com.manitkart.app.auth.myAccount"
             android:screenOrientation="nosensor" />
         <activity
-            android:name=".auth.profile"
+            android:name="com.manitkart.app.auth.profile"
             android:screenOrientation="nosensor" />
     </application>
 
